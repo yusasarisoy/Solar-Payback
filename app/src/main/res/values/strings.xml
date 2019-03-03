@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Solar Home System</string>
+    <string name="user_name">Yuşa Sarısoy</string>
+    <string name="user_mail">myusarisoy@gmail.com</string>
+    <string name="cancel">CANCEL</string>
+    <string name="save">SAVE</string>
+    <string name="create_an_account">Create an account for solar energy payback calculation.</string>
+    <string name="create_account">Create account</string>
+    <string name="have_an_account">Have an account? Log in</string>
+    <string name="full_name">Full Name</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="mail">Email address</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="back">Back</string>
+    <string name="login_to">Log in to Solar Home System.</string>
+    <string name="login">Log in</string>
+    <string name="complete_register">Complete register</string>
+    <string name="complete">Complete</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
+    <string name="continueTo">Continue</string>
+    <string name="sure_to_sign_out">Are you sure you want to sign out?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="find_your_account">Find your Solar Home System account</string>
+    <string name="enter_your_mail">Enter your email to reset your password.</string>
+    <string name="reset_password">Reset password</string>
+    <string name="add_appliance">Please select appliance(s)\nyou want to calculate.</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/core_white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_weight="1"
+        tools:src="@drawable/solar_energy" />
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/proxima_nova"
+        android:gravity="center"
+        android:textColor="@color/dark_slate_gray"
+        android:textSize="20sp"
+        tools:ignore="UnusedAttribute"
+        tools:text="@string/app_name" />
+
+</LinearLayout>

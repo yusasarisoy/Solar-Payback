@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- spacing between each RecyclerView item -->
+    <size android:height="5dp"/>
+
+</shape>

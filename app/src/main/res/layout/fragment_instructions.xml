@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/core_white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".FragmentInstructions">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/pager_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/view_pager"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/trimmed_corners"
+        android:fontFamily="@font/proxima_nova"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:textColor="@color/core_white"
+        android:textSize="20sp"
+        tools:ignore="UnusedAttribute"
+        tools:text="@string/back" />
+
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/trimmed_corners"
+        android:fontFamily="@font/proxima_nova"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:textColor="@color/core_white"
+        android:textSize="20sp"
+        tools:ignore="UnusedAttribute"
+        tools:text="@string/next" />
+
+</RelativeLayout>

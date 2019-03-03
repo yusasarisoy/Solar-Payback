@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "964459434088",
+    "firebase_url": "https://solar-home-system-1.firebaseio.com",
+    "project_id": "solar-home-system-1",
+    "storage_bucket": "solar-home-system-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964459434088:android:0d9ab263f9c757a6",
+        "android_client_info": {
+          "package_name": "myusarisoy.solarhomesystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964459434088-ug5etfvrur3pjrio70o0ghhbnp54a7k9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "myusarisoy.solarhomesystem",
+            "certificate_hash": "ea704afe0deb13068cf843c32603e92e7c6efaca"
+          }
+        },
+        {
+          "client_id": "964459434088-c169j3p5pgl8o7c5m331637vjp7e4dnr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBakUSwjSCOotsBZx7uYAgSXd5GCp9yNDc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964459434088-c169j3p5pgl8o7c5m331637vjp7e4dnr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
