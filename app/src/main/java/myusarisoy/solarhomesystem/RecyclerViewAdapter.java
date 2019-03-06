@@ -38,7 +38,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Appliance appliance = appliances.get(position);
 
-        viewHolder.imageViewApplianceChecked.setBackgroundResource(appliance.getApplianceChecked());
         viewHolder.imageViewAppliance.setBackgroundResource(appliance.getImageResource());
         viewHolder.textView.setText(appliance.getAppliance());
     }
@@ -63,25 +62,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageViewApplianceChecked;
+        private LinearLayout item_add_appliance;
+        private CheckBox checkBox;
         private ImageView imageViewAppliance;
         private TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageViewApplianceChecked = itemView.findViewById(R.id.image_view);
+            item_add_appliance = itemView.findViewById(R.id.item_add_appliance);
+            checkBox = itemView.findViewById(R.id.checkbox);
             imageViewAppliance = itemView.findViewById(R.id.image_view_appliance);
             textView = itemView.findViewById(R.id.item_appliance);
 
-            imageViewApplianceChecked.setOnClickListener(new View.OnClickListener() {
+            checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!isChecked) {
-                        imageViewApplianceChecked.setBackgroundResource(R.drawable.checked);
+                        checkBox.setSelected(true);
+                        checkBox.setChecked(true);
                         isChecked = true;
                     } else {
-                        imageViewApplianceChecked.setBackgroundResource(R.drawable.non_checked);
+                        checkBox.setSelected(false);
+                        checkBox.setChecked(false);
                         isChecked = false;
                     }
                 }

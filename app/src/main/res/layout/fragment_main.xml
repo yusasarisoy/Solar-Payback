@@ -31,7 +31,6 @@
             android:background="@color/transparent" />
 
         <TextView
-            android:id="@+id/cards_rapid_access"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -129,9 +128,11 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:background="@color/transparent"
+                android:clickable="false"
+                android:focusable="false"
                 android:fontFamily="@font/proxima_nova"
                 android:text="@string/continueTo"
-                android:textColor="@color/green"
+                android:textColor="@color/dark_slate_gray"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute" />
 

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class Appliance {
-    private int applianceChecked;
+    private boolean check;
     private int imageResource;
     private String appliance;
 }

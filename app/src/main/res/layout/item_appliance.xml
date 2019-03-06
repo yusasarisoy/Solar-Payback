@@ -16,13 +16,13 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:background="@color/transparent"
-            android:gravity="center"
-            tools:src="@drawable/non_checked" />
+            android:gravity="center" />
 
         <View
             android:layout_width="1dp"

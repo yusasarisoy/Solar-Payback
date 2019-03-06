@@ -3,10 +3,8 @@ package myusarisoy.solarhomesystem;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.graphics.Movie;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -15,29 +13,24 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Looper;
-import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,11 +40,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -90,6 +79,7 @@ public class FragmentMain extends Fragment {
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
+    private int isApplianceChecked = 0;
     View view;
 
     public static FragmentMain newInstance(Objects... objects) {
@@ -144,6 +134,8 @@ public class FragmentMain extends Fragment {
 
 //        Check user's current location.
         locationClick();
+
+        gotoAppliances();
 
         return view;
     }
@@ -261,39 +253,38 @@ public class FragmentMain extends Fragment {
 
     public void initAppliances() {
         recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
-        button_continue = view.findViewById(R.id.button_continue);
 
-        Appliance airConditioner = new Appliance(R.drawable.non_checked, R.drawable.air_conditioner, "Air Conditioner");
+        Appliance airConditioner = new Appliance(false, R.drawable.air_conditioner, "Air Conditioner");
         applianceList.add(airConditioner);
 
-        Appliance bakery = new Appliance(R.drawable.non_checked, R.drawable.bakery, "Bakery");
+        Appliance bakery = new Appliance(false, R.drawable.bakery, "Bakery");
         applianceList.add(bakery);
 
-        Appliance coffeeMachine = new Appliance(R.drawable.non_checked, R.drawable.coffee_machine, "Coffee Machine");
+        Appliance coffeeMachine = new Appliance(false, R.drawable.coffee_machine, "Coffee Machine");
         applianceList.add(coffeeMachine);
 
-        Appliance computer = new Appliance(R.drawable.non_checked, R.drawable.computer, "Computer");
+        Appliance computer = new Appliance(false, R.drawable.computer, "Computer");
         applianceList.add(computer);
 
-        Appliance fridge = new Appliance(R.drawable.non_checked, R.drawable.fridge, "Fridge");
+        Appliance fridge = new Appliance(false, R.drawable.fridge, "Fridge");
         applianceList.add(fridge);
 
-        Appliance iron = new Appliance(R.drawable.non_checked, R.drawable.iron, "Iron");
+        Appliance iron = new Appliance(false, R.drawable.iron, "Iron");
         applianceList.add(iron);
 
-        Appliance lights = new Appliance(R.drawable.non_checked, R.drawable.lights, "Lights");
+        Appliance lights = new Appliance(false, R.drawable.lights, "Lights");
         applianceList.add(lights);
 
-        Appliance oven = new Appliance(R.drawable.non_checked, R.drawable.oven, "Oven");
+        Appliance oven = new Appliance(false, R.drawable.oven, "Oven");
         applianceList.add(oven);
 
-        Appliance television = new Appliance(R.drawable.non_checked, R.drawable.television, "Television");
+        Appliance television = new Appliance(false, R.drawable.television, "Television");
         applianceList.add(television);
 
-        Appliance vacuumCleaner = new Appliance(R.drawable.non_checked, R.drawable.vacuum_cleaner, "Vacuum Cleaner");
+        Appliance vacuumCleaner = new Appliance(false, R.drawable.vacuum_cleaner, "Vacuum Cleaner");
         applianceList.add(vacuumCleaner);
 
-        Appliance washingMachine = new Appliance(R.drawable.non_checked, R.drawable.washing_machine, "Washing Machine");
+        Appliance washingMachine = new Appliance(false, R.drawable.washing_machine, "Washing Machine");
         applianceList.add(washingMachine);
 
         adapter.notifyDataSetChanged();
@@ -311,6 +302,31 @@ public class FragmentMain extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.item_divider));
         recycler_view_appliance.addItemDecoration(dividerItemDecoration);
+
+
+        recycler_view_appliance.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recycler_view_appliance, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Appliance appliance = applianceList.get(position);
+
+                if (applianceList.get(position).isCheck() == false) {
+                    appliance.setCheck(true);
+                    showSnackbar(appliance.getAppliance() + " selected.");
+                    activateButton();
+                    isApplianceChecked += 1;
+                } else {
+                    showSnackbar(appliance.getAppliance() + " unselected.");
+                    appliance.setCheck(false);
+                    isApplianceChecked -= 1;
+                    if (isApplianceChecked == 0)
+                        deactivateButton();
+                }
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
     }
 
     public void checkCurrentLocation() {
@@ -374,7 +390,7 @@ public class FragmentMain extends Fragment {
             LocationRequest locationRequest = new LocationRequest();
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            Log.d("mylog", "Last location too old getting new location!");
+            showSnackbar("Your location cannot be determined!");
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -382,6 +398,33 @@ public class FragmentMain extends Fragment {
             mFusedLocationClient.requestLocationUpdates(locationRequest,
                     mLocationCallback, Looper.myLooper());
         }
+    }
+
+    private void gotoAppliances() {
+        button_continue = view.findViewById(R.id.button_continue);
+        button_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentAppliances fragmentAppliances = new FragmentAppliances();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
+                        .commit();
+            }
+        });
+    }
+
+    private void activateButton() {
+        button_continue = view.findViewById(R.id.button_continue);
+        button_continue.setFocusable(true);
+        button_continue.setClickable(true);
+        button_continue.setTextColor(getResources().getColor(R.color.green));
+    }
+
+    private void deactivateButton() {
+        button_continue = view.findViewById(R.id.button_continue);
+        button_continue.setFocusable(false);
+        button_continue.setClickable(false);
+        button_continue.setTextColor(getResources().getColor(R.color.dark_slate_gray));
     }
 
 //    @Override
