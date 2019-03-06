@@ -1,7 +1,5 @@
 package myusarisoy.solarhomesystem;
 
-import android.graphics.drawable.Drawable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class Appliance {
-    private Drawable applianceChecked;
-    private Drawable imageResource;
+    private int applianceChecked;
+    private int imageResource;
     private String appliance;
 }

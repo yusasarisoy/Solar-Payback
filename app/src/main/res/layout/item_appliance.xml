@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/image_view"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@color/transparent"
             android:gravity="center"
             tools:src="@drawable/non_checked" />

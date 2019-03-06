@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
+import java.util.prefs.Preferences;
 
 import butterknife.BindView;
 

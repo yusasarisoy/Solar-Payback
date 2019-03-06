@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private ArrayList<Appliance> appliances;
+    private boolean isChecked = false;
 
     public RecyclerViewAdapter(ArrayList<Appliance> appliances) {
         this.appliances = appliances;
@@ -37,8 +38,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Appliance appliance = appliances.get(position);
 
-        viewHolder.ImageViewApplianceChecked.setBackground(appliance.getApplianceChecked());
-        viewHolder.imageViewAppliance.setBackground(appliance.getImageResource());
+        viewHolder.imageViewApplianceChecked.setBackgroundResource(appliance.getApplianceChecked());
+        viewHolder.imageViewAppliance.setBackgroundResource(appliance.getImageResource());
         viewHolder.textView.setText(appliance.getAppliance());
     }
 
@@ -62,16 +63,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ImageViewApplianceChecked;
+        private ImageView imageViewApplianceChecked;
         private ImageView imageViewAppliance;
         private TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            ImageViewApplianceChecked = itemView.findViewById(R.id.image_view);
+            imageViewApplianceChecked = itemView.findViewById(R.id.image_view);
             imageViewAppliance = itemView.findViewById(R.id.image_view_appliance);
             textView = itemView.findViewById(R.id.item_appliance);
+
+            imageViewApplianceChecked.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isChecked) {
+                        imageViewApplianceChecked.setBackgroundResource(R.drawable.checked);
+                        isChecked = true;
+                    } else {
+                        imageViewApplianceChecked.setBackgroundResource(R.drawable.non_checked);
+                        isChecked = false;
+                    }
+                }
+            });
         }
     }
 }
