@@ -30,7 +30,7 @@
     <string name="enter_your_mail">Enter your email to reset your password.</string>
     <string name="reset_password">Reset password</string>
     <string name="add_appliance">Please select appliance(s)\nyou want to calculate.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="grid_choice">Please choose the scenario you want to use.</string>
+    <string name="on_grid">On-Grid</string>
+    <string name="off_grid">Off-Grid</string>
 </resources>

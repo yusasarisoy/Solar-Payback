@@ -75,16 +75,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             imageViewAppliance = itemView.findViewById(R.id.image_view_appliance);
             textView = itemView.findViewById(R.id.item_appliance);
 
-            checkBox.setOnClickListener(new View.OnClickListener() {
+            item_add_appliance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!isChecked) {
-                        checkBox.setSelected(true);
-                        checkBox.setChecked(true);
                         isChecked = true;
                     } else {
-                        checkBox.setSelected(false);
-                        checkBox.setChecked(false);
                         isChecked = false;
                     }
                 }

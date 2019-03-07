@@ -135,7 +135,8 @@ public class FragmentMain extends Fragment {
 //        Check user's current location.
         locationClick();
 
-        gotoAppliances();
+//        Go to grid selection.
+        gotoGridChoice();
 
         return view;
     }
@@ -315,8 +316,8 @@ public class FragmentMain extends Fragment {
                     activateButton();
                     isApplianceChecked += 1;
                 } else {
-                    showSnackbar(appliance.getAppliance() + " unselected.");
                     appliance.setCheck(false);
+                   showSnackbar(appliance.getAppliance() + " unselected.");
                     isApplianceChecked -= 1;
                     if (isApplianceChecked == 0)
                         deactivateButton();
@@ -400,14 +401,14 @@ public class FragmentMain extends Fragment {
         }
     }
 
-    private void gotoAppliances() {
+    private void gotoGridChoice() {
         button_continue = view.findViewById(R.id.button_continue);
         button_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentAppliances fragmentAppliances = new FragmentAppliances();
+                FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
+                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
                         .commit();
             }
         });
@@ -455,7 +456,7 @@ public class FragmentMain extends Fragment {
     public void showSnackbar(String text) {
         layout_main = view.findViewById(R.id.layout_main);
 
-        Snackbar snackbar = Snackbar.make(layout_main, text, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(layout_main, text, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
