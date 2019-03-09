@@ -342,7 +342,8 @@ public class FragmentMain extends Fragment {
                 }
 
                 if (data.equals("")) {
-                    sure_to_add_appliance.setText("Please add at least one appliance to continue.");
+                    sure_to_add_appliance.setText(R.string.no_appliance);
+                    cancel_appliances.setText(R.string.back);
                     confirm_appliances.setVisibility(View.GONE);
                     appliances_list.setVisibility(View.GONE);
                 } else

@@ -35,4 +35,8 @@
     <string name="off_grid">Off-Grid</string>
     <string name="save_appliances">Are you sure to add the appliance(s)?</string>
     <string name="appliances_list">Appliances List</string>
+    <string name="no_appliance">Please add at least one appliance to continue.</string>
+    <string name="watts">Watts</string>
+    <string name="quantity">Quantity</string>
+    <string name="hours">Hours</string>
 </resources>

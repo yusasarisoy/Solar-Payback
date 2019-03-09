@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item_appliance_calculation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_appliance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova"
+            android:textColor="@color/core_white"
+            android:textSize="20sp"
+            tools:ignore="UnusedAttribute"
+            tools:text="Fridge" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/transparent" />
+
+        <ImageView
+            android:id="@+id/image_view_appliance"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            tools:src="@drawable/fridge" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova"
+            android:text="@string/watts"
+            android:textColor="@color/core_white"
+            android:textSize="20sp"
+            tools:ignore="UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/appliance_watts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/transparent"
+            android:fontFamily="@font/proxima_nova"
+            android:inputType="number"
+            android:textColor="@color/core_white"
+            android:textSize="23sp"
+            tools:ignore="UnusedAttribute"
+            tools:text="50" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/transparent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova"
+            android:text="@string/quantity"
+            android:textColor="@color/core_white"
+            android:textSize="20sp"
+            tools:ignore="UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/appliance_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/transparent"
+            android:fontFamily="@font/proxima_nova"
+            android:inputType="number"
+            android:textColor="@color/core_white"
+            android:textSize="23sp"
+            tools:ignore="UnusedAttribute"
+            tools:text="3" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/transparent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova"
+            android:text="@string/hours"
+            android:textColor="@color/core_white"
+            android:textSize="23sp"
+            tools:ignore="UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/appliance_hours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/transparent"
+            android:fontFamily="@font/proxima_nova"
+            android:inputType="number"
+            android:textColor="@color/core_white"
+            android:textSize="20sp"
+            tools:ignore="UnusedAttribute"
+            tools:text="5" />
+
+    </LinearLayout>
+
+</LinearLayout>

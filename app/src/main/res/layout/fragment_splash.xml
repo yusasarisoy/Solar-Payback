@@ -4,8 +4,8 @@
     android:id="@+id/layout_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
-    android:background="@color/core_white"
     android:padding="10dp"
     tools:context=".FragmentSplash">
 
