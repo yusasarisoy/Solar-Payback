@@ -33,4 +33,6 @@
     <string name="grid_choice">Please choose the scenario you want to use.</string>
     <string name="on_grid">On-Grid</string>
     <string name="off_grid">Off-Grid</string>
+    <string name="save_appliances">Are you sure to add the appliance(s)?</string>
+    <string name="appliances_list">Appliances List</string>
 </resources>

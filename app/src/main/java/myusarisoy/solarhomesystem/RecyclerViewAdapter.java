@@ -1,17 +1,22 @@
 package myusarisoy.solarhomesystem;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,10 +24,12 @@ import lombok.EqualsAndHashCode;
 @Data
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private ArrayList<Appliance> appliances;
-    private boolean isChecked = false;
+    private Context context;
+    public int isChecked = 0;
 
-    public RecyclerViewAdapter(ArrayList<Appliance> appliances) {
+    public RecyclerViewAdapter(ArrayList<Appliance> appliances, Context context) {
         this.appliances = appliances;
+        this.context = context;
     }
 
     @NonNull
@@ -36,10 +43,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Appliance appliance = appliances.get(position);
+        final Appliance appliance = appliances.get(position);
 
         viewHolder.imageViewAppliance.setBackgroundResource(appliance.getImageResource());
         viewHolder.textView.setText(appliance.getAppliance());
+        viewHolder.checkBox.setChecked(appliance.isCheck());
+        viewHolder.checkBox.setTag(appliance);
+
+        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckBox checkBox = (CheckBox) view;
+                Appliance applianceCheckBox = (Appliance) checkBox.getTag();
+
+                applianceCheckBox.setCheck(checkBox.isChecked());
+                appliance.setCheck(checkBox.isChecked());
+
+                if (checkBox.isChecked())
+                    showSnackbar(view, appliance.getAppliance() + " selected.");
+                else
+                    showSnackbar(view, appliance.getAppliance() + " unselected.");
+            }
+        });
     }
 
     @Override
@@ -74,17 +99,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             checkBox = itemView.findViewById(R.id.checkbox);
             imageViewAppliance = itemView.findViewById(R.id.image_view_appliance);
             textView = itemView.findViewById(R.id.item_appliance);
-
-            item_add_appliance.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!isChecked) {
-                        isChecked = true;
-                    } else {
-                        isChecked = false;
-                    }
-                }
-            });
         }
+    }
+
+    private void showSnackbar(View view, String text) {
+        Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getContext().getResources().getColor(R.color.dark_slate_gray));
+        TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
+        snackbar.show();
     }
 }

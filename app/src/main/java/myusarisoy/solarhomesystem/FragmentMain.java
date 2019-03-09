@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,15 +72,15 @@ public class FragmentMain extends Fragment {
     Button button_continue;
 
     LocationManager locationManager;
+    CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
-    CountDownTimer countDownTimer;
-    private Button cancel_sign_out, confirm_sign_out;
-    private AppCompatDialog signOutDialog;
+    private Button cancel_sign_out, confirm_sign_out, cancel_appliances, confirm_appliances;
+    private AppCompatDialog signOutDialog, appliancesDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
+    private TextView sure_to_add_appliance, appliances_list;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
-    private int isApplianceChecked = 0;
     View view;
 
     public static FragmentMain newInstance(Objects... objects) {
@@ -128,6 +129,9 @@ public class FragmentMain extends Fragment {
 
 //        Show list of appliances.
         initAppliances();
+
+//        Activate or deactivate the appliance.
+        changeAppliances();
 
 //        Sign out.
         clickToSignOut();
@@ -294,7 +298,7 @@ public class FragmentMain extends Fragment {
     private void setAdapter() {
         recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
 
-        adapter = new RecyclerViewAdapter(applianceList);
+        adapter = new RecyclerViewAdapter(applianceList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recycler_view_appliance.setLayoutManager(mLayoutManager);
         recycler_view_appliance.setItemAnimator(new DefaultItemAnimator());
@@ -303,31 +307,79 @@ public class FragmentMain extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.item_divider));
         recycler_view_appliance.addItemDecoration(dividerItemDecoration);
+    }
 
-
-        recycler_view_appliance.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recycler_view_appliance, new RecyclerTouchListener.ClickListener() {
+    private void changeAppliances() {
+        button_continue = view.findViewById(R.id.button_continue);
+        button_continue.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view, int position) {
-                Appliance appliance = applianceList.get(position);
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.dialog_appliances);
+                appliancesDialog = reservationBuilder.create();
+                WindowManager.LayoutParams params = appliancesDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                appliancesDialog.getWindow().setAttributes(params);
+                appliancesDialog.show();
 
-                if (applianceList.get(position).isCheck() == false) {
-                    appliance.setCheck(true);
-                    showSnackbar(appliance.getAppliance() + " selected.");
-                    activateButton();
-                    isApplianceChecked += 1;
-                } else {
-                    appliance.setCheck(false);
-                   showSnackbar(appliance.getAppliance() + " unselected.");
-                    isApplianceChecked -= 1;
-                    if (isApplianceChecked == 0)
-                        deactivateButton();
+                sure_to_add_appliance = appliancesDialog.findViewById(R.id.sure_to_add_appliance);
+                appliances_list = appliancesDialog.findViewById(R.id.appliances_list);
+                cancel_appliances = appliancesDialog.findViewById(R.id.cancel_appliances);
+                confirm_appliances = appliancesDialog.findViewById(R.id.confirm_appliances);
+
+                String data = "";
+                applianceList = adapter.getData();
+
+                for (int i = 0; i < applianceList.size(); i++) {
+                    Appliance appliance = applianceList.get(i);
+                    if (appliance.isCheck())
+                        data += "\n" + appliance.getAppliance();
                 }
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
+                if (data.equals("")) {
+                    sure_to_add_appliance.setText("Please add at least one appliance to continue.");
+                    confirm_appliances.setVisibility(View.GONE);
+                    appliances_list.setVisibility(View.GONE);
+                } else
+                    appliances_list.setText(data);
+
+                cancel_appliances.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        appliancesDialog.dismiss();
+                    }
+                });
+
+                confirm_appliances.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        appliancesDialog.dismiss();
+
+                        // Display the progress during 1 second.
+                        countDownTimer = new CountDownTimer(1000, 500) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                countDownTimer.cancel();
+
+                                FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
+                                        .commit();
+                            }
+                        }.start();
+                    }
+                });
             }
-        }));
+        });
     }
 
     public void checkCurrentLocation() {
@@ -391,7 +443,7 @@ public class FragmentMain extends Fragment {
             LocationRequest locationRequest = new LocationRequest();
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            showSnackbar("Your location cannot be determined!");
+            showSnackbar("We are trying to detect your location...");
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -402,30 +454,16 @@ public class FragmentMain extends Fragment {
     }
 
     private void gotoGridChoice() {
-        button_continue = view.findViewById(R.id.button_continue);
-        button_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
-                        .commit();
-            }
-        });
-    }
-
-    private void activateButton() {
-        button_continue = view.findViewById(R.id.button_continue);
-        button_continue.setFocusable(true);
-        button_continue.setClickable(true);
-        button_continue.setTextColor(getResources().getColor(R.color.green));
-    }
-
-    private void deactivateButton() {
-        button_continue = view.findViewById(R.id.button_continue);
-        button_continue.setFocusable(false);
-        button_continue.setClickable(false);
-        button_continue.setTextColor(getResources().getColor(R.color.dark_slate_gray));
+//        button_continue = view.findViewById(R.id.button_continue);
+//        button_continue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
+//                        .commit();
+//            }
+//        });
     }
 
 //    @Override
