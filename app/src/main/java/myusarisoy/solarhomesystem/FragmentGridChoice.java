@@ -37,7 +37,7 @@ public class FragmentGridChoice extends Fragment {
         view = inflater.inflate(R.layout.fragment_grid_choice, container, false);
 
 //        Grid choices.
-        gridChoice();
+//        gridChoice();
 
         return view;
     }

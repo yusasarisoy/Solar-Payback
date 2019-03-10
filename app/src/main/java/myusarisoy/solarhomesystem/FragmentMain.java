@@ -81,6 +81,8 @@ public class FragmentMain extends Fragment {
     private RecyclerViewAdapter adapter;
     private TextView sure_to_add_appliance, appliances_list;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
+    public ArrayList<String> appliancesName = new ArrayList<>();
+    public ArrayList<Integer> appliancesImage = new ArrayList<>();
     View view;
 
     public static FragmentMain newInstance(Objects... objects) {
@@ -337,8 +339,11 @@ public class FragmentMain extends Fragment {
 
                 for (int i = 0; i < applianceList.size(); i++) {
                     Appliance appliance = applianceList.get(i);
-                    if (appliance.isCheck())
+                    if (appliance.isCheck()) {
                         data += "\n" + appliance.getAppliance();
+                        appliancesName.add(appliance.getAppliance());
+                        appliancesImage.add(appliance.getImageResource());
+                    }
                 }
 
                 if (data.equals("")) {
@@ -371,9 +376,13 @@ public class FragmentMain extends Fragment {
                             public void onFinish() {
                                 countDownTimer.cancel();
 
-                                FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
+                                FragmentAppliances fragmentAppliances = new FragmentAppliances();
+                                Bundle bundle = new Bundle();
+                                bundle.putStringArrayList("AppliancesName", appliancesName);
+                                bundle.putIntegerArrayList("AppliancesImage", appliancesImage);
+                                fragmentAppliances.setArguments(bundle);
                                 getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
+                                        .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
                                         .commit();
                             }
                         }.start();

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,9 @@
             android:id="@+id/item_appliance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
+            android:gravity="center"
             android:textColor="@color/core_white"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute"
@@ -53,26 +55,39 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova"
-            android:text="@string/watts"
-            android:textColor="@color/core_white"
-            android:textSize="20sp"
-            tools:ignore="UnusedAttribute" />
+            android:orientation="vertical"
+            android:padding="5dp">
 
-        <EditText
-            android:id="@+id/appliance_watts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/transparent"
-            android:fontFamily="@font/proxima_nova"
-            android:inputType="number"
-            android:textColor="@color/core_white"
-            android:textSize="23sp"
-            tools:ignore="UnusedAttribute"
-            tools:text="50" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:text="@string/watts"
+                android:textColor="@color/core_white"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute" />
+
+            <EditText
+                android:id="@+id/appliance_watts"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/white_background"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:textColor="@color/core_white"
+                android:textSize="23sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="50" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
@@ -83,26 +98,39 @@
             android:layout_marginRight="5dp"
             android:background="@color/transparent" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova"
-            android:text="@string/quantity"
-            android:textColor="@color/core_white"
-            android:textSize="20sp"
-            tools:ignore="UnusedAttribute" />
+            android:orientation="vertical"
+            android:padding="5dp">
 
-        <EditText
-            android:id="@+id/appliance_quantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/transparent"
-            android:fontFamily="@font/proxima_nova"
-            android:inputType="number"
-            android:textColor="@color/core_white"
-            android:textSize="23sp"
-            tools:ignore="UnusedAttribute"
-            tools:text="3" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:text="@string/quantity"
+                android:textColor="@color/core_white"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute" />
+
+            <EditText
+                android:id="@+id/appliance_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/white_background"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:textColor="@color/core_white"
+                android:textSize="23sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="3" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
@@ -113,26 +141,39 @@
             android:layout_marginRight="5dp"
             android:background="@color/transparent" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova"
-            android:text="@string/hours"
-            android:textColor="@color/core_white"
-            android:textSize="23sp"
-            tools:ignore="UnusedAttribute" />
+            android:orientation="vertical"
+            android:padding="5dp">
 
-        <EditText
-            android:id="@+id/appliance_hours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/transparent"
-            android:fontFamily="@font/proxima_nova"
-            android:inputType="number"
-            android:textColor="@color/core_white"
-            android:textSize="20sp"
-            tools:ignore="UnusedAttribute"
-            tools:text="5" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:text="@string/hours"
+                android:textColor="@color/core_white"
+                android:textSize="23sp"
+                tools:ignore="UnusedAttribute" />
+
+            <EditText
+                android:id="@+id/appliance_hours"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/white_background"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:textColor="@color/core_white"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="5" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
