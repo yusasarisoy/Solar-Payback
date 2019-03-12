@@ -4,13 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
-import android.graphics.Movie;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
@@ -26,30 +24,34 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -75,17 +77,18 @@ public class FragmentMain extends Fragment {
     CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
-    private Button cancel_sign_out, confirm_sign_out, cancel_appliances, confirm_appliances;
-    private AppCompatDialog signOutDialog, appliancesDialog;
+    private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
+    private AppCompatDialog signOutDialog, locationDialog, appliancesDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
+    private EditText search_a_location;
     private TextView sure_to_add_appliance, appliances_list;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
     public ArrayList<String> appliancesName = new ArrayList<>();
     public ArrayList<Integer> appliancesImage = new ArrayList<>();
     View view;
 
-    public static FragmentMain newInstance(Objects... objects) {
+    public static FragmentMain newInstance(Object... objects) {
         FragmentMain fragment = new FragmentMain();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -95,6 +98,10 @@ public class FragmentMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext(), "AIzaSyB8-Uz4rjP3l30iUUJVc1mXP3DzoMpcYhs");
+        }
     }
 
     @Override
@@ -411,14 +418,92 @@ public class FragmentMain extends Fragment {
         button_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Log.d("LOCATION", "Not granted");
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                    } else
-                        requestLocation();
-                } else
-                    requestLocation();
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.pop_up_location);
+                locationDialog = reservationBuilder.create();
+                final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                locationDialog.getWindow().setAttributes(params);
+                locationDialog.show();
+
+                SupportPlaceAutocompleteFragment supportPlaceAutocompleteFragment = (SupportPlaceAutocompleteFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.place_autocomplete_location);
+
+                supportPlaceAutocompleteFragment.setHint("Search a location");
+
+//                Set up a PlaceSelectionListener to handle the response.
+                supportPlaceAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                    @Override
+                    public void onPlaceSelected(Place place) {
+                        Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
+                    }
+
+                    @Override
+                    public void onError(Status status) {
+                        Log.i("LOCATION_ERROR", "An error occurred: " + status);
+                    }
+                });
+
+
+//                autocompleteSupportFragment.setHint("Search a location");
+//                autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//                    @Override
+//                    public void onPlaceSelected(Place place) {
+//                        // TODO: Get info about the selected place.
+//                        Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
+//                    }
+//
+//                    @Override
+//                    public void onError(Status status) {
+//                        // TODO: Handle the error.
+//                        Log.i("LOCATION_ERROR", "An error occurred: " + status);
+//                    }
+//                });
+
+//                search_a_location = locationDialog.findViewById(R.id.search_a_location);
+//                cancel_location = locationDialog.findViewById(R.id.cancel_location);
+//                confirm_location = locationDialog.findViewById(R.id.confirm_location);
+//
+//                cancel_location.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        locationDialog.dismiss();
+//                    }
+//                });
+//
+//                confirm_location.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        locationDialog.dismiss();
+//
+//                        countDownTimer = new CountDownTimer(500, 250) {
+//                            @Override
+//                            public void onTick(long millisUntilFinished) {
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//                                countDownTimer.cancel();
+//
+//                                String location = search_a_location.getText().toString();
+//                                showSnackbar("Selected location is: " + location);
+//                            }
+//                        }.start();
+//                    }
+//                });
+
+//                if (Build.VERSION.SDK_INT >= 23) {
+//                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                        Log.d("LOCATION", "Not granted");
+//                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//                    } else
+//                        requestLocation();
+//                } else
+//                    requestLocation();
             }
         });
     }

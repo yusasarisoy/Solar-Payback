@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_main"
+    android:id="@+id/layout_overview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="30dp"
-    tools:context=".FragmentMain">
+    tools:context=".FragmentOverview">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,9 +55,10 @@
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/add_appliance"
+        android:text="@string/overview"
+        android:textAllCaps="true"
         android:textColor="@color/core_white"
-        android:textSize="18sp"
+        android:textSize="30sp"
         tools:ignore="UnusedAttribute" />
 
     <View
@@ -67,7 +68,7 @@
         android:background="@color/dark_slate_gray" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_appliance"
+        android:id="@+id/recycler_view_overview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -84,18 +85,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="start"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_sign_out"
-                android:layout_width="100dp"
+            <ImageView
+                android:id="@+id/image_view_consumption"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/transparent"
-                android:fontFamily="@font/proxima_nova"
-                android:text="@string/sign_out"
-                android:textColor="@color/red"
-                android:textSize="18sp"
+                android:src="@drawable/consumption"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -107,32 +104,11 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_location"
+            <ImageView
+                android:id="@+id/image_view_tips"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/location"
-                android:fontFamily="@font/proxima_nova"
-                tools:ignore="UnusedAttribute" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button_continue"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:background="@color/transparent"
-                android:fontFamily="@font/proxima_nova"
-                android:text="@string/continueTo"
-                android:textColor="@color/green"
-                android:textSize="18sp"
+                android:src="@drawable/tips"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>

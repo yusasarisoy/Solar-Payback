@@ -2,7 +2,6 @@
     <string name="app_name">Solar Home System</string>
     <string name="user_name">Yuşa Sarısoy</string>
     <string name="user_mail">myusarisoy@gmail.com</string>
-    <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
     <string name="create_an_account">Create an account for solar energy payback calculation.</string>
     <string name="create_account">Create account</string>
@@ -16,6 +15,7 @@
     <string name="next">Next</string>
     <string name="finish">Finish</string>
     <string name="back">Back</string>
+    <string name="go_back">Go Back</string>
     <string name="login_to">Log in to Solar Home System.</string>
     <string name="login">Log in</string>
     <string name="complete_register">Complete register</string>
@@ -24,8 +24,12 @@
     <string name="sign_out">Sign out</string>
     <string name="continueTo">Continue</string>
     <string name="sure_to_sign_out">Are you sure you want to sign out?</string>
+    <string name="sure_to_go_back">Are you sure you want to go back? If you do this, your added appliances will be deleted.</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
     <string name="find_your_account">Find your Solar Home System account</string>
     <string name="enter_your_mail">Enter your email to reset your password.</string>
     <string name="reset_password">Reset password</string>
@@ -39,4 +43,8 @@
     <string name="watts">Watts</string>
     <string name="quantity">Quantity</string>
     <string name="hours">Hours</string>
+    <string name="find_a_location">Find a location</string>
+    <string name="overview">Overview</string>
+    <string name="power_consumption">Power Consumption</string>
+    <string name="energy_saver_tips">Energy Saver Tips</string>
 </resources>

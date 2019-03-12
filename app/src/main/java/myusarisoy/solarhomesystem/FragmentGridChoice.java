@@ -37,7 +37,7 @@ public class FragmentGridChoice extends Fragment {
         view = inflater.inflate(R.layout.fragment_grid_choice, container, false);
 
 //        Grid choices.
-//        gridChoice();
+        gridChoice();
 
         return view;
     }
@@ -49,9 +49,9 @@ public class FragmentGridChoice extends Fragment {
         on_grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentAppliances fragmentAppliances = new FragmentAppliances();
+                FragmentOverview fragmentOverview = new FragmentOverview();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
+                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
                         .commit();
             }
         });
@@ -59,9 +59,9 @@ public class FragmentGridChoice extends Fragment {
         off_grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentAppliances fragmentAppliances = new FragmentAppliances();
+                FragmentOverview fragmentOverview = new FragmentOverview();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
+                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
                         .commit();
             }
         });

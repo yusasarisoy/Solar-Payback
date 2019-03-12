@@ -69,14 +69,14 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_sign_out"
+                android:id="@+id/button_back"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:background="@color/transparent"
                 android:fontFamily="@font/proxima_nova"
-                android:text="@string/sign_out"
+                android:text="@string/back"
                 android:textColor="@color/red"
-                android:textSize="17sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
