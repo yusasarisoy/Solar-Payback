@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -31,7 +33,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -39,9 +45,16 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,7 +70,7 @@ import butterknife.BindView;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class FragmentMain extends Fragment {
+public class FragmentMain extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     @BindView(R.id.layout_main)
     LinearLayout layout_main;
 
@@ -83,6 +96,24 @@ public class FragmentMain extends Fragment {
     private RecyclerViewAdapter adapter;
     private EditText search_a_location;
     private TextView sure_to_add_appliance, appliances_list;
+
+    private GoogleMap mMap;
+    //variable
+    private static final int PERMISSION_REQUEST_CODE = 7001;
+    private static final int PLAY_SERVICE_REQUEST = 7002;
+
+    private static final int UPDATE_INTERVAL = 5000;//5 detik
+    private static final int FASTEST_INTERVAL = 3000;//3detik
+    private static final int DISPLACEMENT = 10;
+
+    private LocationRequest mLocationRequest;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLocation;
+
+    private PlaceAutocompleteFragment placeAutocompleteFragment;
+
+    Marker marker;
+
     private ArrayList<Appliance> applianceList = new ArrayList<>();
     public ArrayList<String> appliancesName = new ArrayList<>();
     public ArrayList<Integer> appliancesImage = new ArrayList<>();
@@ -99,9 +130,7 @@ public class FragmentMain extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!Places.isInitialized()) {
-            Places.initialize(getContext(), "AIzaSyB8-Uz4rjP3l30iUUJVc1mXP3DzoMpcYhs");
-        }
+
     }
 
     @Override
@@ -126,6 +155,8 @@ public class FragmentMain extends Fragment {
                 }
             }
         };
+
+        setUpLocation();
 
 //        Set adapter for Recycler View.
         setAdapter();
@@ -431,12 +462,11 @@ public class FragmentMain extends Fragment {
                 locationDialog.getWindow().setAttributes(params);
                 locationDialog.show();
 
-                SupportPlaceAutocompleteFragment supportPlaceAutocompleteFragment = (SupportPlaceAutocompleteFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.place_autocomplete_location);
+                placeAutocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_location);
 
-                supportPlaceAutocompleteFragment.setHint("Search a location");
+                placeAutocompleteFragment.setHint("Search a location");
 
-//                Set up a PlaceSelectionListener to handle the response.
-                supportPlaceAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                     @Override
                     public void onPlaceSelected(Place place) {
                         Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
@@ -508,6 +538,116 @@ public class FragmentMain extends Fragment {
         });
     }
 
+    private void setUpLocation() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            }, PERMISSION_REQUEST_CODE);
+        } else {
+            if (checkPlayServices()) {
+                buildGoogleApiClient();
+                createLocationRequest();
+                displayLocation();
+            }
+        }
+    }
+
+    private void displayLocation() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLocation != null) {
+            final double latitude = mLocation.getLatitude();
+            final double longitude = mLocation.getLongitude();
+
+            //show marker
+            mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("your position"));
+            //Animate camera to your position
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
+        }
+    }
+
+    private void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
+    }
+
+    private void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getContext());
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
+                GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(), PLAY_SERVICE_REQUEST).show();
+            else {
+                Toast.makeText(getContext(), "This device is not supported", Toast.LENGTH_SHORT).show();
+               getActivity().finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        /**
+         * Kita tidak membutuhkan ini jadi comment saja
+         */
+        // Add a marker in Sydney and move the camera
+        /*LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
+    }
+
+    //Oh iya karena kita menggunakan permission kita override method onPermissionRequestResult
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (checkPlayServices()) {
+                        buildGoogleApiClient();
+                        createLocationRequest();
+                        displayLocation();
+                    }
+                }
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        displayLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+
     private String getCityName(LatLng myCoordinates) {
         String myCity = "";
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
@@ -559,6 +699,11 @@ public class FragmentMain extends Fragment {
 //                        .commit();
 //            }
 //        });
+    }
+
+    public void onLocationChanged(Location location) {
+        mLocation = location;
+        displayLocation();
     }
 
 //    @Override

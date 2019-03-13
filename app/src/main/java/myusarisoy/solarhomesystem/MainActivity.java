@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Places.initialize(getApplicationContext(), "AIzaSyB8-Uz4rjP3l30iUUJVc1mXP3DzoMpcYhs");
-        PlacesClient placesClient = Places.createClient(getApplicationContext());
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.layout_main, new FragmentSplash());
         fragmentTransaction.commit();
     }
