@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
@@ -70,7 +71,7 @@ import butterknife.BindView;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class FragmentMain extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class FragmentMain extends Fragment {
     @BindView(R.id.layout_main)
     LinearLayout layout_main;
 
@@ -86,8 +87,8 @@ public class FragmentMain extends Fragment implements OnMapReadyCallback, Google
     @BindView(R.id.button_continue)
     Button button_continue;
 
-    LocationManager locationManager;
-    CountDownTimer countDownTimer;
+    private LocationManager locationManager;
+    private CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
@@ -96,24 +97,7 @@ public class FragmentMain extends Fragment implements OnMapReadyCallback, Google
     private RecyclerViewAdapter adapter;
     private EditText search_a_location;
     private TextView sure_to_add_appliance, appliances_list;
-
-    private GoogleMap mMap;
-    //variable
-    private static final int PERMISSION_REQUEST_CODE = 7001;
-    private static final int PLAY_SERVICE_REQUEST = 7002;
-
-    private static final int UPDATE_INTERVAL = 5000;//5 detik
-    private static final int FASTEST_INTERVAL = 3000;//3detik
-    private static final int DISPLACEMENT = 10;
-
-    private LocationRequest mLocationRequest;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLocation;
-
     private PlaceAutocompleteFragment placeAutocompleteFragment;
-
-    Marker marker;
-
     private ArrayList<Appliance> applianceList = new ArrayList<>();
     public ArrayList<String> appliancesName = new ArrayList<>();
     public ArrayList<Integer> appliancesImage = new ArrayList<>();
@@ -155,8 +139,6 @@ public class FragmentMain extends Fragment implements OnMapReadyCallback, Google
                 }
             }
         };
-
-        setUpLocation();
 
 //        Set adapter for Recycler View.
         setAdapter();
@@ -332,6 +314,9 @@ public class FragmentMain extends Fragment implements OnMapReadyCallback, Google
         Appliance washingMachine = new Appliance(false, R.drawable.washing_machine, "Washing Machine");
         applianceList.add(washingMachine);
 
+        Appliance waterHeater = new Appliance(false, R.drawable.water_heater, "Water Heater");
+        applianceList.add(waterHeater);
+
         adapter.notifyDataSetChanged();
     }
 
@@ -449,47 +434,31 @@ public class FragmentMain extends Fragment implements OnMapReadyCallback, Google
         button_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.pop_up_location);
-                locationDialog = reservationBuilder.create();
-                final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.8);
-                params.height = (int) (height * 0.8);
-                locationDialog.getWindow().setAttributes(params);
-                locationDialog.show();
+//                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+//                reservationBuilder.setView(R.layout.pop_up_location);
+//                locationDialog = reservationBuilder.create();
+//                final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
+//                DisplayMetrics displayMetrics = new DisplayMetrics();
+//                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//                int width = displayMetrics.widthPixels;
+//                int height = displayMetrics.heightPixels;
+//                params.width = (int) (width * 0.8);
+//                params.height = (int) (height * 0.8);
+//                locationDialog.getWindow().setAttributes(params);
+//                locationDialog.show();
 
-                placeAutocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_location);
-
-                placeAutocompleteFragment.setHint("Search a location");
-
-                placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                    @Override
-                    public void onPlaceSelected(Place place) {
-                        Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
-                    }
-
-                    @Override
-                    public void onError(Status status) {
-                        Log.i("LOCATION_ERROR", "An error occurred: " + status);
-                    }
-                });
-
-
-//                autocompleteSupportFragment.setHint("Search a location");
-//                autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//                placeAutocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_location);
+//
+//                placeAutocompleteFragment.setHint("Search a location");
+//
+//                placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 //                    @Override
 //                    public void onPlaceSelected(Place place) {
-//                        // TODO: Get info about the selected place.
 //                        Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
 //                    }
 //
 //                    @Override
 //                    public void onError(Status status) {
-//                        // TODO: Handle the error.
 //                        Log.i("LOCATION_ERROR", "An error occurred: " + status);
 //                    }
 //                });
@@ -526,127 +495,17 @@ public class FragmentMain extends Fragment implements OnMapReadyCallback, Google
 //                    }
 //                });
 
-//                if (Build.VERSION.SDK_INT >= 23) {
-//                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                        Log.d("LOCATION", "Not granted");
-//                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//                    } else
-//                        requestLocation();
-//                } else
-//                    requestLocation();
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Log.d("LOCATION", "Not granted");
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    } else
+                        requestLocation();
+                } else
+                    requestLocation();
             }
         });
     }
-
-    private void setUpLocation() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            }, PERMISSION_REQUEST_CODE);
-        } else {
-            if (checkPlayServices()) {
-                buildGoogleApiClient();
-                createLocationRequest();
-                displayLocation();
-            }
-        }
-    }
-
-    private void displayLocation() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLocation != null) {
-            final double latitude = mLocation.getLatitude();
-            final double longitude = mLocation.getLongitude();
-
-            //show marker
-            mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("your position"));
-            //Animate camera to your position
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
-        }
-    }
-
-    private void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
-    }
-
-    private void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
-
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getContext());
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
-                GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(), PLAY_SERVICE_REQUEST).show();
-            else {
-                Toast.makeText(getContext(), "This device is not supported", Toast.LENGTH_SHORT).show();
-               getActivity().finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        /**
-         * Kita tidak membutuhkan ini jadi comment saja
-         */
-        // Add a marker in Sydney and move the camera
-        /*LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
-    }
-
-    //Oh iya karena kita menggunakan permission kita override method onPermissionRequestResult
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (checkPlayServices()) {
-                        buildGoogleApiClient();
-                        createLocationRequest();
-                        displayLocation();
-                    }
-                }
-        }
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        displayLocation();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
 
     private String getCityName(LatLng myCoordinates) {
         String myCity = "";
@@ -699,11 +558,6 @@ public class FragmentMain extends Fragment implements OnMapReadyCallback, Google
 //                        .commit();
 //            }
 //        });
-    }
-
-    public void onLocationChanged(Location location) {
-        mLocation = location;
-        displayLocation();
     }
 
 //    @Override

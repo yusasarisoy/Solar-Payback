@@ -42,33 +42,28 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_sign_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_power_consumption"
+            android:id="@+id/recycler_view_energy_saver_tips"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="10dp" />
+            android:layout_height="250dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/ok_energy_saver_tips"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_weight="1"
             android:background="@color/green"
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
