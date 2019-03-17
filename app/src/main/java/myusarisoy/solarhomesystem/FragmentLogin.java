@@ -169,8 +169,7 @@ public class FragmentLogin extends Fragment {
                 }
 
                 //authenticate user
-                firebaseAuth.signInWithEmailAndPassword(mail, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();

@@ -7,18 +7,18 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
+
+import com.google.android.libraries.places.api.Places;
+
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -30,14 +30,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -45,19 +43,9 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -88,6 +76,7 @@ public class FragmentMain extends Fragment {
     Button button_continue;
 
     private LocationManager locationManager;
+    private String location = "";
     private CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
@@ -95,9 +84,7 @@ public class FragmentMain extends Fragment {
     private AppCompatDialog signOutDialog, locationDialog, appliancesDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
-    private EditText search_a_location;
     private TextView sure_to_add_appliance, appliances_list;
-    private PlaceAutocompleteFragment placeAutocompleteFragment;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
     public ArrayList<String> appliancesName = new ArrayList<>();
     public ArrayList<Integer> appliancesImage = new ArrayList<>();
@@ -113,8 +100,6 @@ public class FragmentMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -160,9 +145,6 @@ public class FragmentMain extends Fragment {
 
 //        Check user's current location.
         locationClick();
-
-//        Go to grid selection.
-        gotoGridChoice();
 
         return view;
     }
@@ -434,75 +416,73 @@ public class FragmentMain extends Fragment {
         button_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-//                reservationBuilder.setView(R.layout.pop_up_location);
-//                locationDialog = reservationBuilder.create();
-//                final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
-//                DisplayMetrics displayMetrics = new DisplayMetrics();
-//                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//                int width = displayMetrics.widthPixels;
-//                int height = displayMetrics.heightPixels;
-//                params.width = (int) (width * 0.8);
-//                params.height = (int) (height * 0.8);
-//                locationDialog.getWindow().setAttributes(params);
-//                locationDialog.show();
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.pop_up_location);
+                locationDialog = reservationBuilder.create();
+                final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                locationDialog.getWindow().setAttributes(params);
+                locationDialog.show();
 
-//                placeAutocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_location);
-//
-//                placeAutocompleteFragment.setHint("Search a location");
-//
-//                placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//                    @Override
-//                    public void onPlaceSelected(Place place) {
-//                        Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
-//                    }
-//
-//                    @Override
-//                    public void onError(Status status) {
-//                        Log.i("LOCATION_ERROR", "An error occurred: " + status);
-//                    }
-//                });
+                AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
-//                search_a_location = locationDialog.findViewById(R.id.search_a_location);
-//                cancel_location = locationDialog.findViewById(R.id.cancel_location);
-//                confirm_location = locationDialog.findViewById(R.id.confirm_location);
-//
-//                cancel_location.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        locationDialog.dismiss();
-//                    }
-//                });
-//
-//                confirm_location.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        locationDialog.dismiss();
-//
-//                        countDownTimer = new CountDownTimer(500, 250) {
-//                            @Override
-//                            public void onTick(long millisUntilFinished) {
-//                            }
-//
-//                            @Override
-//                            public void onFinish() {
-//                                countDownTimer.cancel();
-//
-//                                String location = search_a_location.getText().toString();
-//                                showSnackbar("Selected location is: " + location);
-//                            }
-//                        }.start();
-//                    }
-//                });
+                autocompleteFragment.setPlaceFields(Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG));
 
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Log.d("LOCATION", "Not granted");
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                    } else
-                        requestLocation();
-                } else
-                    requestLocation();
+                autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                    @Override
+                    public void onPlaceSelected(@NonNull com.google.android.libraries.places.api.model.Place place) {
+                        location = place.getName();
+                        Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Status status) {
+                        Log.i("LOCATION", "An error occurred: " + status);
+                    }
+                });
+
+                cancel_location = locationDialog.findViewById(R.id.cancel_location);
+                confirm_location = locationDialog.findViewById(R.id.confirm_location);
+
+                cancel_location.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        locationDialog.dismiss();
+                    }
+                });
+
+                confirm_location.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        locationDialog.dismiss();
+
+                        countDownTimer = new CountDownTimer(500, 250) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                countDownTimer.cancel();
+                                showSnackbar("Selected location is: " + location);
+                            }
+                        }.start();
+                    }
+                });
+
+//                if (Build.VERSION.SDK_INT >= 23) {
+//                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                        Log.d("LOCATION", "Not granted");
+//                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//                    } else
+//                        requestLocation();
+//                } else
+//                    requestLocation();
             }
         });
     }
@@ -546,44 +526,6 @@ public class FragmentMain extends Fragment {
                     mLocationCallback, Looper.myLooper());
         }
     }
-
-    private void gotoGridChoice() {
-//        button_continue = view.findViewById(R.id.button_continue);
-//        button_continue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
-//                        .commit();
-//            }
-//        });
-    }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        startLocationUpdates();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        fusedLocationClient.removeLocationUpdates(locationCallback);
-//    }
-
-//    public void setAdapter(ArrayList<Appliance> applianceList) {
-//        recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
-//
-//        adapter = new RecyclerViewAdapter(applianceList);
-//        recycler_view_appliance.setAdapter(adapter);
-//
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-//        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.item_divider));
-//        recycler_view_appliance.addItemDecoration(dividerItemDecoration);
-//
-//        initAppliances();
-//    }
 
     public void showSnackbar(String text) {
         layout_main = view.findViewById(R.id.layout_main);

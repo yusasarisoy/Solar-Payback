@@ -54,11 +54,24 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/place_autocomplete_location"
-            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <!--<AutoCompleteTextView-->
+        <!--android:id="@+id/autocomplete_location"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:backgroundTint="@color/transparent"-->
+        <!--android:fontFamily="@font/proxima_nova"-->
+        <!--android:gravity="center"-->
+        <!--android:inputType="textCapWords"-->
+        <!--android:textColor="@color/core_black"-->
+        <!--android:textSize="25sp"-->
+        <!--tools:ignore="UnusedAttribute" />-->
 
         <!--<EditText-->
         <!--android:id="@+id/search_a_location"-->

@@ -147,8 +147,7 @@ public class FragmentRegister extends Fragment {
                     return;
                 }
 
-                firebaseAuth.createUserWithEmailAndPassword(mail, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Log.i("REGISTER", "Register action is successful.");
