@@ -278,6 +278,9 @@ public class FragmentMain extends Fragment {
         Appliance fridge = new Appliance(false, R.drawable.fridge, "Fridge");
         applianceList.add(fridge);
 
+        Appliance hairDryer = new Appliance(false, R.drawable.hair_dryer, "Hair Dryer");
+        applianceList.add(hairDryer);
+
         Appliance iron = new Appliance(false, R.drawable.iron, "Iron");
         applianceList.add(iron);
 

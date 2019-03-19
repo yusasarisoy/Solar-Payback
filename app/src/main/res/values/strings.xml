@@ -44,6 +44,7 @@
     <string name="quantity">Quantity</string>
     <string name="hours">Hours</string>
     <string name="find_a_location">Find a location</string>
+    <string name="select_a_location">Please select a location where you want to display the solar irradiance data.</string>
     <string name="overview">Overview</string>
     <string name="power_consumption">Power Consumption</string>
     <string name="energy_saver_tips">Energy Saver Tips</string>

@@ -6,7 +6,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +19,7 @@ public class InstructionsAdapter extends PagerAdapter {
 
     public int[] images = {
             R.drawable.solar_house,
-            R.drawable.home_appliance,
+            R.drawable.hair_dryer,
             R.drawable.sun
     };
 
