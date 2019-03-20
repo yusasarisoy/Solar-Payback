@@ -290,6 +290,9 @@ public class FragmentMain extends Fragment {
         Appliance oven = new Appliance(false, R.drawable.oven, "Oven");
         applianceList.add(oven);
 
+        Appliance smartphone = new Appliance(false, R.drawable.smartphone, "Smartphone");
+        applianceList.add(smartphone);
+
         Appliance television = new Appliance(false, R.drawable.television, "Television");
         applianceList.add(television);
 

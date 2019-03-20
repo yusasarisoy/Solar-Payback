@@ -4,12 +4,17 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,11 +42,25 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         final SelectedAppliance selectedAppliance = selectedAppliances.get(position);
 
         viewHolder.imageView.setBackgroundResource(selectedAppliance.getImageResource());
         viewHolder.textView.setText(selectedAppliance.getAppliance());
+
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!viewHolder.appliance_quantity.getText().toString().isEmpty() && !viewHolder.appliance_watts.getText().toString().isEmpty() && !viewHolder.appliance_hours.getText().toString().isEmpty()) {
+                    int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
+                    double watts = Double.parseDouble(viewHolder.appliance_watts.getText().toString());
+                    double hours = Double.parseDouble(viewHolder.appliance_hours.getText().toString());
+                    final double power_consumption = quantity * watts * hours;
+
+                    showSnackbar(view, selectedAppliance.getAppliance() + "'s daily power consumption is " + power_consumption + "kWh.");
+                }
+            }
+        });
     }
 
     @Override
@@ -67,6 +86,7 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
         private LinearLayout linearLayout;
         private ImageView imageView;
         private TextView textView;
+        private EditText appliance_watts, appliance_quantity, appliance_hours;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +94,9 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
             linearLayout = itemView.findViewById(R.id.layout_item_appliance_calculation);
             imageView = itemView.findViewById(R.id.image_view_appliance);
             textView = itemView.findViewById(R.id.item_appliance);
+            appliance_quantity = itemView.findViewById(R.id.appliance_quantity);
+            appliance_watts = itemView.findViewById(R.id.appliance_watts);
+            appliance_hours = itemView.findViewById(R.id.appliance_hours);
         }
     }
 

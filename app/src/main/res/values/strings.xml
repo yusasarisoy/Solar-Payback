@@ -34,6 +34,7 @@
     <string name="enter_your_mail">Enter your email to reset your password.</string>
     <string name="reset_password">Reset password</string>
     <string name="add_appliance">Please select appliance(s)\nyou want to calculate.</string>
+    <string name="click_image">Please click image of an appliance to see its power consumption.</string>
     <string name="grid_choice">Please choose the scenario you want to use.</string>
     <string name="on_grid">On-Grid</string>
     <string name="off_grid">Off-Grid</string>
