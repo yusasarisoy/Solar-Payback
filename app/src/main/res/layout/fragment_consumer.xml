@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_grid_choice"
+    android:id="@+id/layout_consumer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="30dp"
-    tools:context=".FragmentGridChoice">
+    tools:context=".FragmentConsumer">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,7 +55,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/grid_choice"
+        android:text="@string/consumer_type"
         android:textColor="@color/core_white"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
@@ -82,10 +82,10 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_on_grid"
+                android:id="@+id/img_residental"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/on_grid" />
+                android:src="@drawable/residental" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/on_grid"
+                android:text="@string/residental"
                 android:textColor="@color/core_white"
                 android:textSize="25sp"
                 tools:ignore="UnusedAttribute" />
@@ -104,10 +104,10 @@
         <View
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:background="@color/transparent" />
 
         <LinearLayout
@@ -119,10 +119,10 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_off_grid"
+                android:id="@+id/img_commercial"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/off_grid" />
+                android:src="@drawable/commercial" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -131,7 +131,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/off_grid"
+                android:text="@string/commercial"
                 android:textColor="@color/core_white"
                 android:textSize="25sp"
                 tools:ignore="UnusedAttribute" />

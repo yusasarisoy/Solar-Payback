@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Solar Home System</string>
+    <string name="app_name">Payback Calculation System</string>
     <string name="user_name">Yuşa Sarısoy</string>
     <string name="user_mail">myusarisoy@gmail.com</string>
     <string name="save">SAVE</string>
@@ -33,11 +33,20 @@
     <string name="find_your_account">Find your Solar Home System account</string>
     <string name="enter_your_mail">Enter your email to reset your password.</string>
     <string name="reset_password">Reset password</string>
+    <string name="consumer_type">Please choose your consumer type.</string>
+    <string name="calculation_type">Please choose your calculation type you want to use with.</string>
+    <string name="complete_bill">Please complete the missing parts in the bill.</string>
     <string name="add_appliance">Please select appliance(s)\nyou want to calculate.</string>
     <string name="click_image">Please click image of an appliance to see its power consumption.</string>
     <string name="grid_choice">Please choose the scenario you want to use.</string>
+    <string name="residental">Residental</string>
+    <string name="commercial">Commercial</string>
+    <string name="bill">Bill</string>
+    <string name="appliances">Appliances</string>
     <string name="on_grid">On-Grid</string>
     <string name="off_grid">Off-Grid</string>
+    <string name="billing_amount">Billing Amount (₺)</string>
+    <string name="total_power_consumption">Total Power Consumption (kW)</string>
     <string name="save_appliances">Are you sure to add the appliance(s)?</string>
     <string name="appliances_list">Appliances List</string>
     <string name="no_appliance">Please add at least one appliance to continue.</string>
@@ -57,4 +66,7 @@
     <string name="fridge_saver_text">Make sure your refrigerator is set on the optimal temperature and reconsider that extra fridge in the garage.</string>
     <string name="lights_consumption_text">Individual incandescent light bulbs don’t use that much electricity, comparatively speaking, but costs can add up quick. Many light fixtures use more than one bulb and it’s easy to leave lights on throughout your house when you’re not using them. Ten light bulbs use 6 cents an hour. If you use those bulbs for 6 hours a day, it’ll cost you 36 cents a day or about $10 a month. That may not sound like a lot, but $120 a year for lights that you may not be using all the time does.</string>
     <string name="lights_saver_text">Upgrade to energy-efficient CFLs or LEDs when your incandescent bulbs expire. And don’t forget to turn off the lights when you’re not using them.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

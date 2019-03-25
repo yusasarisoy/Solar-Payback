@@ -57,7 +57,7 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
                     double hours = Double.parseDouble(viewHolder.appliance_hours.getText().toString());
                     final double power_consumption = quantity * watts * hours;
 
-                    showSnackbar(view, selectedAppliance.getAppliance() + "'s daily power consumption is " + power_consumption + "kWh.");
+                    showSnackbar(view, selectedAppliance.getAppliance() + "'s daily power consumption is " + power_consumption + " kWh.");
                 }
             }
         });

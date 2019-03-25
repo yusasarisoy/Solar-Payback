@@ -7,9 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
-
-import com.google.android.libraries.places.api.Places;
-
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -20,23 +17,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -44,13 +35,13 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -59,12 +50,15 @@ import butterknife.BindView;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class FragmentMain extends Fragment {
-    @BindView(R.id.layout_main)
-    LinearLayout layout_main;
+public class FragmentBill extends Fragment {
+    @BindView(R.id.layout_bill)
+    LinearLayout layout_bill;
 
-    @BindView(R.id.recycler_view_appliance)
-    RecyclerView recycler_view_appliance;
+    @BindView(R.id.bill_payment)
+    EditText bill_payment;
+
+    @BindView(R.id.bill_power_consumption)
+    EditText bill_power_consumption;
 
     @BindView(R.id.button_sign_out)
     Button button_sign_out;
@@ -83,15 +77,10 @@ public class FragmentMain extends Fragment {
     private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
     private AppCompatDialog signOutDialog, locationDialog, appliancesDialog;
     private FirebaseAuth firebaseAuth;
-    private RecyclerViewAdapter adapter;
-    private TextView sure_to_add_appliance, appliances_list;
-    private ArrayList<Appliance> applianceList = new ArrayList<>();
-    public ArrayList<String> appliancesName = new ArrayList<>();
-    public ArrayList<Integer> appliancesImage = new ArrayList<>();
     View view;
 
-    public static FragmentMain newInstance(Object... objects) {
-        FragmentMain fragment = new FragmentMain();
+    public static FragmentBill newInstance(Object... objects) {
+        FragmentBill fragment = new FragmentBill();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -104,7 +93,7 @@ public class FragmentMain extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_bill, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -124,9 +113,7 @@ public class FragmentMain extends Fragment {
                 }
             }
         };
-
-//        Set adapter for Recycler View.
-        setAdapter();
+        
 
 //        Check current location.
         checkCurrentLocation();
@@ -134,17 +121,14 @@ public class FragmentMain extends Fragment {
 //        Detect location with button click.
         locationClick();
 
-//        Show list of appliances.
-        initAppliances();
-
-//        Activate or deactivate the appliance.
-        changeAppliances();
-
 //        Sign out.
         clickToSignOut();
 
 //        Check user's current location.
         locationClick();
+
+//        Continue to GridChoice.
+        continueToGridChoice();
 
         return view;
     }
@@ -241,6 +225,26 @@ public class FragmentMain extends Fragment {
         };
     }
 
+    private void continueToGridChoice() {
+        bill_payment = view.findViewById(R.id.bill_payment);
+        bill_power_consumption = view.findViewById(R.id.bill_power_consumption);
+        button_continue = view.findViewById(R.id.button_continue);
+
+        button_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!bill_payment.getText().toString().isEmpty() && !bill_power_consumption.getText().toString().isEmpty()) {
+                    FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
+                            .commit();
+                } else
+                    showSnackbar("Please makes sure to complete the missing parts.");
+            }
+        });
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -258,149 +262,6 @@ public class FragmentMain extends Fragment {
         if (authStateListener != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
-    }
-
-    public void initAppliances() {
-        recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
-
-        Appliance airConditioner = new Appliance(false, R.drawable.air_conditioner, "Air Conditioner");
-        applianceList.add(airConditioner);
-
-        Appliance bakery = new Appliance(false, R.drawable.bakery, "Bakery");
-        applianceList.add(bakery);
-
-        Appliance coffeeMachine = new Appliance(false, R.drawable.coffee_machine, "Coffee Machine");
-        applianceList.add(coffeeMachine);
-
-        Appliance computer = new Appliance(false, R.drawable.computer, "Computer");
-        applianceList.add(computer);
-
-        Appliance fridge = new Appliance(false, R.drawable.fridge, "Fridge");
-        applianceList.add(fridge);
-
-        Appliance hairDryer = new Appliance(false, R.drawable.hair_dryer, "Hair Dryer");
-        applianceList.add(hairDryer);
-
-        Appliance iron = new Appliance(false, R.drawable.iron, "Iron");
-        applianceList.add(iron);
-
-        Appliance lights = new Appliance(false, R.drawable.lights, "Lights");
-        applianceList.add(lights);
-
-        Appliance oven = new Appliance(false, R.drawable.oven, "Oven");
-        applianceList.add(oven);
-
-        Appliance smartphone = new Appliance(false, R.drawable.smartphone, "Smartphone");
-        applianceList.add(smartphone);
-
-        Appliance television = new Appliance(false, R.drawable.television, "Television");
-        applianceList.add(television);
-
-        Appliance vacuumCleaner = new Appliance(false, R.drawable.vacuum_cleaner, "Vacuum Cleaner");
-        applianceList.add(vacuumCleaner);
-
-        Appliance washingMachine = new Appliance(false, R.drawable.washing_machine, "Washing Machine");
-        applianceList.add(washingMachine);
-
-        Appliance waterHeater = new Appliance(false, R.drawable.water_heater, "Water Heater");
-        applianceList.add(waterHeater);
-
-        adapter.notifyDataSetChanged();
-    }
-
-    private void setAdapter() {
-        recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
-
-        adapter = new RecyclerViewAdapter(applianceList, getContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recycler_view_appliance.setLayoutManager(mLayoutManager);
-        recycler_view_appliance.setItemAnimator(new DefaultItemAnimator());
-        recycler_view_appliance.setAdapter(adapter);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.item_divider));
-        recycler_view_appliance.addItemDecoration(dividerItemDecoration);
-    }
-
-    private void changeAppliances() {
-        button_continue = view.findViewById(R.id.button_continue);
-        button_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.dialog_appliances);
-                appliancesDialog = reservationBuilder.create();
-                WindowManager.LayoutParams params = appliancesDialog.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.8);
-                params.height = (int) (height * 0.8);
-                appliancesDialog.getWindow().setAttributes(params);
-                appliancesDialog.show();
-
-                sure_to_add_appliance = appliancesDialog.findViewById(R.id.sure_to_add_appliance);
-                appliances_list = appliancesDialog.findViewById(R.id.appliances_list);
-                cancel_appliances = appliancesDialog.findViewById(R.id.cancel_appliances);
-                confirm_appliances = appliancesDialog.findViewById(R.id.confirm_appliances);
-
-                String data = "";
-                applianceList = adapter.getData();
-
-                for (int i = 0; i < applianceList.size(); i++) {
-                    Appliance appliance = applianceList.get(i);
-                    if (appliance.isCheck()) {
-                        data += "\n" + appliance.getAppliance();
-                        appliancesName.add(appliance.getAppliance());
-                        appliancesImage.add(appliance.getImageResource());
-                    }
-                }
-
-                if (data.equals("")) {
-                    sure_to_add_appliance.setText(R.string.no_appliance);
-                    cancel_appliances.setText(R.string.back);
-                    confirm_appliances.setVisibility(View.GONE);
-                    appliances_list.setVisibility(View.GONE);
-                } else
-                    appliances_list.setText(data);
-
-                cancel_appliances.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        appliancesDialog.dismiss();
-                    }
-                });
-
-                confirm_appliances.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        appliancesDialog.dismiss();
-
-                        // Display the progress during 1 second.
-                        countDownTimer = new CountDownTimer(1000, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                countDownTimer.cancel();
-
-                                FragmentAppliances fragmentAppliances = new FragmentAppliances();
-                                Bundle bundle = new Bundle();
-                                bundle.putStringArrayList("AppliancesName", appliancesName);
-                                bundle.putIntegerArrayList("AppliancesImage", appliancesImage);
-                                fragmentAppliances.setArguments(bundle);
-                                getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
-                                        .commit();
-                            }
-                        }.start();
-                    }
-                });
-            }
-        });
     }
 
     public void checkCurrentLocation() {
@@ -534,9 +395,9 @@ public class FragmentMain extends Fragment {
     }
 
     public void showSnackbar(String text) {
-        layout_main = view.findViewById(R.id.layout_main);
+        layout_bill = view.findViewById(R.id.layout_bill);
 
-        Snackbar snackbar = Snackbar.make(layout_main, text, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(layout_bill, text, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);

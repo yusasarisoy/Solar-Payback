@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_bill"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context=".FragmentBill">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/solar_energy" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/transparent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/proxima_nova"
+            android:text="@string/app_name"
+            android:textColor="@color/core_white"
+            android:textSize="25sp"
+            tools:ignore="UnusedAttribute" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/dark_slate_gray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/proxima_nova"
+        android:gravity="center"
+        android:text="@string/complete_bill"
+        android:textColor="@color/core_white"
+        android:textSize="18sp"
+        tools:ignore="UnusedAttribute" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/dark_slate_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:text="@string/billing_amount"
+                android:textColor="@color/core_white"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute" />
+
+            <EditText
+                android:id="@+id/bill_payment"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/white_background"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:textColor="@color/core_black"
+                android:textSize="23sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="123" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/transparent" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:text="@string/total_power_consumption"
+                android:textColor="@color/core_white"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute" />
+
+            <EditText
+                android:id="@+id/bill_power_consumption"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/white_background"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:textColor="@color/core_black"
+                android:textSize="23sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="256" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_sign_out"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/proxima_nova"
+                android:text="@string/sign_out"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_location"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/location"
+                android:fontFamily="@font/proxima_nova"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_continue"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/proxima_nova"
+                android:text="@string/continueTo"
+                android:textColor="@color/green"
+                android:textSize="18sp"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
