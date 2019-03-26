@@ -30,6 +30,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="search">Search</string>
+    <string name="detect">Detect</string>
     <string name="find_your_account">Find your Solar Home System account</string>
     <string name="enter_your_mail">Enter your email to reset your password.</string>
     <string name="reset_password">Reset password</string>
@@ -53,7 +55,9 @@
     <string name="watts">Watts</string>
     <string name="quantity">Quantity</string>
     <string name="hours">Hours</string>
+    <string name="location_type">Location type</string>
     <string name="find_a_location">Find a location</string>
+    <string name="select_or_detect">Please make your location choice.\nDetect or Select</string>
     <string name="select_a_location">Please select a location where you want to display the solar irradiance data.</string>
     <string name="overview">Overview</string>
     <string name="power_consumption">Power Consumption</string>
@@ -66,7 +70,4 @@
     <string name="fridge_saver_text">Make sure your refrigerator is set on the optimal temperature and reconsider that extra fridge in the garage.</string>
     <string name="lights_consumption_text">Individual incandescent light bulbs don’t use that much electricity, comparatively speaking, but costs can add up quick. Many light fixtures use more than one bulb and it’s easy to leave lights on throughout your house when you’re not using them. Ten light bulbs use 6 cents an hour. If you use those bulbs for 6 hours a day, it’ll cost you 36 cents a day or about $10 a month. That may not sound like a lot, but $120 a year for lights that you may not be using all the time does.</string>
     <string name="lights_saver_text">Upgrade to energy-efficient CFLs or LEDs when your incandescent bulbs expire. And don’t forget to turn off the lights when you’re not using them.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

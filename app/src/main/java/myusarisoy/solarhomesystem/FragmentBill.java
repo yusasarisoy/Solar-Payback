@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
@@ -66,6 +67,12 @@ public class FragmentBill extends Fragment {
     @BindView(R.id.button_location)
     Button button_location;
 
+    @BindView(R.id.layout_detect)
+    LinearLayout layout_detect;
+
+    @BindView(R.id.layout_search)
+    LinearLayout layout_search;
+
     @BindView(R.id.button_continue)
     Button button_continue;
 
@@ -75,7 +82,7 @@ public class FragmentBill extends Fragment {
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
-    private AppCompatDialog signOutDialog, locationDialog, appliancesDialog;
+    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog;
     private FirebaseAuth firebaseAuth;
     View view;
 
@@ -284,7 +291,7 @@ public class FragmentBill extends Fragment {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.pop_up_location);
+                reservationBuilder.setView(R.layout.dialog_location);
                 locationDialog = reservationBuilder.create();
                 final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
                 DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -296,60 +303,90 @@ public class FragmentBill extends Fragment {
                 locationDialog.getWindow().setAttributes(params);
                 locationDialog.show();
 
-                AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+                layout_detect = locationDialog.findViewById(R.id.layout_detect);
+                layout_search = locationDialog.findViewById(R.id.layout_search);
 
-                autocompleteFragment.setPlaceFields(Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG));
-
-                autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                    @Override
-                    public void onPlaceSelected(@NonNull com.google.android.libraries.places.api.model.Place place) {
-                        location = place.getName();
-                        Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
-                    }
-
-                    @Override
-                    public void onError(@NonNull Status status) {
-                        Log.i("LOCATION", "An error occurred: " + status);
-                    }
-                });
-
-                cancel_location = locationDialog.findViewById(R.id.cancel_location);
-                confirm_location = locationDialog.findViewById(R.id.confirm_location);
-
-                cancel_location.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        locationDialog.dismiss();
-                    }
-                });
-
-                confirm_location.setOnClickListener(new View.OnClickListener() {
+                layout_detect.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         locationDialog.dismiss();
 
-                        countDownTimer = new CountDownTimer(500, 250) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                countDownTimer.cancel();
-                                showSnackbar("Selected location is " + location + ".");
-                            }
-                        }.start();
+                        if (Build.VERSION.SDK_INT >= 23) {
+                            if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                Log.d("LOCATION", "Not granted");
+                                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                            } else
+                                requestLocation();
+                        } else
+                            requestLocation();
                     }
                 });
 
-//                if (Build.VERSION.SDK_INT >= 23) {
-//                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                        Log.d("LOCATION", "Not granted");
-//                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//                    } else
-//                        requestLocation();
-//                } else
-//                    requestLocation();
+                layout_search.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        locationDialog.dismiss();
+
+                        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                        reservationBuilder.setView(R.layout.pop_up_location);
+                        searchLocationDialog = reservationBuilder.create();
+                        final WindowManager.LayoutParams params =  searchLocationDialog.getWindow().getAttributes();
+                        DisplayMetrics displayMetrics = new DisplayMetrics();
+                        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                        int width = displayMetrics.widthPixels;
+                        int height = displayMetrics.heightPixels;
+                        params.width = (int) (width * 0.8);
+                        params.height = (int) (height * 0.8);
+                        searchLocationDialog.getWindow().setAttributes(params);
+                        searchLocationDialog.show();
+
+                        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+                        autocompleteFragment.setPlaceFields(Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG));
+
+                        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                            @Override
+                            public void onPlaceSelected(@NonNull com.google.android.libraries.places.api.model.Place place) {
+                                location = place.getName();
+                                Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
+                            }
+
+                            @Override
+                            public void onError(@NonNull Status status) {
+                                Log.i("LOCATION", "An error occurred: " + status);
+                            }
+                        });
+
+                        cancel_location =  searchLocationDialog.findViewById(R.id.cancel_location);
+                        confirm_location =  searchLocationDialog .findViewById(R.id.confirm_location);
+
+                        cancel_location.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                searchLocationDialog.dismiss();
+                            }
+                        });
+
+                        confirm_location.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                searchLocationDialog.dismiss();
+
+                                countDownTimer = new CountDownTimer(500, 250) {
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        countDownTimer.cancel();
+                                        showSnackbar("Selected location is " + location + ".");
+                                    }
+                                }.start();
+                            }
+                        });
+                    }
+                });
             }
         });
     }

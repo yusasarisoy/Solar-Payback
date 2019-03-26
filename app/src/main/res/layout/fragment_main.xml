@@ -111,7 +111,7 @@
                 android:id="@+id/button_location"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/location"
+                android:background="@drawable/map"
                 android:fontFamily="@font/proxima_nova"
                 tools:ignore="UnusedAttribute" />
 
