@@ -43,6 +43,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -55,8 +56,23 @@ public class FragmentBill extends Fragment {
     @BindView(R.id.layout_bill)
     LinearLayout layout_bill;
 
+    @BindView(R.id.app_name)
+    TextView app_name;
+
+    @BindView(R.id.bill_desc)
+    TextView bill_desc;
+
+    @BindView(R.id.bill_months)
+    TextView bill_months;
+
+    @BindView(R.id.text_payment)
+    TextView text_payment;
+
     @BindView(R.id.bill_payment)
     EditText bill_payment;
+
+    @BindView(R.id.text_power_consumption)
+    TextView text_power_consumption;
 
     @BindView(R.id.bill_power_consumption)
     EditText bill_power_consumption;
@@ -73,17 +89,22 @@ public class FragmentBill extends Fragment {
     @BindView(R.id.layout_search)
     LinearLayout layout_search;
 
+    @BindView(R.id.button_next)
+    Button button_next;
+
     @BindView(R.id.button_continue)
     Button button_continue;
 
     private LocationManager locationManager;
     private String location = "";
     private CountDownTimer countDownTimer;
-    private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
-    private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
+    private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location;
     private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog;
     private FirebaseAuth firebaseAuth;
+    private ArrayList<String> months = new ArrayList<>();
+    String paymentData = "", powerConsumptionData = "";
+    int monthIncrementer = 0;
     View view;
 
     public static FragmentBill newInstance(Object... objects) {
@@ -120,7 +141,18 @@ public class FragmentBill extends Fragment {
                 }
             }
         };
-        
+
+//        Make text white.
+        makeTextWhite();
+
+//        Make text black.
+        makeTextBlack();
+
+//        Add months to ArrayList.
+        addMonths();
+
+//        Check months.
+        checkMonths();
 
 //        Check current location.
         checkCurrentLocation();
@@ -138,6 +170,59 @@ public class FragmentBill extends Fragment {
         continueToGridChoice();
 
         return view;
+    }
+
+    private void addMonths() {
+        months.add("January");
+        months.add("February");
+        months.add("March");
+        months.add("April");
+        months.add("May");
+        months.add("June");
+        months.add("July");
+        months.add("August");
+        months.add("September");
+        months.add("October");
+        months.add("November");
+        months.add("December");
+    }
+
+    private void checkMonths() {
+        bill_months = view.findViewById(R.id.bill_months);
+        bill_payment = view.findViewById(R.id.bill_payment);
+        bill_power_consumption = view.findViewById(R.id.bill_power_consumption);
+        button_next = view.findViewById(R.id.button_next);
+        button_continue = view.findViewById(R.id.button_continue);
+
+        bill_months.setText(months.get(monthIncrementer));
+
+        button_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bill_months.setText(months.get(monthIncrementer += 1));
+                paymentData += bill_payment.getText().toString() + "\n";
+                powerConsumptionData = bill_power_consumption.getText().toString() + "\n";
+
+                bill_payment.getText().clear();
+                bill_power_consumption.getText().clear();
+
+                if (months.get(monthIncrementer).equals("March")) {
+                    layout_bill.setBackgroundResource(R.drawable.spring);
+                    makeTextBlack();
+                } else if (months.get(monthIncrementer).equals("June")) {
+                    layout_bill.setBackgroundResource(R.drawable.summer);
+                    makeTextWhite();
+                } else if (months.get(monthIncrementer).equals("September")) {
+                    layout_bill.setBackgroundResource(R.drawable.autumn);
+                    makeTextWhite();
+                } else if (months.get(monthIncrementer).equals("December")) {
+                    layout_bill.setBackgroundResource(R.drawable.winter);
+                    makeTextBlack();
+                    button_next.setVisibility(View.GONE);
+                    button_continue.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setDataToView(FirebaseUser user) {
@@ -330,7 +415,7 @@ public class FragmentBill extends Fragment {
                         android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
                         reservationBuilder.setView(R.layout.pop_up_location);
                         searchLocationDialog = reservationBuilder.create();
-                        final WindowManager.LayoutParams params =  searchLocationDialog.getWindow().getAttributes();
+                        final WindowManager.LayoutParams params = searchLocationDialog.getWindow().getAttributes();
                         DisplayMetrics displayMetrics = new DisplayMetrics();
                         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
                         int width = displayMetrics.widthPixels;
@@ -357,8 +442,8 @@ public class FragmentBill extends Fragment {
                             }
                         });
 
-                        cancel_location =  searchLocationDialog.findViewById(R.id.cancel_location);
-                        confirm_location =  searchLocationDialog .findViewById(R.id.confirm_location);
+                        cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
+                        confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
 
                         cancel_location.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -422,13 +507,43 @@ public class FragmentBill extends Fragment {
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             showSnackbar("We are trying to detect your location...");
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+            FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             mFusedLocationClient.requestLocationUpdates(locationRequest,
                     mLocationCallback, Looper.myLooper());
         }
+    }
+
+    private void makeTextWhite() {
+        layout_bill = view.findViewById(R.id.layout_bill);
+        app_name = view.findViewById(R.id.app_name);
+        bill_desc = view.findViewById(R.id.bill_desc);
+        bill_months = view.findViewById(R.id.bill_months);
+        text_payment = view.findViewById(R.id.text_payment);
+        text_power_consumption = view.findViewById(R.id.text_power_consumption);
+
+        app_name.setTextColor(getResources().getColor(R.color.core_white));
+        bill_desc.setTextColor(getResources().getColor(R.color.core_white));
+        bill_months.setTextColor(getResources().getColor(R.color.core_white));
+        text_payment.setTextColor(getResources().getColor(R.color.core_white));
+        text_power_consumption.setTextColor(getResources().getColor(R.color.core_white));
+    }
+
+    private void makeTextBlack() {
+        layout_bill = view.findViewById(R.id.layout_bill);
+        app_name = view.findViewById(R.id.app_name);
+        bill_desc = view.findViewById(R.id.bill_desc);
+        bill_months = view.findViewById(R.id.bill_months);
+        text_payment = view.findViewById(R.id.text_payment);
+        text_power_consumption = view.findViewById(R.id.text_power_consumption);
+
+        app_name.setTextColor(getResources().getColor(R.color.core_black));
+        bill_desc.setTextColor(getResources().getColor(R.color.core_black));
+        bill_months.setTextColor(getResources().getColor(R.color.core_black));
+        text_payment.setTextColor(getResources().getColor(R.color.core_black));
+        text_power_consumption.setTextColor(getResources().getColor(R.color.core_black));
     }
 
     public void showSnackbar(String text) {

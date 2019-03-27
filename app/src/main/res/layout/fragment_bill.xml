@@ -4,7 +4,7 @@
     android:id="@+id/layout_bill"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/winter"
     android:orientation="vertical"
     android:padding="30dp"
     tools:context=".FragmentBill">
@@ -31,12 +31,13 @@
             android:background="@color/transparent" />
 
         <TextView
+            android:id="@+id/app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:text="@string/app_name"
-            android:textColor="@color/core_white"
+            android:textColor="@color/core_black"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
 
@@ -50,13 +51,14 @@
         android:background="@color/dark_slate_gray" />
 
     <TextView
+        android:id="@+id/bill_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
         android:text="@string/complete_bill"
-        android:textColor="@color/core_white"
+        android:textColor="@color/core_black"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
 
@@ -80,13 +82,28 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/bill_months"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="50sp"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/core_black"
+                android:textSize="25sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="January" />
+
+            <TextView
+                android:id="@+id/text_payment"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/billing_amount"
-                android:textColor="@color/core_white"
+                android:textColor="@color/core_black"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -122,13 +139,14 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/text_power_consumption"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/total_power_consumption"
-                android:textColor="@color/core_white"
+                android:textColor="@color/core_black"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -202,6 +220,17 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/button_next"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/proxima_nova"
+                android:text="@string/next"
+                android:textColor="@color/orange"
+                android:textSize="18sp"
+                tools:ignore="UnusedAttribute" />
+
+            <Button
                 android:id="@+id/button_continue"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
@@ -210,6 +239,7 @@
                 android:text="@string/continueTo"
                 android:textColor="@color/green"
                 android:textSize="18sp"
+                android:visibility="gone"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
