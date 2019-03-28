@@ -1,5 +1,6 @@
 package myusarisoy.solarhomesystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -42,8 +43,11 @@ public class FragmentOverview extends Fragment {
     @BindView(R.id.recycler_view_energy_saver_tips)
     RecyclerView recyclerViewEnergySaverTips;
 
-    AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips;
-    Button ok_power_consumption, ok_energy_saver_tips;
+    @BindView(R.id.image_view_main_page)
+    ImageView main_page;
+
+    AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page;
+    Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page;
     private RecyclerViewOverviewAdapter adapter;
     private RecyclerViewPowerConsumptionAdapter adapterPowerConsumption;
     private RecyclerViewEnergySaverTipsAdapter adapterEnergySaverTips;
@@ -73,6 +77,8 @@ public class FragmentOverview extends Fragment {
 
         showConsumption();
         showTips();
+
+        gotoMainPage();
 
         return view;
     }
@@ -236,6 +242,48 @@ public class FragmentOverview extends Fragment {
                     @Override
                     public void onClick(View v) {
                         dialog_energy_saver_tips.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
+    private void gotoMainPage() {
+        main_page = view.findViewById(R.id.image_view_main_page);
+        main_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.layout_goto_main_page);
+                dialog_main_page = reservationBuilder.create();
+                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.9);
+                params.height = (int) (height * 0.9);
+                dialog_main_page.getWindow().setAttributes(params);
+                dialog_main_page.show();
+
+                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
+                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
+
+                no_main_page.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_main_page.dismiss();
+                    }
+                });
+
+                yes_main_page.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_main_page.dismiss();
+
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }
                 });
             }
