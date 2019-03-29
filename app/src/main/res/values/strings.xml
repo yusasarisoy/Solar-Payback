@@ -60,7 +60,11 @@
     <string name="select_or_detect">Please make your location choice.\nDetect or Select</string>
     <string name="select_a_location">Please select a location where you want to display the solar irradiance data.</string>
     <string name="overview">Overview</string>
+    <string name="monthly_overview">Monthly Overview</string>
+    <string name="month">Month</string>
+    <string name="payment">Payment</string>
     <string name="power_consumption">Power Consumption</string>
+    <string name="power_consumption_2">Consumption</string>
     <string name="energy_saver_tips">Energy Saver Tips</string>
     <string name="air_conditioner_consumption_text">If your house has electric heat, you’ll see a big spike on your electricity bill in the middle of winter when you use a lot of power. If you have a heat pump and use it a lot, you may run it somewhere between 10 and 15 hours a day. If your electricity costs 10 cents an hour, that could cost you $15 to $22 a day. The same applies to homes with central air conditioning in the middle of summer.</string>
     <string name="air_conditioner_saver_text">Install a programmable thermostat and set it back at least 10 degrees for eight hours a day. Doing so can save you 10 percent on your energy costs every year, according to the U.S. Department of Energy.</string>
@@ -72,4 +76,7 @@
     <string name="lights_saver_text">Upgrade to energy-efficient CFLs or LEDs when your incandescent bulbs expire. And don’t forget to turn off the lights when you’re not using them.</string>
     <string name="goto_main_page">Go to main page</string>
     <string name="go_back_main_page">Are you sure to go back to main page? All data will be deleted.</string>
+    <string name="panel_choice">Please choose a panel you want to use.</string>
+    <string name="panel_1">Monocrystalline Solar Panel\n(330 W)</string>
+    <string name="panel_2">Polycrystalline Solar Panel\n(250 W)</string>
 </resources>

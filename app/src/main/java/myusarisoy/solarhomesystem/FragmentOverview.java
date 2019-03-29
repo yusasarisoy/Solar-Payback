@@ -43,8 +43,11 @@ public class FragmentOverview extends Fragment {
     @BindView(R.id.recycler_view_energy_saver_tips)
     RecyclerView recyclerViewEnergySaverTips;
 
-    @BindView(R.id.image_view_main_page)
-    ImageView main_page;
+    @BindView(R.id.button_next)
+    Button button_next;
+
+//    @BindView(R.id.image_view_main_page)
+//    ImageView main_page;
 
     AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page;
     Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page;
@@ -54,11 +57,17 @@ public class FragmentOverview extends Fragment {
     private ArrayList<ApplianceOverview> applianceOverview = new ArrayList<>();
     private ArrayList<AppliancePowerConsumption> appliancePowerConsumptions = new ArrayList<>();
     private ArrayList<ApplianceEnergySaverTips> applianceEnergySaverTips = new ArrayList<>();
+    public ArrayList<String> monthName = new ArrayList<>();
+    public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
+    public ArrayList<Integer> monthPayment = new ArrayList<>();
     View view;
 
     public static FragmentOverview newInstance(Object... objects) {
         FragmentOverview fragment = new FragmentOverview();
         Bundle args = new Bundle();
+        args.putStringArrayList("MonthName", (ArrayList<String>) objects[0]);
+        args.putIntegerArrayList("MonthPayment", (ArrayList<Integer>) objects[1]);
+        args.putIntegerArrayList("MonthPowerConsumption", (ArrayList<Integer>) objects[2]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,13 +81,19 @@ public class FragmentOverview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_overview, container, false);
 
+        monthName = getArguments().getStringArrayList("MonthName");
+        monthPayment = getArguments().getIntegerArrayList("MonthPayment");
+        monthPowerConsumption = getArguments().getIntegerArrayList("MonthPowerConsumption");
+
         setAdapter();
         initRecyclerView();
 
         showConsumption();
         showTips();
 
-        gotoMainPage();
+        gotoPanels();
+
+//        gotoMainPage();
 
         return view;
     }
@@ -86,19 +101,9 @@ public class FragmentOverview extends Fragment {
     public void initRecyclerView() {
         recyclerView = view.findViewById(R.id.recycler_view_overview);
 
-        ApplianceOverview coffeeMachine = new ApplianceOverview(R.drawable.coffee_machine, "Coffee Machine", 156);
-        applianceOverview.add(coffeeMachine);
-
-        ApplianceOverview computer = new ApplianceOverview(R.drawable.computer, "Computer", 120);
-        applianceOverview.add(computer);
-
-        ApplianceOverview lights = new ApplianceOverview(R.drawable.lights, "Lights", 76);
-        applianceOverview.add(lights);
-
-        for (int i = 0; i < applianceOverview.size(); i++) {
-            ApplianceOverview item = applianceOverview.get(i);
-            if (item.getPowerConsumption() > 150)
-                Toast.makeText(getContext(), item.getAppliance() + " consumed so much power last month!", Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < monthName.size(); i++) {
+            ApplianceOverview month = new ApplianceOverview(monthName.get(i), monthPayment.get(i), monthPowerConsumption.get(i));
+            applianceOverview.add(month);
         }
 
         adapter.notifyDataSetChanged();
@@ -248,45 +253,58 @@ public class FragmentOverview extends Fragment {
         });
     }
 
-    private void gotoMainPage() {
-        main_page = view.findViewById(R.id.image_view_main_page);
-        main_page.setOnClickListener(new View.OnClickListener() {
+    private void gotoPanels() {
+        button_next = view.findViewById(R.id.button_next);
+        button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.layout_goto_main_page);
-                dialog_main_page = reservationBuilder.create();
-                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.9);
-                params.height = (int) (height * 0.9);
-                dialog_main_page.getWindow().setAttributes(params);
-                dialog_main_page.show();
-
-                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
-                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
-
-                no_main_page.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_main_page.dismiss();
-                    }
-                });
-
-                yes_main_page.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_main_page.dismiss();
-
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
+                FragmentPanels fragmentPanels = new FragmentPanels();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
+                        .commit();
             }
         });
     }
+
+//    private void gotoMainPage() {
+//        main_page = view.findViewById(R.id.image_view_main_page);
+//        main_page.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+//                reservationBuilder.setView(R.layout.layout_goto_main_page);
+//                dialog_main_page = reservationBuilder.create();
+//                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
+//                DisplayMetrics displayMetrics = new DisplayMetrics();
+//                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//                int width = displayMetrics.widthPixels;
+//                int height = displayMetrics.heightPixels;
+//                params.width = (int) (width * 0.9);
+//                params.height = (int) (height * 0.9);
+//                dialog_main_page.getWindow().setAttributes(params);
+//                dialog_main_page.show();
+//
+//                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
+//                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
+//
+//                no_main_page.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog_main_page.dismiss();
+//                    }
+//                });
+//
+//                yes_main_page.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog_main_page.dismiss();
+//
+//                        Intent intent = new Intent(getContext(), MainActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                    }
+//                });
+//            }
+//        });
+//    }
 }

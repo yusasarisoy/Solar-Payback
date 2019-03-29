@@ -102,8 +102,9 @@ public class FragmentBill extends Fragment {
     private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location;
     private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog;
     private FirebaseAuth firebaseAuth;
-    private ArrayList<String> months = new ArrayList<>();
-    String paymentData = "", powerConsumptionData = "";
+    public ArrayList<String> monthName = new ArrayList<>();
+    public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
+    public ArrayList<Integer> monthPayment = new ArrayList<>();
     int monthIncrementer = 0;
     View view;
 
@@ -148,10 +149,10 @@ public class FragmentBill extends Fragment {
 //        Make text black.
         makeTextBlack();
 
-//        Add months to ArrayList.
+//        Add monthName to ArrayList.
         addMonths();
 
-//        Check months.
+//        Check monthName.
         checkMonths();
 
 //        Check current location.
@@ -173,18 +174,18 @@ public class FragmentBill extends Fragment {
     }
 
     private void addMonths() {
-        months.add("January");
-        months.add("February");
-        months.add("March");
-        months.add("April");
-        months.add("May");
-        months.add("June");
-        months.add("July");
-        months.add("August");
-        months.add("September");
-        months.add("October");
-        months.add("November");
-        months.add("December");
+        monthName.add("January");
+        monthName.add("February");
+        monthName.add("March");
+        monthName.add("April");
+        monthName.add("May");
+        monthName.add("June");
+        monthName.add("July");
+        monthName.add("August");
+        monthName.add("September");
+        monthName.add("October");
+        monthName.add("November");
+        monthName.add("December");
     }
 
     private void checkMonths() {
@@ -194,33 +195,37 @@ public class FragmentBill extends Fragment {
         button_next = view.findViewById(R.id.button_next);
         button_continue = view.findViewById(R.id.button_continue);
 
-        bill_months.setText(months.get(monthIncrementer));
+        bill_months.setText(monthName.get(monthIncrementer));
 
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bill_months.setText(months.get(monthIncrementer += 1));
-                paymentData += bill_payment.getText().toString() + "\n";
-                powerConsumptionData = bill_power_consumption.getText().toString() + "\n";
+                if (!bill_payment.getText().toString().isEmpty() && !bill_power_consumption.getText().toString().isEmpty()) {
+                    bill_months.setText(monthName.get(monthIncrementer += 1));
+                    monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
+                    monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
 
-                bill_payment.getText().clear();
-                bill_power_consumption.getText().clear();
+                    bill_payment.getText().clear();
+                    bill_power_consumption.getText().clear();
+                    bill_payment.requestFocus();
 
-                if (months.get(monthIncrementer).equals("March")) {
-                    layout_bill.setBackgroundResource(R.drawable.spring);
-                    makeTextBlack();
-                } else if (months.get(monthIncrementer).equals("June")) {
-                    layout_bill.setBackgroundResource(R.drawable.summer);
-                    makeTextWhite();
-                } else if (months.get(monthIncrementer).equals("September")) {
-                    layout_bill.setBackgroundResource(R.drawable.autumn);
-                    makeTextWhite();
-                } else if (months.get(monthIncrementer).equals("December")) {
-                    layout_bill.setBackgroundResource(R.drawable.winter);
-                    makeTextBlack();
-                    button_next.setVisibility(View.GONE);
-                    button_continue.setVisibility(View.VISIBLE);
-                }
+                    if (monthName.get(monthIncrementer).equals("March")) {
+                        layout_bill.setBackgroundResource(R.drawable.spring);
+                        makeTextBlack();
+                    } else if (monthName.get(monthIncrementer).equals("June")) {
+                        layout_bill.setBackgroundResource(R.drawable.summer);
+                        makeTextWhite();
+                    } else if (monthName.get(monthIncrementer).equals("September")) {
+                        layout_bill.setBackgroundResource(R.drawable.autumn);
+                        makeTextWhite();
+                    } else if (monthName.get(monthIncrementer).equals("December")) {
+                        layout_bill.setBackgroundResource(R.drawable.winter);
+                        makeTextBlack();
+                        button_next.setVisibility(View.GONE);
+                        button_continue.setVisibility(View.VISIBLE);
+                    }
+                } else
+                    showSnackbar("Please makes sure to complete the missing parts.");
             }
         });
     }
@@ -326,10 +331,22 @@ public class FragmentBill extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!bill_payment.getText().toString().isEmpty() && !bill_power_consumption.getText().toString().isEmpty()) {
+                    monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
+                    monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
+
                     FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("MonthName", monthName);
+                    bundle.putIntegerArrayList("MonthPayment", monthPayment);
+                    bundle.putIntegerArrayList("MonthPowerConsumption", monthPowerConsumption);
+                    fragmentGridChoice.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
                             .commit();
+
+                    Log.i("MONTH", monthName + "");
+                    Log.i("PAYMENT", monthPayment + "");
+                    Log.i("POWER_CONSUMPTION", monthPowerConsumption + "");
                 } else
                     showSnackbar("Please makes sure to complete the missing parts.");
             }

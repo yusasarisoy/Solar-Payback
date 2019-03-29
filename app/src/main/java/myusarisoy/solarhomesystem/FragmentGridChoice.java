@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -18,11 +19,17 @@ public class FragmentGridChoice extends Fragment {
     @BindView(R.id.img_off_grid)
     ImageView off_grid;
 
+    public ArrayList<String> monthName = new ArrayList<>();
+    public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
+    public ArrayList<Integer> monthPayment = new ArrayList<>();
     View view;
 
-    public static FragmentGridChoice newInstance(Objects... objects) {
+    public static FragmentGridChoice newInstance(Object... objects) {
         FragmentGridChoice fragment = new FragmentGridChoice();
         Bundle args = new Bundle();
+        args.putStringArrayList("MonthName", (ArrayList<String>) objects[0]);
+        args.putIntegerArrayList("MonthPayment", (ArrayList<Integer>) objects[1]);
+        args.putIntegerArrayList("MonthPowerConsumption", (ArrayList<Integer>) objects[2]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,6 +42,10 @@ public class FragmentGridChoice extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_grid_choice, container, false);
+
+        monthName = getArguments().getStringArrayList("MonthName");
+        monthPayment = getArguments().getIntegerArrayList("MonthPayment");
+        monthPowerConsumption = getArguments().getIntegerArrayList("MonthPowerConsumption");
 
 //        Grid choices.
         gridChoice();
@@ -60,6 +71,11 @@ public class FragmentGridChoice extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentOverview fragmentOverview = new FragmentOverview();
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("MonthName", monthName);
+                bundle.putIntegerArrayList("MonthPayment", monthPayment);
+                bundle.putIntegerArrayList("MonthPowerConsumption", monthPowerConsumption);
+                fragmentOverview.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
                         .commit();

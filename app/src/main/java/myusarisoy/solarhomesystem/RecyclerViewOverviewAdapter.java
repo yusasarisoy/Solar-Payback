@@ -40,10 +40,9 @@ public class RecyclerViewOverviewAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(@NonNull RecyclerViewOverviewAdapter.ViewHolder viewHolder, int position) {
         final ApplianceOverview applianceOverview = applianceOverviews.get(position);
 
-        viewHolder.imageView.setBackgroundResource(applianceOverview.getImageResource());
-        viewHolder.textViewAppliance.setText(applianceOverview.getAppliance());
-        viewHolder.textViewPowerConsumption.setText(applianceOverview.getPowerConsumption()+" kWh");
-        viewHolder.textViewPowerConsumption.setTextColor(getContext().getResources().getColor(R.color.red));
+        viewHolder.textViewMonth.setText(applianceOverview.getMonthName());
+        viewHolder.textViewPayment.setText(applianceOverview.getMonthPayment() + " ₺");
+        viewHolder.textViewPowerConsumption.setText(applianceOverview.getMonthPowerConsumption() + " kWh");
     }
 
     @Override
@@ -66,16 +65,12 @@ public class RecyclerViewOverviewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout linearLayout;
-        private ImageView imageView;
-        private TextView textViewAppliance, textViewPowerConsumption;
+        private TextView textViewMonth, textViewPayment, textViewPowerConsumption;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            linearLayout = itemView.findViewById(R.id.layout_item_appliance_power_consumption);
-            imageView = itemView.findViewById(R.id.image_view_appliance);
-            textViewAppliance = itemView.findViewById(R.id.item_appliance);
+            textViewMonth = itemView.findViewById(R.id.item_month);
+            textViewPayment = itemView.findViewById(R.id.item_payment);
             textViewPowerConsumption = itemView.findViewById(R.id.item_power_consumption);
         }
     }

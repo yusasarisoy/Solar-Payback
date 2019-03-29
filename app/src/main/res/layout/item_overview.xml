@@ -5,57 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="10dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/item_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_weight="0.8"
+        android:fontFamily="@font/proxima_nova"
+        android:gravity="start"
+        android:textColor="@color/core_white"
+        android:textSize="20sp"
+        tools:ignore="UnusedAttribute"
+        tools:text="January" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/transparent" />
+
+    <TextView
+        android:id="@+id/item_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:textColor="@color/core_white"
+        android:textSize="20sp"
+        tools:ignore="UnusedAttribute"
+        tools:text="50 ₺" />
 
-        <ImageView
-            android:id="@+id/image_view_appliance"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            tools:src="@drawable/fridge" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/transparent" />
 
-        <TextView
-            android:id="@+id/item_appliance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova"
-            android:gravity="center"
-            android:textColor="@color/core_white"
-            android:textSize="20sp"
-            tools:ignore="UnusedAttribute"
-            tools:text="Fridge" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@color/transparent" />
-
-        <TextView
-            android:id="@+id/item_power_consumption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="end"
-            android:fontFamily="@font/proxima_nova"
-            android:textColor="@color/red"
-            android:textSize="20sp"
-            tools:ignore="UnusedAttribute"
-            tools:text="216 kWh" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/item_power_consumption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/proxima_nova"
+        android:gravity="end"
+        android:textColor="@color/core_white"
+        android:textSize="20sp"
+        tools:ignore="UnusedAttribute"
+        tools:text="216 kWh" />
 
 </LinearLayout>
