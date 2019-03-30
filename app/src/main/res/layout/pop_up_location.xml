@@ -48,7 +48,7 @@
         android:layout_margin="10dp"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/select_a_location"
+        android:text="@string/select_a_city"
         android:textColor="@color/core_black"
         android:textSize="17sp"
         tools:ignore="UnusedAttribute" />

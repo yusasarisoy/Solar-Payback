@@ -58,7 +58,7 @@
     <string name="location_type">Location type</string>
     <string name="find_a_location">Find a location</string>
     <string name="select_or_detect">Please make your location choice.\nDetect or Select</string>
-    <string name="select_a_location">Please select a location where you want to display the solar irradiance data.</string>
+    <string name="select_a_city">Please select a city where you want to display the solar irradiance data.</string>
     <string name="overview">Overview</string>
     <string name="monthly_overview">Monthly Overview</string>
     <string name="month">Month</string>

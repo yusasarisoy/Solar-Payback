@@ -48,6 +48,9 @@ public class FragmentConsumer extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
+                Bundle bundle = new Bundle();
+                bundle.putString("consumer", "residental");
+                fragmentCalculationType.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
                         .commit();
@@ -58,6 +61,9 @@ public class FragmentConsumer extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
+                Bundle bundle = new Bundle();
+                bundle.putString("consumer", "commercial");
+                fragmentCalculationType.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
                         .commit();
