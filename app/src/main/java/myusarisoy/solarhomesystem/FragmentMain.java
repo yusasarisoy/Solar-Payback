@@ -591,7 +591,7 @@ public class FragmentMain extends Fragment {
         try {
             List<Address> addresses = geocoder.getFromLocation(myCoordinates.latitude, myCoordinates.longitude, 1);
             String address = addresses.get(0).getAddressLine(0);
-            myCity = addresses.get(0).getLocality();
+            myCity = addresses.get(0).getAdminArea();
             Log.d("mylog", "Complete Address: " + addresses.toString());
             Log.d("mylog", "Address: " + address);
         } catch (IOException e) {
@@ -627,9 +627,9 @@ public class FragmentMain extends Fragment {
                             solarIrradianceList.add(irradianceData);
 
                             if (cityList.get(i).equals(cityName))
-                                showSnackbar("City: " + city + "Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                showSnackbar("Current City: " + city + "Solar Irradiance Data: " + solarIrradianceList.get(i));
                             else
-                                showSnackbar("Current city is: " + cityName);
+                                showSnackbar("Current City: " + cityName);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

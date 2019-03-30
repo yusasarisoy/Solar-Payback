@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class FragmentAppliances extends Fragment {
     private CountDownTimer countDownTimer;
     private RecyclerViewApplianceAdapter adapter;
     private ArrayList<SelectedAppliance> selectedAppliancesList = new ArrayList<>();
+    private ArrayList<Integer> consumptionList = new ArrayList<>();
     private ArrayList<String> arrayListName = new ArrayList<>();
     private ArrayList<Integer> arrayListImage = new ArrayList<>();
     View view;
@@ -160,7 +162,15 @@ public class FragmentAppliances extends Fragment {
         button_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                consumptionList.addAll(adapter.getConsumptionList());
+
                 FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
+                Bundle bundle = new Bundle();
+                bundle.putString("choice", "appliance");
+                bundle.putStringArrayList("AppliancesName", arrayListName);
+                bundle.putIntegerArrayList("AppliancesImage", arrayListImage);
+                bundle.putIntegerArrayList("AppliancesConsumption", consumptionList);
+                fragmentGridChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
                         .commit();

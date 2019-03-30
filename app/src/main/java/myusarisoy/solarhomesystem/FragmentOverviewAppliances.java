@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class FragmentOverview extends Fragment {
-    @BindView(R.id.layout_overview)
+public class FragmentOverviewAppliances extends Fragment {
+    @BindView(R.id.layout_overview_appliances)
     LinearLayout linearLayout;
 
     @BindView(R.id.recycler_view_overview)
@@ -47,10 +47,10 @@ public class FragmentOverview extends Fragment {
 
     AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page;
     Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page;
-    private RecyclerViewOverviewAdapter adapter;
+    private RecyclerViewOverviewAppliancesAdapter adapter;
     private RecyclerViewPowerConsumptionAdapter adapterPowerConsumption;
     private RecyclerViewEnergySaverTipsAdapter adapterEnergySaverTips;
-    private ArrayList<ApplianceOverview> applianceOverview = new ArrayList<>();
+    private ArrayList<ApplianceOverviewItem> applianceOverview = new ArrayList<>();
     private ArrayList<AppliancePowerConsumption> appliancePowerConsumptions = new ArrayList<>();
     private ArrayList<ApplianceEnergySaverTips> applianceEnergySaverTips = new ArrayList<>();
     public ArrayList<String> stringArray = new ArrayList<>();
@@ -58,8 +58,8 @@ public class FragmentOverview extends Fragment {
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
     View view;
 
-    public static FragmentOverview newInstance(Object... objects) {
-        FragmentOverview fragment = new FragmentOverview();
+    public static FragmentOverviewAppliances newInstance(Object... objects) {
+        FragmentOverviewAppliances fragment = new FragmentOverviewAppliances();
         Bundle args = new Bundle();
         args.putStringArrayList("stringArray", (ArrayList<String>) objects[0]);
         args.putIntegerArrayList("integerArray", (ArrayList<Integer>) objects[1]);
@@ -75,8 +75,7 @@ public class FragmentOverview extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_overview, container, false);
-
+        view = inflater.inflate(R.layout.fragment_overview_appliances, container, false);
         stringArray = getArguments().getStringArrayList("stringArray");
         integerArray = getArguments().getIntegerArrayList("integerArray");
         integerArray2 = getArguments().getIntegerArrayList("integerArray2");
@@ -98,8 +97,8 @@ public class FragmentOverview extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_overview);
 
         for (int i = 0; i < stringArray.size(); i++) {
-            ApplianceOverview month = new ApplianceOverview(stringArray.get(i), integerArray.get(i), integerArray2.get(i));
-            applianceOverview.add(month);
+            ApplianceOverviewItem item = new ApplianceOverviewItem(integerArray.get(i), stringArray.get(i), integerArray2.get(i));
+            applianceOverview.add(item);
         }
 
         adapter.notifyDataSetChanged();
@@ -108,7 +107,7 @@ public class FragmentOverview extends Fragment {
     private void setAdapter() {
         recyclerView = view.findViewById(R.id.recycler_view_overview);
 
-        adapter = new RecyclerViewOverviewAdapter(applianceOverview, getContext());
+        adapter = new RecyclerViewOverviewAppliancesAdapter(applianceOverview, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

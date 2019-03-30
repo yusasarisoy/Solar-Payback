@@ -25,6 +25,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerViewApplianceAdapter.ViewHolder> {
     private ArrayList<SelectedAppliance> selectedAppliances;
+    private ArrayList<Integer> consumptionList = new ArrayList<>();
+    private ArrayList<String> applianceList = new ArrayList<>();
     private Context context;
 
     public RecyclerViewApplianceAdapter(ArrayList<SelectedAppliance> selectedAppliances, Context context) {
@@ -42,23 +44,60 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
         final SelectedAppliance selectedAppliance = selectedAppliances.get(position);
 
         viewHolder.imageView.setBackgroundResource(selectedAppliance.getImageResource());
         viewHolder.textView.setText(selectedAppliance.getAppliance());
 
-        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.appliance_quantity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View view) {
-                if (!viewHolder.appliance_quantity.getText().toString().isEmpty() && !viewHolder.appliance_watts.getText().toString().isEmpty() && !viewHolder.appliance_hours.getText().toString().isEmpty()) {
-                    int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
-                    double watts = Double.parseDouble(viewHolder.appliance_watts.getText().toString());
-                    double hours = Double.parseDouble(viewHolder.appliance_hours.getText().toString());
-                    final double power_consumption = quantity * watts * hours;
-
-                    showSnackbar(view, selectedAppliance.getAppliance() + "'s daily power consumption is " + power_consumption + " kWh.");
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if ((keyEvent != null && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_NEXT)) {
+                    if (!viewHolder.appliance_quantity.getText().toString().isEmpty() && !viewHolder.appliance_watts.getText().toString().isEmpty() && !viewHolder.appliance_hours.getText().toString().isEmpty()) {
+                        int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
+                        int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
+                        int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
+                        final int power_consumption = quantity * watts * hours;
+                        applianceList.add(selectedAppliance.getAppliance());
+                        consumptionList.add(power_consumption);
+                    }
                 }
+                return false;
+            }
+        });
+
+        viewHolder.appliance_watts.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if ((keyEvent != null && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_NEXT)) {
+                    if (!viewHolder.appliance_quantity.getText().toString().isEmpty() && !viewHolder.appliance_watts.getText().toString().isEmpty() && !viewHolder.appliance_hours.getText().toString().isEmpty()) {
+                        int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
+                        int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
+                        int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
+                        final int power_consumption = quantity * watts * hours;
+                        applianceList.add(selectedAppliance.getAppliance());
+                        consumptionList.add(power_consumption);
+                    }
+                }
+                return false;
+            }
+        });
+
+        viewHolder.appliance_hours.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if ((keyEvent != null && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
+                    if (!viewHolder.appliance_quantity.getText().toString().isEmpty() && !viewHolder.appliance_watts.getText().toString().isEmpty() && !viewHolder.appliance_hours.getText().toString().isEmpty()) {
+                        int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
+                        int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
+                        int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
+                        final int power_consumption = quantity * watts * hours;
+                        applianceList.add(selectedAppliance.getAppliance());
+                        consumptionList.add(power_consumption);
+                    }
+                }
+                return false;
             }
         });
     }

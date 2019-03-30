@@ -19,17 +19,18 @@ public class FragmentGridChoice extends Fragment {
     @BindView(R.id.img_off_grid)
     ImageView off_grid;
 
-    public ArrayList<String> monthName = new ArrayList<>();
-    public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
-    public ArrayList<Integer> monthPayment = new ArrayList<>();
+    public ArrayList<String> stringArray = new ArrayList<>();
+    public ArrayList<Integer> integerArray = new ArrayList<>();
+    public ArrayList<Integer> integerArray2 = new ArrayList<>();
     View view;
 
     public static FragmentGridChoice newInstance(Object... objects) {
         FragmentGridChoice fragment = new FragmentGridChoice();
         Bundle args = new Bundle();
-        args.putStringArrayList("MonthName", (ArrayList<String>) objects[0]);
-        args.putIntegerArrayList("MonthPayment", (ArrayList<Integer>) objects[1]);
-        args.putIntegerArrayList("MonthPowerConsumption", (ArrayList<Integer>) objects[2]);
+        args.putString("choice", (String) objects[0]);
+        args.putStringArrayList("stringArray", (ArrayList<String>) objects[1]);
+        args.putIntegerArrayList("integerArray", (ArrayList<Integer>) objects[2]);
+        args.putIntegerArrayList("integerArray2", (ArrayList<Integer>) objects[3]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,9 +44,15 @@ public class FragmentGridChoice extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_grid_choice, container, false);
 
-        monthName = getArguments().getStringArrayList("MonthName");
-        monthPayment = getArguments().getIntegerArrayList("MonthPayment");
-        monthPowerConsumption = getArguments().getIntegerArrayList("MonthPowerConsumption");
+        if (getArguments().getString("choice").equals("bill")) {
+            stringArray = getArguments().getStringArrayList("MonthName");
+            integerArray = getArguments().getIntegerArrayList("MonthPayment");
+            integerArray2 = getArguments().getIntegerArrayList("MonthPowerConsumption");
+        } else if (getArguments().getString("choice").equals("appliance")) {
+            stringArray = getArguments().getStringArrayList("AppliancesName");
+            integerArray = getArguments().getIntegerArrayList("AppliancesImage");
+            integerArray2 = getArguments().getIntegerArrayList("AppliancesConsumption");
+        }
 
 //        Grid choices.
         gridChoice();
@@ -70,15 +77,27 @@ public class FragmentGridChoice extends Fragment {
         off_grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentOverview fragmentOverview = new FragmentOverview();
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("MonthName", monthName);
-                bundle.putIntegerArrayList("MonthPayment", monthPayment);
-                bundle.putIntegerArrayList("MonthPowerConsumption", monthPowerConsumption);
-                fragmentOverview.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
-                        .commit();
+                if (getArguments().getString("choice").equals("bill")) {
+                    FragmentOverview fragmentOverview = new FragmentOverview();
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("stringArray", stringArray);
+                    bundle.putIntegerArrayList("integerArray", integerArray);
+                    bundle.putIntegerArrayList("integerArray2", integerArray2);
+                    fragmentOverview.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
+                            .commit();
+                } else if (getArguments().getString("choice").equals("appliance")) {
+                    FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("stringArray", stringArray);
+                    bundle.putIntegerArrayList("integerArray", integerArray);
+                    bundle.putIntegerArrayList("integerArray2", integerArray2);
+                    fragmentOverviewAppliances.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
+                            .commit();
+                }
             }
         });
     }

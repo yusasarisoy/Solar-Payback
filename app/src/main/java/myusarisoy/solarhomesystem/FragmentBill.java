@@ -362,6 +362,7 @@ public class FragmentBill extends Fragment {
 
                     FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
                     Bundle bundle = new Bundle();
+                    bundle.putString("choice", "bill");
                     bundle.putStringArrayList("MonthName", monthName);
                     bundle.putIntegerArrayList("MonthPayment", monthPayment);
                     bundle.putIntegerArrayList("MonthPowerConsumption", monthPowerConsumption);
@@ -408,7 +409,7 @@ public class FragmentBill extends Fragment {
                 Location mCurrentLocation = locationResult.getLastLocation();
                 LatLng myCoordinates = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                 String cityName = getCityName(myCoordinates);
-                showSnackbar("Current cityName is: " + cityName);
+                showSnackbar("Current city: " + cityName);
             }
         };
     }
@@ -554,9 +555,9 @@ public class FragmentBill extends Fragment {
         try {
             List<Address> addresses = geocoder.getFromLocation(myCoordinates.latitude, myCoordinates.longitude, 1);
             String address = addresses.get(0).getAddressLine(0);
-            myCity = addresses.get(0).getLocality();
-            Log.d("mylog", "Complete Address: " + addresses.toString());
-            Log.d("mylog", "Address: " + address);
+            myCity = addresses.get(0).getAdminArea();
+            Log.i("mylog", "Complete Address: " + addresses.toString());
+            Log.i("mylog", "Address: " + address);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -590,9 +591,9 @@ public class FragmentBill extends Fragment {
                             solarIrradianceList.add(irradianceData);
 
                             if (cityList.get(i).equals(cityName))
-                                showSnackbar("City: " + city + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                showSnackbar("Current City: " + city + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
                             else
-                                showSnackbar("Current city is: " + cityName);
+                                showSnackbar("Current City: " + cityName);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -609,7 +610,7 @@ public class FragmentBill extends Fragment {
             LocationRequest locationRequest = new LocationRequest();
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            showSnackbar("We are trying to detect your cityName...");
+            showSnackbar("We are trying to detect your location...");
             FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;

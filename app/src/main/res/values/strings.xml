@@ -38,6 +38,7 @@
     <string name="consumer_type">Please choose your consumer type.</string>
     <string name="calculation_type">Please choose your calculation type you want to use with.</string>
     <string name="complete_bill">Please complete the missing parts in the bill.</string>
+    <string name="complete_appliance">Please complete the missing parts of the appliance(s).</string>
     <string name="add_appliance">Please select appliance(s)\nyou want to calculate.</string>
     <string name="click_image">Please click image of an appliance to see its power consumption.</string>
     <string name="grid_choice">Please choose the scenario you want to use.</string>
@@ -60,6 +61,7 @@
     <string name="select_or_detect">Please make your location choice.\nDetect or Select</string>
     <string name="select_a_city">Please select a city where you want to display the solar irradiance data.</string>
     <string name="overview">Overview</string>
+    <string name="appliance_overview">Appliance Overview</string>
     <string name="monthly_overview">Monthly Overview</string>
     <string name="month">Month</string>
     <string name="payment">Payment</string>
@@ -79,4 +81,7 @@
     <string name="panel_choice">Please choose a panel you want to use.</string>
     <string name="panel_1">Monocrystalline Solar Panel\n(330 W)</string>
     <string name="panel_2">Polycrystalline Solar Panel\n(250 W)</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
