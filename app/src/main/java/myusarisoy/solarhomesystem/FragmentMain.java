@@ -3,6 +3,7 @@ package myusarisoy.solarhomesystem;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -37,11 +38,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -95,6 +99,7 @@ public class FragmentMain extends Fragment {
     @BindView(R.id.button_continue)
     Button button_continue;
 
+    Context context;
     private LocationManager locationManager;
     private CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -103,14 +108,18 @@ public class FragmentMain extends Fragment {
     private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, appliancesDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
+    private LinearLayout layout_location;
+    private ImageView locationPicker;
+    private Spinner locationSpinner;
     private TextView sure_to_add_appliance, appliances_list;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
     public ArrayList<String> appliancesName = new ArrayList<>();
     public ArrayList<Integer> appliancesImage = new ArrayList<>();
     private ArrayList<String> cityList = new ArrayList<>();
+    public ArrayList<String> cityPostal = new ArrayList<>();
     private ArrayList<Double> solarIrradianceList = new ArrayList<>();
     double irradianceData;
-    String consumer, cityName = "", city = "";
+    String consumer, cityName = "", postalCode = "", city = "";
     private RequestQueue requestQueue;
     View view;
 
@@ -130,6 +139,8 @@ public class FragmentMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        context = container.getContext();
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -157,6 +168,38 @@ public class FragmentMain extends Fragment {
             icon.setImageResource(R.drawable.residental);
         else if (consumer.equals("commercial"))
             icon.setImageResource(R.drawable.commercial);
+
+        requestQueue = Volley.newRequestQueue(getContext());
+
+        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject cityObject = response.getJSONObject(i);
+                        city = cityObject.getString("city");
+                        irradianceData = cityObject.getDouble("solar_irradiance");
+                        postalCode = cityObject.getString("postal_code");
+                        cityList.add(city);
+                        cityPostal.add(postalCode);
+                        solarIrradianceList.add(irradianceData);
+
+                        if (cityPostal.get(i).equals(cityName))
+                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("VOLLEY_ERROR", "" + error);
+            }
+        });
+        requestQueue.add(jsonArrayRequest);
 
 //        Set adapter for Recycler View.
         setAdapter();
@@ -444,8 +487,39 @@ public class FragmentMain extends Fragment {
                 super.onLocationResult(locationResult);
                 Location mCurrentLocation = locationResult.getLastLocation();
                 LatLng myCoordinates = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-                String cityName = getCityName(myCoordinates);
-                showSnackbar("Current location is: " + cityName);
+                cityName = getCityName(myCoordinates);
+
+                requestQueue = Volley.newRequestQueue(getContext());
+
+                String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject cityObject = response.getJSONObject(i);
+                                city = cityObject.getString("city");
+                                irradianceData = cityObject.getDouble("solar_irradiance");
+                                postalCode = cityObject.getString("postal_code");
+                                cityList.add(city);
+                                cityPostal.add(postalCode);
+                                solarIrradianceList.add(irradianceData);
+
+                                if (cityList.get(i).equals(cityName))
+                                    showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("VOLLEY_ERROR", "" + error);
+                    }
+                });
+                requestQueue.add(jsonArrayRequest);
             }
         };
     }
@@ -505,25 +579,86 @@ public class FragmentMain extends Fragment {
                         searchLocationDialog.getWindow().setAttributes(params);
                         searchLocationDialog.show();
 
-                        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//                        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//
+//                        autocompleteFragment.setPlaceFields(Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG));
+//
+//                        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//                            @Override
+//                            public void onPlaceSelected(@NonNull com.google.android.libraries.places.api.model.Place place) {
+//                                cityName = place.getName();
+//                                Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
+//                            }
+//
+//                            @Override
+//                            public void onError(@NonNull Status status) {
+//                                Log.i("LOCATION", "An error occurred: " + status);
+//                            }
+//                        });
 
-                        autocompleteFragment.setPlaceFields(Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG));
+                        requestQueue = Volley.newRequestQueue(getContext());
 
-                        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+
+                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                             @Override
-                            public void onPlaceSelected(@NonNull com.google.android.libraries.places.api.model.Place place) {
-                                cityName = place.getName();
-                                Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
+                            public void onResponse(JSONArray response) {
+                                try {
+                                    for (int i = 0; i < response.length(); i++) {
+                                        JSONObject cityObject = response.getJSONObject(i);
+                                        city = cityObject.getString("city");
+                                        irradianceData = cityObject.getDouble("solar_irradiance");
+                                        postalCode = cityObject.getString("postal_code");
+                                        cityList.add(city);
+                                        cityPostal.add(postalCode);
+                                        solarIrradianceList.add(irradianceData);
+
+                                        if (cityPostal.get(i).equals(cityName))
+                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
-
+                        }, new Response.ErrorListener() {
                             @Override
-                            public void onError(@NonNull Status status) {
-                                Log.i("LOCATION", "An error occurred: " + status);
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("VOLLEY_ERROR", "" + error);
+                            }
+                        });
+                        requestQueue.add(jsonArrayRequest);
+
+                        layout_location = searchLocationDialog.findViewById(R.id.layout_location);
+                        locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
+                        locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
+                        cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
+                        confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
+
+                        locationPicker.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                locationSpinner.performClick();
                             }
                         });
 
-                        cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
-                        confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            locationSpinner.setPopupBackgroundResource(R.color.core_white);
+                        }
+                        ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, R.layout.spinner_item, cityList);
+                        locationSpinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
+                        locationSpinner.setAdapter(locationSpinnerAdapter);
+
+                        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                cityName = parent.getItemAtPosition(position).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
 
                         cancel_location.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -558,11 +693,13 @@ public class FragmentMain extends Fragment {
                                                         JSONObject cityObject = response.getJSONObject(i);
                                                         city = cityObject.getString("city");
                                                         irradianceData = cityObject.getDouble("solar_irradiance");
+                                                        postalCode = cityObject.getString("postal_code");
                                                         cityList.add(city);
+                                                        cityPostal.add(postalCode);
                                                         solarIrradianceList.add(irradianceData);
 
                                                         if (cityList.get(i).equals(cityName))
-                                                            showSnackbar("City: " + city + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
                                                     }
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
@@ -623,13 +760,13 @@ public class FragmentMain extends Fragment {
                             JSONObject cityObject = response.getJSONObject(i);
                             city = cityObject.getString("city");
                             irradianceData = cityObject.getDouble("solar_irradiance");
+                            postalCode = cityObject.getString("postal_code");
                             cityList.add(city);
+                            cityPostal.add(postalCode);
                             solarIrradianceList.add(irradianceData);
 
-                            if (cityList.get(i).equals(cityName))
-                                showSnackbar("Current City: " + city + "Solar Irradiance Data: " + solarIrradianceList.get(i));
-                            else
-                                showSnackbar("Current City: " + cityName);
+                            if (cityPostal.get(i).equals(cityName))
+                                showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

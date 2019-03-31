@@ -3,6 +3,8 @@
     <string name="user_name">Yuşa Sarısoy</string>
     <string name="user_mail">myusarisoy@gmail.com</string>
     <string name="save">SAVE</string>
+    <string name="tr">TR</string>
+    <string name="eng">ENG</string>
     <string name="create_an_account">Create an account for solar energy payback calculation.</string>
     <string name="create_account">Create account</string>
     <string name="have_an_account">Have an account? Log in</string>
@@ -16,7 +18,7 @@
     <string name="finish">Finish</string>
     <string name="back">Back</string>
     <string name="go_back">Go Back</string>
-    <string name="login_to">Log in to Solar Home System.</string>
+    <string name="login_to">Log in to Payback Calculation System.</string>
     <string name="login">Log in</string>
     <string name="complete_register">Complete register</string>
     <string name="complete">Complete</string>
@@ -32,7 +34,7 @@
     <string name="confirm">Confirm</string>
     <string name="search">Search</string>
     <string name="detect">Detect</string>
-    <string name="find_your_account">Find your Solar Home System account</string>
+    <string name="find_your_account">Find your Payback Calculation System account.</string>
     <string name="enter_your_mail">Enter your email to reset your password.</string>
     <string name="reset_password">Reset password</string>
     <string name="consumer_type">Please choose your consumer type.</string>
@@ -81,7 +83,4 @@
     <string name="panel_choice">Please choose a panel you want to use.</string>
     <string name="panel_1">Monocrystalline Solar Panel\n(330 W)</string>
     <string name="panel_2">Polycrystalline Solar Panel\n(250 W)</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

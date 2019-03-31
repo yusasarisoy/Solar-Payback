@@ -54,51 +54,84 @@
         tools:ignore="UnusedAttribute" />
 
     <LinearLayout
-        android:id="@+id/layout_back"
-        android:layout_width="match_parent"
+        android:id="@+id/layout_location"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:background="@drawable/smooth_corners"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <fragment
-            android:id="@+id/autocomplete_fragment"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/locationSpinner"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/transparent"
+            android:fontFamily="@font/proxima_nova"
+            android:gravity="start"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            tools:ignore="UnusedAttribute" />
 
-        <!--<AutoCompleteTextView-->
-        <!--android:id="@+id/autocomplete_location"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:backgroundTint="@color/transparent"-->
-        <!--android:fontFamily="@font/proxima_nova"-->
-        <!--android:gravity="center"-->
-        <!--android:inputType="textCapWords"-->
-        <!--android:textColor="@color/core_black"-->
-        <!--android:textSize="25sp"-->
-        <!--tools:ignore="UnusedAttribute" />-->
-
-        <!--<EditText-->
-        <!--android:id="@+id/search_a_location"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:backgroundTint="@color/transparent"-->
-        <!--android:fontFamily="@font/proxima_nova"-->
-        <!--android:gravity="center"-->
-        <!--android:imeOptions="actionDone"-->
-        <!--android:inputType="textCapWords"-->
-        <!--android:textColor="@color/core_black"-->
-        <!--android:textSize="20sp"-->
-        <!--tools:ignore="UnusedAttribute"-->
-        <!--tools:text="Beşiktaş, İstanbul" />-->
+        <ImageView
+            android:id="@+id/locationPicker"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:src="@drawable/up_and_down_arrows" />
 
     </LinearLayout>
+
+    <!--  <LinearLayout
+          android:id="@+id/layout_back"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginStart="10dp"
+          android:layout_marginLeft="20dp"
+          android:layout_marginEnd="10dp"
+          android:layout_marginRight="10dp"
+          android:background="@drawable/smooth_corners"
+          android:orientation="vertical">
+
+          <fragment
+              android:id="@+id/autocomplete_fragment"
+              android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+
+          &lt;!&ndash;<AutoCompleteTextView&ndash;&gt;
+          &lt;!&ndash;android:id="@+id/autocomplete_location"&ndash;&gt;
+          &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+          &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+          &lt;!&ndash;android:layout_gravity="center"&ndash;&gt;
+          &lt;!&ndash;android:backgroundTint="@color/transparent"&ndash;&gt;
+          &lt;!&ndash;android:fontFamily="@font/proxima_nova"&ndash;&gt;
+          &lt;!&ndash;android:gravity="center"&ndash;&gt;
+          &lt;!&ndash;android:inputType="textCapWords"&ndash;&gt;
+          &lt;!&ndash;android:textColor="@color/core_black"&ndash;&gt;
+          &lt;!&ndash;android:textSize="25sp"&ndash;&gt;
+          &lt;!&ndash;tools:ignore="UnusedAttribute" />&ndash;&gt;
+
+          &lt;!&ndash;<EditText&ndash;&gt;
+          &lt;!&ndash;android:id="@+id/search_a_location"&ndash;&gt;
+          &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+          &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+          &lt;!&ndash;android:backgroundTint="@color/transparent"&ndash;&gt;
+          &lt;!&ndash;android:fontFamily="@font/proxima_nova"&ndash;&gt;
+          &lt;!&ndash;android:gravity="center"&ndash;&gt;
+          &lt;!&ndash;android:imeOptions="actionDone"&ndash;&gt;
+          &lt;!&ndash;android:inputType="textCapWords"&ndash;&gt;
+          &lt;!&ndash;android:textColor="@color/core_black"&ndash;&gt;
+          &lt;!&ndash;android:textSize="20sp"&ndash;&gt;
+          &lt;!&ndash;tools:ignore="UnusedAttribute"&ndash;&gt;
+          &lt;!&ndash;tools:text="Beşiktaş, İstanbul" />&ndash;&gt;
+
+      </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
