@@ -55,6 +55,8 @@
     <string name="save_appliances">Are you sure to add the appliance(s)?</string>
     <string name="appliances_list">Appliances List</string>
     <string name="no_appliance">Please add at least one appliance to continue.</string>
+    <string name="add_new_appliance">Add a new appliance</string>
+    <string name="write_new_appliance">Please write the name of your new appliance you want to add.</string>
     <string name="watts">Watts</string>
     <string name="quantity">Quantity</string>
     <string name="hours">Hours</string>

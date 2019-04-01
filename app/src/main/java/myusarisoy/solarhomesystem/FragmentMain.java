@@ -84,6 +84,9 @@ public class FragmentMain extends Fragment {
     @BindView(R.id.recycler_view_appliance)
     RecyclerView recycler_view_appliance;
 
+    @BindView(R.id.image_add)
+    ImageView image_add;
+
     @BindView(R.id.button_sign_out)
     Button button_sign_out;
 
@@ -104,12 +107,13 @@ public class FragmentMain extends Fragment {
     private CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
-    private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
-    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, appliancesDialog;
+    private Button cancel_back, confirm_back, cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
+    private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
+    private EditText appliance_name;
     private LinearLayout layout_location;
-    private ImageView locationPicker;
+    private ImageView appliance_image, locationPicker;
     private Spinner locationSpinner;
     private TextView sure_to_add_appliance, appliances_list;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
@@ -215,6 +219,9 @@ public class FragmentMain extends Fragment {
 
 //        Activate or deactivate the appliance.
         changeAppliances();
+
+//        Add an appliance.
+        addNewAppliance();
 
 //        Sign out.
         clickToSignOut();
@@ -473,6 +480,53 @@ public class FragmentMain extends Fragment {
                                         .commit();
                             }
                         }.start();
+                    }
+                });
+            }
+        });
+    }
+
+    private void addNewAppliance() {
+        image_add = view.findViewById(R.id.image_add);
+        image_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.dialog_new_appliance);
+                addApplianceDialog = reservationBuilder.create();
+                final WindowManager.LayoutParams params = addApplianceDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                addApplianceDialog.getWindow().setAttributes(params);
+                addApplianceDialog.show();
+
+                appliance_image = addApplianceDialog.findViewById(R.id.appliance_image);
+                appliance_name = addApplianceDialog.findViewById(R.id.appliance_name);
+                cancel_back = addApplianceDialog.findViewById(R.id.cancel_back);
+                confirm_back = addApplianceDialog.findViewById(R.id.confirm_back);
+
+                cancel_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addApplianceDialog.dismiss();
+                    }
+                });
+
+                confirm_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!appliance_name.getText().toString().isEmpty()) {
+                            addApplianceDialog.dismiss();
+
+                            Appliance newAppliance = new Appliance(false, R.drawable.user, appliance_name.getText().toString());
+                            applianceList.add(newAppliance);
+
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }

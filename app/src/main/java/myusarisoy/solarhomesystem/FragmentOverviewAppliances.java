@@ -1,6 +1,7 @@
 package myusarisoy.solarhomesystem;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -56,6 +60,7 @@ public class FragmentOverviewAppliances extends Fragment {
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
+    int totalConsumption;
     View view;
 
     public static FragmentOverviewAppliances newInstance(Object... objects) {
@@ -80,13 +85,18 @@ public class FragmentOverviewAppliances extends Fragment {
         integerArray = getArguments().getIntegerArrayList("integerArray");
         integerArray2 = getArguments().getIntegerArrayList("integerArray2");
 
+//        Set adapter and run RecyclerView.
         setAdapter();
         initRecyclerView();
 
+//        Show power consumption and energy saver lists.
         showConsumption();
         showTips();
 
+//        Go to panels.
         gotoPanels();
+
+        Toast.makeText(getContext(), "Total power consumption: " + totalConsumption + " kWh", Toast.LENGTH_LONG).show();
 
 //        gotoMainPage();
 
@@ -99,6 +109,7 @@ public class FragmentOverviewAppliances extends Fragment {
         for (int i = 0; i < stringArray.size(); i++) {
             ApplianceOverviewItem item = new ApplianceOverviewItem(integerArray.get(i), stringArray.get(i), integerArray2.get(i));
             applianceOverview.add(item);
+            totalConsumption += integerArray2.get(i);
         }
 
         adapter.notifyDataSetChanged();
@@ -259,6 +270,17 @@ public class FragmentOverviewAppliances extends Fragment {
                         .commit();
             }
         });
+    }
+
+    private void showSnackbar(String text) {
+        linearLayout = view.findViewById(R.id.layout_overview_appliances);
+
+        Snackbar snackbar = Snackbar.make(linearLayout, text, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getResources().getColor(R.color.colorPrimary));
+        snackbar.show();
     }
 
 //    private void gotoMainPage() {

@@ -1,6 +1,7 @@
 package myusarisoy.solarhomesystem;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,6 +16,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -56,6 +59,7 @@ public class FragmentOverview extends Fragment {
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
+    int totalPayment, totalConsumption;
     View view;
 
     public static FragmentOverview newInstance(Object... objects) {
@@ -91,6 +95,8 @@ public class FragmentOverview extends Fragment {
 
 //        gotoMainPage();
 
+        Toast.makeText(getContext(), "Total payment: " + totalPayment + " ₺\nTotal power consumption: " + totalConsumption + "kWh", Toast.LENGTH_LONG).show();
+
         return view;
     }
 
@@ -100,6 +106,8 @@ public class FragmentOverview extends Fragment {
         for (int i = 0; i < stringArray.size(); i++) {
             ApplianceOverview month = new ApplianceOverview(stringArray.get(i), integerArray.get(i), integerArray2.get(i));
             applianceOverview.add(month);
+            totalPayment += integerArray.get(i);
+            totalConsumption += integerArray2.get(i);
         }
 
         adapter.notifyDataSetChanged();
@@ -260,6 +268,17 @@ public class FragmentOverview extends Fragment {
                         .commit();
             }
         });
+    }
+
+    private void showSnackbar(String text) {
+        linearLayout = view.findViewById(R.id.layout_overview);
+
+        Snackbar snackbar = Snackbar.make(linearLayout, text, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getResources().getColor(R.color.colorPrimary));
+        snackbar.show();
     }
 
 //    private void gotoMainPage() {

@@ -38,7 +38,35 @@ public class FragmentPanels extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_panels, container, false);
 
+//        Go to panel calculation with click.
+        clickPanels();
 
         return view;
+    }
+
+    private void clickPanels() {
+        panel_1 = view.findViewById(R.id.img_panel_1);
+        panel_2 = view.findViewById(R.id.img_panel_2);
+
+        panel_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoPanelCalculation();
+            }
+        });
+
+        panel_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoPanelCalculation();
+            }
+        });
+    }
+
+    private void gotoPanelCalculation() {
+        FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                .commit();
     }
 }
