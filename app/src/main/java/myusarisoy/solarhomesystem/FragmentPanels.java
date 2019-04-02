@@ -42,13 +42,17 @@ public class FragmentPanels extends Fragment {
     private RequestQueue requestQueue;
     private boolean success;
     private double liraPerEuro;
-    private int timestamp, panel1, panel2;
-    private String base, date;
+    private int timestamp, panel1, panel2, mostConsumption;
+    private String base, date, cityLocation;
+    public double irradianceLocation;
     View view;
 
     public static FragmentPanels newInstance(Object... objects) {
         FragmentPanels fragment = new FragmentPanels();
         Bundle args = new Bundle();
+        args.putString("city", (String) objects[0]);
+        args.putDouble("irradiance", (Double) objects[1]);
+        args.putInt("consumption", (Integer) objects[2]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +65,10 @@ public class FragmentPanels extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_panels, container, false);
+
+        cityLocation = getArguments().getString("City");
+        irradianceLocation = getArguments().getDouble("CityIrradiance");
+        mostConsumption = getArguments().getInt("MostConsumption");
 
 //       Get currency.
         getCurrency();
@@ -97,8 +105,7 @@ public class FragmentPanels extends Fragment {
                     pricing_panel_1.setText(panel1 + " ₺");
                     pricing_panel_2.setText(panel2 + " ₺");
 
-                    Log.i("PANEL_PRICES", "Monocrystalline: " + pricing_panel_1.getText().toString()
-                            + ", Polycrystalline: " + pricing_panel_2.getText().toString());
+                    Log.i("PANEL_PRICES", "Monocrystalline: " + pricing_panel_1.getText().toString() + ", Polycrystalline: " + pricing_panel_2.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -119,22 +126,36 @@ public class FragmentPanels extends Fragment {
         panel_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoPanelCalculation();
+                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putString("Panel", "panel1");
+                bundle.putDouble("PanelArea", 1.685);
+                bundle.putDouble("LiraPerEuro", liraPerEuro);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putInt("MostConsumption", mostConsumption);
+                fragmentPanelCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                        .commit();
             }
         });
 
         panel_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoPanelCalculation();
+                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putString("Panel", "panel2");
+                bundle.putDouble("PanelArea", 1.67);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putInt("MostConsumption", mostConsumption);
+                fragmentPanelCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                        .commit();
             }
         });
-    }
-
-    private void gotoPanelCalculation() {
-        FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
-                .commit();
     }
 }

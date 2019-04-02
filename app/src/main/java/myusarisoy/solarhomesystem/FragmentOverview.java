@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,9 @@ public class FragmentOverview extends Fragment {
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
-    int totalPayment, totalConsumption;
+    public String cityLocation;
+    public double irradianceLocation;
+    int totalPayment, totalConsumption, mostConsumption, totalWatts;
     View view;
 
     public static FragmentOverview newInstance(Object... objects) {
@@ -68,6 +71,8 @@ public class FragmentOverview extends Fragment {
         args.putStringArrayList("stringArray", (ArrayList<String>) objects[0]);
         args.putIntegerArrayList("integerArray", (ArrayList<Integer>) objects[1]);
         args.putIntegerArrayList("integerArray2", (ArrayList<Integer>) objects[2]);
+        args.putString("city", (String) objects[3]);
+        args.putDouble("irradiance", (Double) objects[4]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,6 +89,8 @@ public class FragmentOverview extends Fragment {
         stringArray = getArguments().getStringArrayList("stringArray");
         integerArray = getArguments().getIntegerArrayList("integerArray");
         integerArray2 = getArguments().getIntegerArrayList("integerArray2");
+        cityLocation = getArguments().getString("City");
+        irradianceLocation = getArguments().getDouble("CityIrradiance");
 
         setAdapter();
         initRecyclerView();
@@ -108,6 +115,10 @@ public class FragmentOverview extends Fragment {
             applianceOverview.add(month);
             totalPayment += integerArray.get(i);
             totalConsumption += integerArray2.get(i);
+
+            mostConsumption = integerArray2.get(0);
+            if (integerArray2.get(i) > mostConsumption)
+                mostConsumption = integerArray2.get(i);
         }
 
         adapter.notifyDataSetChanged();
@@ -263,6 +274,11 @@ public class FragmentOverview extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentPanels fragmentPanels = new FragmentPanels();
+                Bundle bundle = new Bundle();
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putInt("MostConsumption", mostConsumption);
+                fragmentPanels.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
                         .commit();

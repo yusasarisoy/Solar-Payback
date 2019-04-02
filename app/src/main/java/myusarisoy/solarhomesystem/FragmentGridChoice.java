@@ -22,6 +22,8 @@ public class FragmentGridChoice extends Fragment {
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
+    public String cityLocation;
+    public double irradianceLocation;
     View view;
 
     public static FragmentGridChoice newInstance(Object... objects) {
@@ -31,6 +33,8 @@ public class FragmentGridChoice extends Fragment {
         args.putStringArrayList("stringArray", (ArrayList<String>) objects[1]);
         args.putIntegerArrayList("integerArray", (ArrayList<Integer>) objects[2]);
         args.putIntegerArrayList("integerArray2", (ArrayList<Integer>) objects[3]);
+        args.putString("city", (String) objects[4]);
+        args.putDouble("irradiance", (Double) objects[5]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +57,9 @@ public class FragmentGridChoice extends Fragment {
             integerArray = getArguments().getIntegerArrayList("AppliancesImage");
             integerArray2 = getArguments().getIntegerArrayList("AppliancesConsumption");
         }
+
+        cityLocation = getArguments().getString("City");
+        irradianceLocation = getArguments().getDouble("CityIrradiance");
 
 //        Grid choices.
         gridChoice();
@@ -83,6 +90,8 @@ public class FragmentGridChoice extends Fragment {
                     bundle.putStringArrayList("stringArray", stringArray);
                     bundle.putIntegerArrayList("integerArray", integerArray);
                     bundle.putIntegerArrayList("integerArray2", integerArray2);
+                    bundle.putString("City", cityLocation);
+                    bundle.putDouble("CityIrradiance", irradianceLocation);
                     fragmentOverview.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")

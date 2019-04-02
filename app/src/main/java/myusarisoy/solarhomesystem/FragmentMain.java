@@ -122,8 +122,8 @@ public class FragmentMain extends Fragment {
     private ArrayList<String> cityList = new ArrayList<>();
     public ArrayList<String> cityPostal = new ArrayList<>();
     private ArrayList<Double> solarIrradianceList = new ArrayList<>();
-    double irradianceData;
-    String consumer, cityName = "", postalCode = "", city = "";
+    double irradianceData, irradianceLocation;
+    String consumer, cityName = "", postalCode = "", city = "", cityLocation;
     private RequestQueue requestQueue;
     View view;
 
@@ -190,8 +190,11 @@ public class FragmentMain extends Fragment {
                         cityPostal.add(postalCode);
                         solarIrradianceList.add(irradianceData);
 
-                        if (cityPostal.get(i).equals(cityName))
+                        if (cityPostal.get(i).equals(cityName)) {
+                            cityLocation = cityList.get(i);
+                            irradianceLocation = solarIrradianceList.get(i);
                             showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -560,8 +563,11 @@ public class FragmentMain extends Fragment {
                                 cityPostal.add(postalCode);
                                 solarIrradianceList.add(irradianceData);
 
-                                if (cityList.get(i).equals(cityName))
+                                if (cityList.get(i).equals(cityName)) {
+                                    cityLocation = cityList.get(i);
+                                    irradianceLocation = solarIrradianceList.get(i);
                                     showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -667,8 +673,11 @@ public class FragmentMain extends Fragment {
                                         cityPostal.add(postalCode);
                                         solarIrradianceList.add(irradianceData);
 
-                                        if (cityPostal.get(i).equals(cityName))
+                                        if (cityPostal.get(i).equals(cityName)) {
+                                            cityLocation = cityList.get(i);
+                                            irradianceLocation = solarIrradianceList.get(i);
                                             showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                        }
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -752,8 +761,11 @@ public class FragmentMain extends Fragment {
                                                         cityPostal.add(postalCode);
                                                         solarIrradianceList.add(irradianceData);
 
-                                                        if (cityList.get(i).equals(cityName))
+                                                        if (cityList.get(i).equals(cityName)) {
+                                                            cityLocation = cityList.get(i);
+                                                            irradianceLocation = solarIrradianceList.get(i);
                                                             showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                                        }
                                                     }
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
@@ -819,8 +831,11 @@ public class FragmentMain extends Fragment {
                             cityPostal.add(postalCode);
                             solarIrradianceList.add(irradianceData);
 
-                            if (cityPostal.get(i).equals(cityName))
+                            if (cityPostal.get(i).equals(cityName)) {
+                                cityLocation = cityList.get(i);
+                                irradianceLocation = solarIrradianceList.get(i);
                                 showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
