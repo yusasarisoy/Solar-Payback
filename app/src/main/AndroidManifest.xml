@@ -13,6 +13,7 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/solar_energy"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
 
         <meta-data

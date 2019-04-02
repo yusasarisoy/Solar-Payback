@@ -31,7 +31,6 @@ public class FragmentPanelCalculation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_panel_calculation, container, false);
 
-
         return view;
     }
 }
