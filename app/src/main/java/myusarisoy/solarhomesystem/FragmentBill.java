@@ -130,7 +130,7 @@ public class FragmentBill extends Fragment {
     private ArrayList<Double> solarIrradianceList = new ArrayList<>();
     int monthIncrementer = 0;
     double irradianceData, irradianceLocation;
-    String consumer, cityName = "", postalCode = "", city = "", cityLocation;
+    String consumer, cityName = "", postalCode = "", city = "", cityLocation = "";
     private RequestQueue requestQueue;
     View view;
 
@@ -402,7 +402,11 @@ public class FragmentBill extends Fragment {
         button_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!bill_payment.getText().toString().isEmpty() && !bill_power_consumption.getText().toString().isEmpty()) {
+                if (cityLocation.isEmpty())
+                    showSnackbar(getResources().getString(R.string.no_location));
+                else if (bill_payment.getText().toString().isEmpty() && bill_power_consumption.getText().toString().isEmpty())
+                    showSnackbar("Please makes sure to complete the missing parts.");
+                else {
                     monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
                     monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
 
@@ -422,8 +426,7 @@ public class FragmentBill extends Fragment {
                     Log.i("MONTH", monthName + "");
                     Log.i("PAYMENT", monthPayment + "");
                     Log.i("POWER_CONSUMPTION", monthPowerConsumption + "");
-                } else
-                    showSnackbar("Please makes sure to complete the missing parts.");
+                }
             }
         });
 
@@ -568,40 +571,40 @@ public class FragmentBill extends Fragment {
 //                            }
 //                        });
 
-                        requestQueue = Volley.newRequestQueue(getContext());
-
-                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
-
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                try {
-                                    for (int i = 0; i < response.length(); i++) {
-                                        JSONObject cityObject = response.getJSONObject(i);
-                                        city = cityObject.getString("city");
-                                        irradianceData = cityObject.getDouble("solar_irradiance");
-                                        postalCode = cityObject.getString("postal_code");
-                                        cityList.add(city);
-                                        cityPostal.add(postalCode);
-                                        solarIrradianceList.add(irradianceData);
-
-                                        if (cityPostal.get(i).equals(cityName)) {
-                                            cityLocation = cityList.get(i);
-                                            irradianceLocation = solarIrradianceList.get(i);
-                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.i("VOLLEY_ERROR", "" + error);
-                            }
-                        });
-                        requestQueue.add(jsonArrayRequest);
+//                        requestQueue = Volley.newRequestQueue(getContext());
+//
+//                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+//
+//                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+//                            @Override
+//                            public void onResponse(JSONArray response) {
+//                                try {
+//                                    for (int i = 0; i < response.length(); i++) {
+//                                        JSONObject cityObject = response.getJSONObject(i);
+//                                        city = cityObject.getString("city");
+//                                        irradianceData = cityObject.getDouble("solar_irradiance");
+//                                        postalCode = cityObject.getString("postal_code");
+//                                        cityList.add(city);
+//                                        cityPostal.add(postalCode);
+//                                        solarIrradianceList.add(irradianceData);
+//
+//                                        if (cityPostal.get(i).equals(cityName)) {
+//                                            cityLocation = cityList.get(i);
+//                                            irradianceLocation = solarIrradianceList.get(i);
+//                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+//                                        }
+//                                    }
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                Log.i("VOLLEY_ERROR", "" + error);
+//                            }
+//                        });
+//                        requestQueue.add(jsonArrayRequest);
 
                         layout_location = searchLocationDialog.findViewById(R.id.layout_location);
                         locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);

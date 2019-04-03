@@ -2,6 +2,7 @@ package myusarisoy.solarhomesystem;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,19 +75,10 @@ public class FragmentGridChoice extends Fragment {
         on_grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentOverview fragmentOverview = new FragmentOverview();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
-                        .commit();
-            }
-        });
-
-        off_grid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 if (getArguments().getString("choice").equals("bill")) {
                     FragmentOverview fragmentOverview = new FragmentOverview();
                     Bundle bundle = new Bundle();
+                    bundle.putString("Grid", "On-Grid");
                     bundle.putStringArrayList("stringArray", stringArray);
                     bundle.putIntegerArrayList("integerArray", integerArray);
                     bundle.putIntegerArrayList("integerArray2", integerArray2);
@@ -99,9 +91,43 @@ public class FragmentGridChoice extends Fragment {
                 } else if (getArguments().getString("choice").equals("appliance")) {
                     FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
                     Bundle bundle = new Bundle();
+                    bundle.putString("Grid", "On-Grid");
                     bundle.putStringArrayList("stringArray", stringArray);
                     bundle.putIntegerArrayList("integerArray", integerArray);
                     bundle.putIntegerArrayList("integerArray2", integerArray2);
+                    fragmentOverviewAppliances.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
+                            .commit();
+                }
+            }
+        });
+
+        off_grid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getArguments().getString("choice").equals("bill")) {
+                    FragmentOverview fragmentOverview = new FragmentOverview();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Grid", "Off-Grid");
+                    bundle.putStringArrayList("stringArray", stringArray);
+                    bundle.putIntegerArrayList("integerArray", integerArray);
+                    bundle.putIntegerArrayList("integerArray2", integerArray2);
+                    bundle.putString("City", cityLocation);
+                    bundle.putDouble("CityIrradiance", irradianceLocation);
+                    fragmentOverview.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
+                            .commit();
+                } else if (getArguments().getString("choice").equals("appliance")) {
+                    FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Grid", "Off-Grid");
+                    bundle.putStringArrayList("stringArray", stringArray);
+                    bundle.putIntegerArrayList("integerArray", integerArray);
+                    bundle.putIntegerArrayList("integerArray2", integerArray2);
+                    bundle.putString("City", cityLocation);
+                    bundle.putDouble("CityIrradiance", irradianceLocation);
                     fragmentOverviewAppliances.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")

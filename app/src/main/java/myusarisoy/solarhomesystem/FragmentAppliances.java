@@ -38,6 +38,8 @@ public class FragmentAppliances extends Fragment {
     private ArrayList<Integer> consumptionList = new ArrayList<>();
     private ArrayList<String> arrayListName = new ArrayList<>();
     private ArrayList<Integer> arrayListImage = new ArrayList<>();
+    public String cityLocation;
+    public double irradianceLocation;
     View view;
 
     public static FragmentAppliances newInstance(Object... objects) {
@@ -45,6 +47,8 @@ public class FragmentAppliances extends Fragment {
         Bundle args = new Bundle();
         args.putStringArrayList("AppliancesName", (ArrayList<String>) objects[0]);
         args.putIntegerArrayList("AppliancesImage", (ArrayList<Integer>) objects[1]);
+        args.putString("city", (String) objects[2]);
+        args.putDouble("irradiance", (Double) objects[3]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +65,10 @@ public class FragmentAppliances extends Fragment {
 //        Get list of appliances.
         arrayListName = getArguments().getStringArrayList("AppliancesName");
         arrayListImage = getArguments().getIntegerArrayList("AppliancesImage");
+
+//        Get city and its solar irradiance data.
+        cityLocation = getArguments().getString("City");
+        irradianceLocation = getArguments().getDouble("CityIrradiance");
 
 //        Set adapter for Recycler View.
         setAdapter();
@@ -170,6 +178,8 @@ public class FragmentAppliances extends Fragment {
                 bundle.putStringArrayList("AppliancesName", arrayListName);
                 bundle.putIntegerArrayList("AppliancesImage", arrayListImage);
                 bundle.putIntegerArrayList("AppliancesConsumption", consumptionList);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentGridChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")

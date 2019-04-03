@@ -1,12 +1,17 @@
 package myusarisoy.solarhomesystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,9 +58,11 @@ public class FragmentPanelCalculation extends Fragment {
     @BindView(R.id.button_next)
     Button button_next;
 
-    @BindView(R.id.button_continue)
-    Button button_continue;
+    @BindView(R.id.image_main_page)
+    ImageView image_main_page;
 
+    AppCompatDialog dialog_main_page;
+    Button no_main_page, yes_main_page;
     public String cityLocation;
     public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441;
     public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, aThousand = 1000, totalPrice;
@@ -144,7 +151,7 @@ public class FragmentPanelCalculation extends Fragment {
         layoutDecisions = view.findViewById(R.id.layout_decisions);
         layoutResults = view.findViewById(R.id.layout_results);
         button_next = view.findViewById(R.id.button_next);
-        button_continue = view.findViewById(R.id.button_continue);
+        image_main_page = view.findViewById(R.id.image_main_page);
 
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +159,46 @@ public class FragmentPanelCalculation extends Fragment {
                 layoutDecisions.setVisibility(View.GONE);
                 layoutResults.setVisibility(View.VISIBLE);
                 button_next.setVisibility(View.GONE);
-                button_continue.setVisibility(View.VISIBLE);
+                image_main_page.setVisibility(View.VISIBLE);
+
+                image_main_page.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                        reservationBuilder.setView(R.layout.layout_goto_main_page);
+                        dialog_main_page = reservationBuilder.create();
+                        WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
+                        DisplayMetrics displayMetrics = new DisplayMetrics();
+                        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                        int width = displayMetrics.widthPixels;
+                        int height = displayMetrics.heightPixels;
+                        params.width = (int) (width * 0.9);
+                        params.height = (int) (height * 0.9);
+                        dialog_main_page.getWindow().setAttributes(params);
+                        dialog_main_page.show();
+
+                        no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
+                        yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
+
+                        no_main_page.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog_main_page.dismiss();
+                            }
+                        });
+
+                        yes_main_page.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog_main_page.dismiss();
+
+                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
             }
         });
     }

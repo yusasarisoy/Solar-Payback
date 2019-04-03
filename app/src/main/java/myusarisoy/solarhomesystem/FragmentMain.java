@@ -40,7 +40,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,16 +47,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -123,7 +118,7 @@ public class FragmentMain extends Fragment {
     public ArrayList<String> cityPostal = new ArrayList<>();
     private ArrayList<Double> solarIrradianceList = new ArrayList<>();
     double irradianceData, irradianceLocation;
-    String consumer, cityName = "", postalCode = "", city = "", cityLocation;
+    String consumer, cityName = "", postalCode = "", city = "", cityLocation = "";
     private RequestQueue requestQueue;
     View view;
 
@@ -443,7 +438,12 @@ public class FragmentMain extends Fragment {
                     }
                 }
 
-                if (data.equals("")) {
+                if (cityLocation.equals("")) {
+                    sure_to_add_appliance.setText(R.string.no_location);
+                    cancel_appliances.setText(R.string.back);
+                    confirm_appliances.setVisibility(View.GONE);
+                    appliances_list.setVisibility(View.GONE);
+                } else if (data.equals("")) {
                     sure_to_add_appliance.setText(R.string.no_appliance);
                     cancel_appliances.setText(R.string.back);
                     confirm_appliances.setVisibility(View.GONE);
@@ -477,6 +477,8 @@ public class FragmentMain extends Fragment {
                                 Bundle bundle = new Bundle();
                                 bundle.putStringArrayList("AppliancesName", appliancesName);
                                 bundle.putIntegerArrayList("AppliancesImage", appliancesImage);
+                                bundle.putString("City", cityLocation);
+                                bundle.putDouble("CityIrradiance", irradianceLocation);
                                 fragmentAppliances.setArguments(bundle);
                                 getActivity().getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
@@ -656,40 +658,40 @@ public class FragmentMain extends Fragment {
 //                            }
 //                        });
 
-                        requestQueue = Volley.newRequestQueue(getContext());
-
-                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
-
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                try {
-                                    for (int i = 0; i < response.length(); i++) {
-                                        JSONObject cityObject = response.getJSONObject(i);
-                                        city = cityObject.getString("city");
-                                        irradianceData = cityObject.getDouble("solar_irradiance");
-                                        postalCode = cityObject.getString("postal_code");
-                                        cityList.add(city);
-                                        cityPostal.add(postalCode);
-                                        solarIrradianceList.add(irradianceData);
-
-                                        if (cityPostal.get(i).equals(cityName)) {
-                                            cityLocation = cityList.get(i);
-                                            irradianceLocation = solarIrradianceList.get(i);
-                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.i("VOLLEY_ERROR", "" + error);
-                            }
-                        });
-                        requestQueue.add(jsonArrayRequest);
+//                        requestQueue = Volley.newRequestQueue(getContext());
+//
+//                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+//
+//                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+//                            @Override
+//                            public void onResponse(JSONArray response) {
+//                                try {
+//                                    for (int i = 0; i < response.length(); i++) {
+//                                        JSONObject cityObject = response.getJSONObject(i);
+//                                        city = cityObject.getString("city");
+//                                        irradianceData = cityObject.getDouble("solar_irradiance");
+//                                        postalCode = cityObject.getString("postal_code");
+//                                        cityList.add(city);
+//                                        cityPostal.add(postalCode);
+//                                        solarIrradianceList.add(irradianceData);
+//
+//                                        if (cityPostal.get(i).equals(cityName)) {
+//                                            cityLocation = cityList.get(i);
+//                                            irradianceLocation = solarIrradianceList.get(i);
+//                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+//                                        }
+//                                    }
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                Log.i("VOLLEY_ERROR", "" + error);
+//                            }
+//                        });
+//                        requestQueue.add(jsonArrayRequest);
 
                         layout_location = searchLocationDialog.findViewById(R.id.layout_location);
                         locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
@@ -735,7 +737,7 @@ public class FragmentMain extends Fragment {
                             public void onClick(View v) {
                                 searchLocationDialog.dismiss();
 
-                                countDownTimer = new CountDownTimer(500, 250) {
+                                countDownTimer = new CountDownTimer(1000, 500) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
                                     }

@@ -1,5 +1,6 @@
 package myusarisoy.solarhomesystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,9 @@ public class FragmentOverview extends Fragment {
     @BindView(R.id.layout_overview)
     LinearLayout linearLayout;
 
+    @BindView(R.id.layout_monthly_overview)
+    LinearLayout layout_monthly_overview;
+
     @BindView(R.id.recycler_view_overview)
     RecyclerView recyclerView;
 
@@ -46,8 +50,11 @@ public class FragmentOverview extends Fragment {
     @BindView(R.id.button_next)
     Button button_next;
 
-//    @BindView(R.id.image_view_main_page)
-//    ImageView main_page;
+    @BindView(R.id.layout_on_going)
+    LinearLayout layout_on_going;
+
+    @BindView(R.id.image_main_page)
+    ImageView image_main_page;
 
     AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page;
     Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page;
@@ -62,17 +69,18 @@ public class FragmentOverview extends Fragment {
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
     public String cityLocation;
     public double irradianceLocation;
-    int totalPayment, totalConsumption, mostConsumption, totalWatts;
+    int totalPayment, totalConsumption, mostConsumption = 0, totalWatts;
     View view;
 
     public static FragmentOverview newInstance(Object... objects) {
         FragmentOverview fragment = new FragmentOverview();
         Bundle args = new Bundle();
-        args.putStringArrayList("stringArray", (ArrayList<String>) objects[0]);
-        args.putIntegerArrayList("integerArray", (ArrayList<Integer>) objects[1]);
-        args.putIntegerArrayList("integerArray2", (ArrayList<Integer>) objects[2]);
-        args.putString("city", (String) objects[3]);
-        args.putDouble("irradiance", (Double) objects[4]);
+        args.putString("Grid", (String) objects[0]);
+        args.putStringArrayList("stringArray", (ArrayList<String>) objects[1]);
+        args.putIntegerArrayList("integerArray", (ArrayList<Integer>) objects[2]);
+        args.putIntegerArrayList("integerArray2", (ArrayList<Integer>) objects[3]);
+        args.putString("city", (String) objects[4]);
+        args.putDouble("irradiance", (Double) objects[5]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,23 +94,28 @@ public class FragmentOverview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        stringArray = getArguments().getStringArrayList("stringArray");
-        integerArray = getArguments().getIntegerArrayList("integerArray");
-        integerArray2 = getArguments().getIntegerArrayList("integerArray2");
-        cityLocation = getArguments().getString("City");
-        irradianceLocation = getArguments().getDouble("CityIrradiance");
+        if (getArguments().getString("Grid").equals("On-Grid"))
+            onGoing();
+        else if (getArguments().getString("Grid").equals("Off-Grid")) {
+            stringArray = getArguments().getStringArrayList("stringArray");
+            integerArray = getArguments().getIntegerArrayList("integerArray");
+            integerArray2 = getArguments().getIntegerArrayList("integerArray2");
+            cityLocation = getArguments().getString("City");
+            irradianceLocation = getArguments().getDouble("CityIrradiance");
 
-        setAdapter();
-        initRecyclerView();
+//        Set adapter and run RecyclerView.
+            setAdapter();
+            initRecyclerView();
 
-        showConsumption();
-        showTips();
+//        Show power consumption and energy saver lists.
+            showConsumption();
+            showTips();
 
-        gotoPanels();
+//        Go to panels.
+            gotoPanels();
 
-//        gotoMainPage();
-
-        Toast.makeText(getContext(), "Total payment: " + totalPayment + " ₺\nTotal power consumption: " + totalConsumption + "kWh", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Total payment: " + totalPayment + " ₺\nTotal power consumption: " + totalConsumption + "kWh", Toast.LENGTH_LONG).show();
+        }
 
         return view;
     }
@@ -116,7 +129,6 @@ public class FragmentOverview extends Fragment {
             totalPayment += integerArray.get(i);
             totalConsumption += integerArray2.get(i);
 
-            mostConsumption = integerArray2.get(0);
             if (integerArray2.get(i) > mostConsumption)
                 mostConsumption = integerArray2.get(i);
         }
@@ -136,6 +148,55 @@ public class FragmentOverview extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.item_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+    private void onGoing() {
+        layout_monthly_overview = view.findViewById(R.id.layout_monthly_overview);
+        layout_on_going = view.findViewById(R.id.layout_on_going);
+        image_main_page = view.findViewById(R.id.image_main_page);
+
+        layout_monthly_overview.setVisibility(View.GONE);
+        layout_on_going.setVisibility(View.VISIBLE);
+        image_main_page.setVisibility(View.VISIBLE);
+
+        image_main_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.layout_goto_main_page);
+                dialog_main_page = reservationBuilder.create();
+                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.9);
+                params.height = (int) (height * 0.9);
+                dialog_main_page.getWindow().setAttributes(params);
+                dialog_main_page.show();
+
+                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
+                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
+
+                no_main_page.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_main_page.dismiss();
+                    }
+                });
+
+                yes_main_page.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_main_page.dismiss();
+
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
     }
 
     public void initRecyclerViewPowerConsumption() {

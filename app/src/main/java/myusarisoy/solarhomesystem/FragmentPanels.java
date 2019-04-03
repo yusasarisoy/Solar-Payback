@@ -1,6 +1,8 @@
 package myusarisoy.solarhomesystem;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +41,7 @@ public class FragmentPanels extends Fragment {
     @BindView(R.id.img_panel_2)
     ImageView panel_2;
 
+    private CountDownTimer countDownTimer;
     private RequestQueue requestQueue;
     private boolean success;
     private double liraPerEuro;
@@ -83,40 +86,56 @@ public class FragmentPanels extends Fragment {
         pricing_panel_1 = view.findViewById(R.id.pricing_panel_1);
         pricing_panel_2 = view.findViewById(R.id.pricing_panel_2);
 
-        String currencyAPI = "http://data.fixer.io/api/latest?access_key=5471e8c810ea396b3146e028c7d68ecb&%20base=EUR&symbols=TRY";
+        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Getting exchange rates", "Please wait...", true, true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
-        requestQueue = Volley.newRequestQueue(getContext());
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currencyAPI, null, new Response.Listener<JSONObject>() {
+        // Display the progress during 1 second.
+        countDownTimer = new CountDownTimer(2000, 1000) {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    success = response.getBoolean("success");
-                    timestamp = response.getInt("timestamp");
-                    base = response.getString("base");
-                    date = response.getString("date");
-                    JSONObject jsonObject = response.getJSONObject("rates");
-                    liraPerEuro = jsonObject.getDouble("TRY");
+            public void onTick(long millisUntilFinished) {
+                String currencyAPI = "http://data.fixer.io/api/latest?access_key=5471e8c810ea396b3146e028c7d68ecb&%20base=EUR&symbols=TRY";
 
-                    Log.i("CURRENCY", "Success: " + success + ", Timestamp: " + timestamp + ", Base: " + base + ", Date: " + date + ", TRY: " + liraPerEuro);
+                requestQueue = Volley.newRequestQueue(getContext());
+                final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currencyAPI, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            success = response.getBoolean("success");
+                            timestamp = response.getInt("timestamp");
+                            base = response.getString("base");
+                            date = response.getString("date");
+                            JSONObject jsonObject = response.getJSONObject("rates");
+                            liraPerEuro = jsonObject.getDouble("TRY");
 
-                    panel1 = (int) (145.53 * liraPerEuro);
-                    panel2 = (int) (110.25 * liraPerEuro);
+                            Log.i("CURRENCY", "Success: " + success + ", Timestamp: " + timestamp + ", Base: " + base + ", Date: " + date + ", TRY: " + liraPerEuro);
 
-                    pricing_panel_1.setText(panel1 + " ₺");
-                    pricing_panel_2.setText(panel2 + " ₺");
+                            panel1 = (int) (145.53 * liraPerEuro);
+                            panel2 = (int) (110.25 * liraPerEuro);
 
-                    Log.i("PANEL_PRICES", "Monocrystalline: " + pricing_panel_1.getText().toString() + ", Polycrystalline: " + pricing_panel_2.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                            pricing_panel_1.setText(panel1 + " ₺");
+                            pricing_panel_2.setText(panel2 + " ₺");
+
+                            Log.i("PANEL_PRICES", "Monocrystalline: " + pricing_panel_1.getText().toString() + ", Polycrystalline: " + pricing_panel_2.getText().toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                requestQueue.add(jsonObjectRequest);
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFinish() {
+                countDownTimer.cancel();
+                progressDialog.dismiss();
             }
-        });
-        requestQueue.add(jsonObjectRequest);
+        }.start();
     }
 
     private void clickPanels() {

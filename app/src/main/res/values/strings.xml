@@ -54,6 +54,7 @@
     <string name="total_power_consumption">Total Power Consumption (kW)</string>
     <string name="save_appliances">Are you sure to add the appliance(s)?</string>
     <string name="appliances_list">Appliances List</string>
+    <string name="no_location">Please detect your location or select a city to continue.</string>
     <string name="no_appliance">Please add at least one appliance to continue.</string>
     <string name="add_new_appliance">Add a new appliance</string>
     <string name="write_new_appliance">Please write the name of your new appliance you want to add.</string>
@@ -85,4 +86,5 @@
     <string name="panel_choice">Please choose a panel you want to use.</string>
     <string name="panel_1">Monocrystalline Solar Panel\n(330 W, 1.685 m²)</string>
     <string name="panel_2">Polycrystalline Solar Panel\n(250 W, 1.67 m²)</string>
+    <string name="soon">Soon!</string>
 </resources>
