@@ -1,20 +1,15 @@
 package myusarisoy.solarhomesystem;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.BindView;
 
@@ -58,14 +53,14 @@ public class FragmentPanelCalculation extends Fragment {
     @BindView(R.id.button_next)
     Button button_next;
 
-    @BindView(R.id.image_main_page)
-    ImageView image_main_page;
+    @BindView(R.id.button_continue)
+    Button button_continue;
 
     AppCompatDialog dialog_main_page;
     Button no_main_page, yes_main_page;
     public String cityLocation;
     public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441;
-    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, aThousand = 1000, totalPrice;
+    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, aThousand = 1000, totalPrice, totalPayment;
     View view;
 
     public static FragmentPanelCalculation newInstance(Object... objects) {
@@ -77,6 +72,7 @@ public class FragmentPanelCalculation extends Fragment {
         args.putString("City", (String) objects[3]);
         args.putDouble("CityIrradiance", (Double) objects[4]);
         args.putInt("MostConsumption", (Integer) objects[5]);
+        args.putInt("TotalPayment", (Integer) objects[6]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -119,11 +115,12 @@ public class FragmentPanelCalculation extends Fragment {
         cityLocation = getArguments().getString("City");
         irradianceLocation = getArguments().getDouble("CityIrradiance");
         mostConsumption = getArguments().getInt("MostConsumption");
+        totalPayment = getArguments().getInt("TotalPayment");
 
         selected_panel_energy.setText("Selected Panel Energy: " + panelEnergy + " W");
         selected_panel_area.setText("Selected Panel Area: " + panelArea + " m²");
         selected_city.setText("Selected City: " + cityLocation);
-        selected_city_irradiance.setText("Selected City Irradiance: " + irradianceLocation);
+        selected_city_irradiance.setText("Minimum City Irradiance: " + irradianceLocation);
         most_power_consumption.setText("Consumption: " + mostConsumption + " kWh/day");
 
         Log.i("ARGUMENTS", panelEnergy + "\n" + panelArea + "\n" + cityLocation + "\n" + irradianceLocation + "\n" + mostConsumption);
@@ -144,14 +141,14 @@ public class FragmentPanelCalculation extends Fragment {
         produced_energy.setText("Produced Energy: " + producedEnergy + " W");
         required_panels.setText("Required Panels: " + howManyPanels);
         required_area.setText("Required Area: " + requiredArea + " m²");
-        total_payment.setText("Total Payment: " + totalPrice + " ₺");
+        total_payment.setText("Total Panel Payment: " + totalPrice + " ₺");
     }
 
     private void getResults() {
         layoutDecisions = view.findViewById(R.id.layout_decisions);
         layoutResults = view.findViewById(R.id.layout_results);
         button_next = view.findViewById(R.id.button_next);
-        image_main_page = view.findViewById(R.id.image_main_page);
+        button_continue = view.findViewById(R.id.button_continue);
 
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,46 +156,21 @@ public class FragmentPanelCalculation extends Fragment {
                 layoutDecisions.setVisibility(View.GONE);
                 layoutResults.setVisibility(View.VISIBLE);
                 button_next.setVisibility(View.GONE);
-                image_main_page.setVisibility(View.VISIBLE);
+                button_continue.setVisibility(View.VISIBLE);
+            }
+        });
 
-                image_main_page.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                        reservationBuilder.setView(R.layout.layout_goto_main_page);
-                        dialog_main_page = reservationBuilder.create();
-                        WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
-                        DisplayMetrics displayMetrics = new DisplayMetrics();
-                        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                        int width = displayMetrics.widthPixels;
-                        int height = displayMetrics.heightPixels;
-                        params.width = (int) (width * 0.9);
-                        params.height = (int) (height * 0.9);
-                        dialog_main_page.getWindow().setAttributes(params);
-                        dialog_main_page.show();
-
-                        no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
-                        yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
-
-                        no_main_page.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog_main_page.dismiss();
-                            }
-                        });
-
-                        yes_main_page.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog_main_page.dismiss();
-
-                                Intent intent = new Intent(getContext(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                });
+        button_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putInt("panelPrice", totalPrice);
+                bundle.putInt("TotalPayment", totalPayment);
+                fragmentBatteryCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
+                        .commit();
             }
         });
     }

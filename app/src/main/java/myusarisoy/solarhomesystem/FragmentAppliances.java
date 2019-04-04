@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -167,17 +168,18 @@ public class FragmentAppliances extends Fragment {
     private void gotoGridChoice() {
         button_continue = view.findViewById(R.id.button_continue);
 
+        consumptionList = adapter.getData();
+
         button_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                consumptionList.addAll(adapter.getConsumptionList());
-
                 FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
                 Bundle bundle = new Bundle();
                 bundle.putString("choice", "appliance");
                 bundle.putStringArrayList("AppliancesName", arrayListName);
                 bundle.putIntegerArrayList("AppliancesImage", arrayListImage);
                 bundle.putIntegerArrayList("AppliancesConsumption", consumptionList);
+                Log.i("CONSUMPTION", consumptionList + "");
                 bundle.putString("City", cityLocation);
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentGridChoice.setArguments(bundle);

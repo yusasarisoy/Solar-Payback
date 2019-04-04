@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_panel_calculation"
+    android:id="@+id/layout_battery_calculation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="30dp"
-    tools:context=".FragmentPanelCalculation">
+    tools:context=".FragmentBatteryCalculation">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,56 +50,13 @@
         android:background="@color/dark_slate_gray" />
 
     <LinearLayout
-        android:id="@+id/layout_decisions"
+        android:id="@+id/layout_prices"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:src="@drawable/energy" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@color/transparent" />
-
-            <TextView
-                android:id="@+id/selected_panel_energy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute"
-                tools:text="Selected Panel Energy: 330 W" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/transparent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,14 +83,14 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/selected_panel_area"
+                android:id="@+id/panel_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Selected Panel Area: 1.685 m²" />
+                tools:text="Panel Price: 200000 ₺" />
 
         </LinearLayout>
 
@@ -157,7 +114,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/pin" />
+                android:src="@drawable/panel_heater" />
 
             <View
                 android:layout_width="1dp"
@@ -169,14 +126,14 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/selected_city"
+                android:id="@+id/heater_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Selected City: Istanbul" />
+                tools:text="Heater Price: 15000 ₺" />
 
         </LinearLayout>
 
@@ -200,7 +157,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/irradiance" />
+                android:src="@drawable/inverter" />
 
             <View
                 android:layout_width="1dp"
@@ -212,14 +169,14 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/selected_city_irradiance"
+                android:id="@+id/inverter_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Minimum City Irradiance: 2.96" />
+                tools:text="Inverter Price: 20000 ₺" />
 
         </LinearLayout>
 
@@ -243,7 +200,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/power_consumption" />
+                android:src="@drawable/panel_battery" />
 
             <View
                 android:layout_width="1dp"
@@ -255,21 +212,21 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/most_power_consumption"
+                android:id="@+id/battery_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Consumption: 234 kWh/day" />
+                tools:text="Battery Price: 75000 ₺" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_results"
+        android:id="@+id/layout_costs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -291,7 +248,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/energy" />
+                android:src="@drawable/inspection" />
 
             <View
                 android:layout_width="1dp"
@@ -303,14 +260,14 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/produced_energy"
+                android:id="@+id/inspection_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Produced Energy: 54800 W" />
+                tools:text="Inspection Cost: 20000 ₺" />
 
         </LinearLayout>
 
@@ -334,7 +291,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/panels" />
+                android:src="@drawable/cleaning" />
 
             <View
                 android:layout_width="1dp"
@@ -346,14 +303,14 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/required_panels"
+                android:id="@+id/cleaning_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Required Panels: 167" />
+                tools:text="Cleaning Cost: 70000 ₺" />
 
         </LinearLayout>
 
@@ -377,7 +334,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/area" />
+                android:src="@drawable/electricity" />
 
             <View
                 android:layout_width="1dp"
@@ -389,14 +346,14 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/required_area"
+                android:id="@+id/electricity_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Required Area: 281.395 m²" />
+                tools:text="1 Year Electricity Cost: 50000 ₺" />
 
         </LinearLayout>
 
@@ -420,7 +377,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/payment" />
+                android:src="@drawable/price_tag" />
 
             <View
                 android:layout_width="1dp"
@@ -432,14 +389,57 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/total_payment"
+                android:id="@+id/total_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Total Panel Payment: 153.127 ₺" />
+                tools:text="Total Price: 400000 ₺" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/transparent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/payback_period" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/transparent" />
+
+            <TextView
+                android:id="@+id/payback_period"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova"
+                android:textColor="@color/core_white"
+                android:textSize="25sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="Payback Period: 7.5 years" />
 
         </LinearLayout>
 
@@ -463,17 +463,13 @@
             android:textSize="18sp"
             tools:ignore="UnusedAttribute" />
 
-        <Button
-            android:id="@+id/button_continue"
-            android:layout_width="100dp"
+        <ImageView
+            android:id="@+id/image_main_page"
+            android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/transparent"
-            android:fontFamily="@font/proxima_nova"
-            android:text="@string/continueTo"
-            android:textColor="@color/green"
-            android:textSize="18sp"
-            android:visibility="gone"
-            tools:ignore="UnusedAttribute" />
+            android:layout_gravity="center"
+            android:src="@drawable/main_page"
+            android:visibility="gone" />
 
     </LinearLayout>
 

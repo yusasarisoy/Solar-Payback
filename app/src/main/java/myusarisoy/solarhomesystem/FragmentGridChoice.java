@@ -57,6 +57,8 @@ public class FragmentGridChoice extends Fragment {
             stringArray = getArguments().getStringArrayList("AppliancesName");
             integerArray = getArguments().getIntegerArrayList("AppliancesImage");
             integerArray2 = getArguments().getIntegerArrayList("AppliancesConsumption");
+
+            Log.i("POWER", stringArray + ", " + integerArray + integerArray2);
         }
 
         cityLocation = getArguments().getString("City");

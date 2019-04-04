@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,8 +57,8 @@ public class FragmentOverviewAppliances extends Fragment {
     @BindView(R.id.image_main_page)
     ImageView image_main_page;
 
-    AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page;
-    Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page;
+    AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page, annualBillingDialog;
+    Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page, cancel_back, confirm_back;
     private RecyclerViewOverviewAppliancesAdapter adapter;
     private RecyclerViewPowerConsumptionAdapter adapterPowerConsumption;
     private RecyclerViewEnergySaverTipsAdapter adapterEnergySaverTips;
@@ -67,9 +68,10 @@ public class FragmentOverviewAppliances extends Fragment {
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
+    public EditText appliance_annual_billing;
     public String cityLocation;
     public double irradianceLocation;
-    int totalConsumption, mostConsumption = 0;
+    int totalConsumption, mostConsumption = 0, annualBilling;
     View view;
 
     public static FragmentOverviewAppliances newInstance(Object... objects) {
@@ -79,8 +81,8 @@ public class FragmentOverviewAppliances extends Fragment {
         args.putStringArrayList("stringArray", (ArrayList<String>) objects[1]);
         args.putIntegerArrayList("integerArray", (ArrayList<Integer>) objects[2]);
         args.putIntegerArrayList("integerArray2", (ArrayList<Integer>) objects[3]);
-        args.putString("city", (String) objects[4]);
-        args.putDouble("irradiance", (Double) objects[5]);
+        args.putString("City", (String) objects[4]);
+        args.putDouble("Irradiance", (Double) objects[5]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,30 +96,27 @@ public class FragmentOverviewAppliances extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_overview_appliances, container, false);
 
-        if (getArguments().getString("Grid").equals("On-Grid"))
-            onGoing();
-        else if (getArguments().getString("Grid").equals("Off-Grid")) {
+        if (getArguments().getString("Grid").equals("Off-Grid")) {
             stringArray = getArguments().getStringArrayList("stringArray");
             integerArray = getArguments().getIntegerArrayList("integerArray");
             integerArray2 = getArguments().getIntegerArrayList("integerArray2");
             cityLocation = getArguments().getString("City");
             irradianceLocation = getArguments().getDouble("CityIrradiance");
-
-            Log.i("CITY", cityLocation + ", " + irradianceLocation);
+        } else if (getArguments().getString("Grid").equals("On-Grid"))
+            onGoing();
 
 //        Set adapter and run RecyclerView.
-            setAdapter();
-            initRecyclerView();
+        setAdapter();
+        initRecyclerView();
 
 //        Show power consumption and energy saver lists.
-            showConsumption();
-            showTips();
+        showConsumption();
+        showTips();
 
 //        Go to panels.
-            gotoPanels();
+        gotoPanels();
 
-            Toast.makeText(getContext(), "Total power consumption: " + totalConsumption + " kWh", Toast.LENGTH_LONG).show();
-        }
+        Toast.makeText(getContext(), "Total power consumption: " + totalConsumption + " kWh", Toast.LENGTH_LONG).show();
 
         return view;
     }
@@ -125,7 +124,7 @@ public class FragmentOverviewAppliances extends Fragment {
     public void initRecyclerView() {
         recyclerView = view.findViewById(R.id.recycler_view_overview);
 
-        for (int i = 0; i < stringArray.size(); i++) {
+        for (int i = 0; i < integerArray.size(); i++) {
             ApplianceOverviewItem item = new ApplianceOverviewItem(integerArray.get(i), stringArray.get(i), integerArray2.get(i));
             applianceOverview.add(item);
             totalConsumption += integerArray2.get(i);
@@ -335,15 +334,53 @@ public class FragmentOverviewAppliances extends Fragment {
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentPanels fragmentPanels = new FragmentPanels();
-                Bundle bundle = new Bundle();
-                bundle.putString("City", cityLocation);
-                bundle.putDouble("CityIrradiance", irradianceLocation);
-                bundle.putInt("MostConsumption", mostConsumption);
-                fragmentPanels.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
-                        .commit();
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.dialog_annual_billing);
+                annualBillingDialog = reservationBuilder.create();
+                WindowManager.LayoutParams params = annualBillingDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                annualBillingDialog.getWindow().setAttributes(params);
+                annualBillingDialog.show();
+
+                appliance_annual_billing = annualBillingDialog.findViewById(R.id.appliance_annual_billing);
+                cancel_back = annualBillingDialog.findViewById(R.id.cancel_back);
+                confirm_back = annualBillingDialog.findViewById(R.id.confirm_back);
+
+                cancel_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        annualBillingDialog.dismiss();
+                    }
+                });
+
+                confirm_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (appliance_annual_billing.getText().toString().isEmpty() || appliance_annual_billing.getText().toString().equals("0"))
+                            showSnackbar("Please enter a valid annual billing amount.");
+                        else {
+                            annualBillingDialog.dismiss();
+
+                            annualBilling = Integer.parseInt(appliance_annual_billing.getText().toString());
+
+                            FragmentPanels fragmentPanels = new FragmentPanels();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("City", cityLocation);
+                            bundle.putDouble("CityIrradiance", irradianceLocation);
+                            bundle.putInt("MostConsumption", mostConsumption);
+                            bundle.putInt("TotalPayment", annualBilling);
+                            fragmentPanels.setArguments(bundle);
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
+                                    .commit();
+                        }
+                    }
+                });
             }
         });
     }

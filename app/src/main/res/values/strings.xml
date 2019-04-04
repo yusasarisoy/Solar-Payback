@@ -50,7 +50,9 @@
     <string name="appliances">Appliances</string>
     <string name="on_grid">On-Grid</string>
     <string name="off_grid">Off-Grid</string>
+    <string name="add_annual_billing">Add annual billing</string>
     <string name="billing_amount">Billing Amount (₺)</string>
+    <string name="annual_billing_amount">Annual Billing Amount (₺)</string>
     <string name="total_power_consumption">Total Power Consumption (kW)</string>
     <string name="save_appliances">Are you sure to add the appliance(s)?</string>
     <string name="appliances_list">Appliances List</string>
@@ -87,4 +89,5 @@
     <string name="panel_1">Monocrystalline Solar Panel\n(330 W, 1.685 m²)</string>
     <string name="panel_2">Polycrystalline Solar Panel\n(250 W, 1.67 m²)</string>
     <string name="soon">Soon!</string>
+    <string name="appliance_annual_billing">Please enter your annual billing amount.</string>
 </resources>

@@ -339,6 +339,7 @@ public class FragmentOverview extends Fragment {
                 bundle.putString("City", cityLocation);
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 bundle.putInt("MostConsumption", mostConsumption);
+                bundle.putInt("TotalPayment", totalPayment);
                 fragmentPanels.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")

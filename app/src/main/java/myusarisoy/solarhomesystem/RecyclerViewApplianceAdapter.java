@@ -117,8 +117,8 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
 //        notifyItemInserted(position);
 //    }
 
-    public ArrayList<SelectedAppliance> getData() {
-        return selectedAppliances;
+    public ArrayList<Integer> getData() {
+        return consumptionList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

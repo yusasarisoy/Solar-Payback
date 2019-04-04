@@ -45,7 +45,7 @@ public class FragmentPanels extends Fragment {
     private RequestQueue requestQueue;
     private boolean success;
     private double liraPerEuro;
-    private int timestamp, panel1, panel2, mostConsumption;
+    private int timestamp, panel1, panel2, mostConsumption, totalPayment;
     private String base, date, cityLocation;
     public double irradianceLocation;
     View view;
@@ -56,6 +56,7 @@ public class FragmentPanels extends Fragment {
         args.putString("city", (String) objects[0]);
         args.putDouble("irradiance", (Double) objects[1]);
         args.putInt("consumption", (Integer) objects[2]);
+        args.putInt("TotalPayment", (Integer) objects[3]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,6 +73,7 @@ public class FragmentPanels extends Fragment {
         cityLocation = getArguments().getString("City");
         irradianceLocation = getArguments().getDouble("CityIrradiance");
         mostConsumption = getArguments().getInt("MostConsumption");
+        totalPayment = getArguments().getInt("TotalPayment");
 
 //       Get currency.
         getCurrency();
@@ -153,6 +155,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putString("City", cityLocation);
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 bundle.putInt("MostConsumption", mostConsumption);
+                bundle.putInt("TotalPayment", totalPayment);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
@@ -170,6 +173,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putString("City", cityLocation);
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 bundle.putInt("MostConsumption", mostConsumption);
+                bundle.putInt("TotalPayment", totalPayment);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
