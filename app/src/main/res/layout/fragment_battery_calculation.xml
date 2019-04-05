@@ -449,27 +449,82 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:gravity="end"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_next"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:background="@color/transparent"
-            android:fontFamily="@font/proxima_nova"
-            android:text="@string/next"
-            android:textColor="@color/orange"
-            android:textSize="18sp"
-            tools:ignore="UnusedAttribute" />
+        <LinearLayout
+            android:id="@+id/layout_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/image_main_page"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:src="@drawable/main_page"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/button_back"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:text="@string/back"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_next"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/proxima_nova"
+                android:gravity="center"
+                android:text="@string/next"
+                android:textColor="@color/orange"
+                android:textSize="18sp"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_main_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image_main_page"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:src="@drawable/main_page" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

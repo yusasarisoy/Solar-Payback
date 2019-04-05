@@ -40,7 +40,6 @@ public class FragmentCalculationType extends Fragment {
         view = inflater.inflate(R.layout.fragment_calculation_type, container, false);
 
         consumer = getArguments().getString("consumer");
-        Log.i("CONSUMER", consumer + "");
 
 //        Choose calculation type.
         calculationType();

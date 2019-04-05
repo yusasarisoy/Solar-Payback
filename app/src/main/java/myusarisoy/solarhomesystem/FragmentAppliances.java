@@ -179,7 +179,6 @@ public class FragmentAppliances extends Fragment {
                 bundle.putStringArrayList("AppliancesName", arrayListName);
                 bundle.putIntegerArrayList("AppliancesImage", arrayListImage);
                 bundle.putIntegerArrayList("AppliancesConsumption", consumptionList);
-                Log.i("CONSUMPTION", consumptionList + "");
                 bundle.putString("City", cityLocation);
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentGridChoice.setArguments(bundle);

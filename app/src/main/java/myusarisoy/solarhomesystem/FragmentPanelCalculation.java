@@ -50,17 +50,27 @@ public class FragmentPanelCalculation extends Fragment {
     @BindView(R.id.total_payment)
     TextView total_payment;
 
+    @BindView(R.id.layout_back)
+    LinearLayout layout_back;
+
+    @BindView(R.id.layout_next)
+    LinearLayout layout_next;
+
+    @BindView(R.id.button_continue)
+    LinearLayout layout_continue;
+
+    @BindView(R.id.button_back)
+    Button button_back;
+
     @BindView(R.id.button_next)
     Button button_next;
 
     @BindView(R.id.button_continue)
     Button button_continue;
 
-    AppCompatDialog dialog_main_page;
-    Button no_main_page, yes_main_page;
     public String cityLocation;
     public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441;
-    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, aThousand = 1000, totalPrice, totalPayment;
+    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment;
     View view;
 
     public static FragmentPanelCalculation newInstance(Object... objects) {
@@ -122,8 +132,6 @@ public class FragmentPanelCalculation extends Fragment {
         selected_city.setText("Selected City: " + cityLocation);
         selected_city_irradiance.setText("Minimum City Irradiance: " + irradianceLocation);
         most_power_consumption.setText("Consumption: " + mostConsumption + " kWh/day");
-
-        Log.i("ARGUMENTS", panelEnergy + "\n" + panelArea + "\n" + cityLocation + "\n" + irradianceLocation + "\n" + mostConsumption);
     }
 
     private void calculatePanels() {
@@ -132,14 +140,18 @@ public class FragmentPanelCalculation extends Fragment {
         required_area = view.findViewById(R.id.required_area);
         total_payment = view.findViewById(R.id.total_payment);
 
-        producedEnergy = (int) ((mostConsumption / irradianceLocation) * aThousand);
-        howManyPanels = ((producedEnergy / panelEnergy) + 1);
+        if (panelEnergy == 330) {
+            howManyPanels = (int) (mostConsumption / (irradianceLocation * 0.245)) + 1;
+            producedEnergy = (int) (0.245 * irradianceLocation * howManyPanels);
+        } else if (panelEnergy == 245) {
+            howManyPanels = (int) (mostConsumption / (irradianceLocation * 0.186)) + 1;
+            producedEnergy = (int) (0.186 * irradianceLocation * howManyPanels);
+        }
         requiredArea = (int) ((howManyPanels * panelArea) + 1);
         totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
-        Log.i("SUMMARY", producedEnergy + " W\n" + howManyPanels + " panels\n" + requiredArea + " m²\n" + totalPrice + " ₺");
 
-        produced_energy.setText("Produced Energy: " + producedEnergy + " W");
         required_panels.setText("Required Panels: " + howManyPanels);
+        produced_energy.setText("Produced Energy: " + producedEnergy + " Wh");
         required_area.setText("Required Area: " + requiredArea + " m²");
         total_payment.setText("Total Panel Payment: " + totalPrice + " ₺");
     }
@@ -147,16 +159,32 @@ public class FragmentPanelCalculation extends Fragment {
     private void getResults() {
         layoutDecisions = view.findViewById(R.id.layout_decisions);
         layoutResults = view.findViewById(R.id.layout_results);
+        layout_back = view.findViewById(R.id.layout_back);
+        layout_next = view.findViewById(R.id.layout_next);
+        layout_continue = view.findViewById(R.id.layout_continue);
+        button_back = view.findViewById(R.id.button_back);
         button_next = view.findViewById(R.id.button_next);
         button_continue = view.findViewById(R.id.button_continue);
+
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutDecisions.setVisibility(View.VISIBLE);
+                layoutResults.setVisibility(View.GONE);
+                layout_back.setVisibility(View.GONE);
+                layout_next.setVisibility(View.VISIBLE);
+                layout_continue.setVisibility(View.GONE);
+            }
+        });
 
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 layoutDecisions.setVisibility(View.GONE);
                 layoutResults.setVisibility(View.VISIBLE);
-                button_next.setVisibility(View.GONE);
-                button_continue.setVisibility(View.VISIBLE);
+                layout_back.setVisibility(View.VISIBLE);
+                layout_next.setVisibility(View.GONE);
+                layout_continue.setVisibility(View.VISIBLE);
             }
         });
 

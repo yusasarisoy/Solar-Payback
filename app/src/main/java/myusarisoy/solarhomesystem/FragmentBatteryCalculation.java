@@ -69,6 +69,18 @@ public class FragmentBatteryCalculation extends Fragment {
     @BindView(R.id.payback_period)
     TextView payback_period;
 
+    @BindView(R.id.layout_back)
+    LinearLayout layout_back;
+
+    @BindView(R.id.layout_next)
+    LinearLayout layout_next;
+
+    @BindView(R.id.layout_main_page)
+    LinearLayout layout_main_page;
+
+    @BindView(R.id.button_back)
+    Button button_back;
+
     @BindView(R.id.button_next)
     Button button_next;
 
@@ -80,7 +92,7 @@ public class FragmentBatteryCalculation extends Fragment {
     private CountDownTimer countDownTimer;
     private RequestQueue requestQueueUSD, requestQueueTRY;
     private boolean successUSD, successTRY;
-    private double dollarPerEuro, liraPerEuro, liraPerDollar, paybackYear;
+    private double dollarPerEuro, liraPerEuro, paybackYear;
     private int timestampUSD, timestampTRY, totalPrice;
     private String baseUSD, baseTRY, dateUSD, dateTRY;
     private int panelPrice, totalPayment, heaterPrice = 1800, inverterPrice = 3595, batteryPrice = 12980, inspectionCost = 150, cleaningCost = 2500, heater, inverter, battery, inspection, cleaning;
@@ -110,9 +122,6 @@ public class FragmentBatteryCalculation extends Fragment {
 
 //        Get results.
         getResults();
-
-//        Calculate overview.
-        calculateOverview();
 
         return view;
     }
@@ -151,8 +160,6 @@ public class FragmentBatteryCalculation extends Fragment {
                             battery = (int) (batteryPrice / dollarPerEuro);
                             inspection = (int) (inspectionCost / dollarPerEuro);
                             cleaning = (int) (cleaningCost / dollarPerEuro);
-
-                            Log.i("DOLLAR_COST", (heater * dollarPerEuro) + " TRY");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -199,7 +206,7 @@ public class FragmentBatteryCalculation extends Fragment {
                             int finalInspection = (int) (inspection * liraPerEuro * 25);
                             int finalCleaning = (int) (cleaning * liraPerEuro * 5);
 
-                            totalPrice = panelPrice + finalHeater + finalInverter + finalBattery + finalInspection + finalCleaning;
+                            totalPrice = (int) (panelPrice + (heater * liraPerEuro) + (inverter * liraPerEuro) + (battery * liraPerEuro) + (inspection * liraPerEuro * 25) + (cleaning * liraPerEuro * 5));
                             paybackYear = totalPrice / totalPayment;
 
                             panel_price.setText("Panel Price: " + ((panelPrice)) + " ₺");
@@ -235,16 +242,32 @@ public class FragmentBatteryCalculation extends Fragment {
     private void getResults() {
         layout_prices = view.findViewById(R.id.layout_prices);
         layout_costs = view.findViewById(R.id.layout_costs);
+        layout_back = view.findViewById(R.id.layout_back);
+        layout_next = view.findViewById(R.id.layout_next);
+        layout_main_page = view.findViewById(R.id.layout_main_page);
+        button_back = view.findViewById(R.id.button_back);
         button_next = view.findViewById(R.id.button_next);
         image_main_page = view.findViewById(R.id.image_main_page);
+
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout_prices.setVisibility(View.VISIBLE);
+                layout_costs.setVisibility(View.GONE);
+                layout_back.setVisibility(View.GONE);
+                layout_next.setVisibility(View.VISIBLE);
+                layout_main_page.setVisibility(View.GONE);
+            }
+        });
 
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 layout_prices.setVisibility(View.GONE);
                 layout_costs.setVisibility(View.VISIBLE);
-                button_next.setVisibility(View.GONE);
-                image_main_page.setVisibility(View.VISIBLE);
+                layout_back.setVisibility(View.VISIBLE);
+                layout_next.setVisibility(View.GONE);
+                layout_main_page.setVisibility(View.VISIBLE);
             }
         });
 
@@ -286,38 +309,5 @@ public class FragmentBatteryCalculation extends Fragment {
                 });
             }
         });
-    }
-
-    private void calculateOverview() {
-//        panel_price = view.findViewById(R.id.panel_price);
-//        heater_price = view.findViewById(R.id.heater_price);
-//        inverter_price = view.findViewById(R.id.inverter_price);
-//        battery_price = view.findViewById(R.id.battery_price);
-//        inspection_cost = view.findViewById(R.id.inspection_cost);
-//        cleaning_cost = view.findViewById(R.id.cleaning_cost);
-//        electricity_cost = view.findViewById(R.id.electricity_cost);
-//        total_price = view.findViewById(R.id.total_price);
-//        payback_period = view.findViewById(R.id.payback_period);
-//
-//        panelPrice = getArguments().getInt("panelPrice");
-//        totalPayment = getArguments().getInt("TotalPayment");
-//
-//        heaterPrice = (int) (heaterPrice * liraPerDollar);
-//        inverterPrice = (int) (inverterPrice * liraPerDollar);
-//        batteryPrice = (int) (batteryPrice * liraPerDollar);
-//        inspectionCost = (int) (inspectionCost * liraPerDollar * 25);
-//        cleaningCost = (int) (cleaningCost * liraPerDollar * 5);
-//        totalPrice = panelPrice + heaterPrice + inverterPrice + batteryPrice + inspectionCost + cleaningCost;
-//        paybackYear = totalPrice / totalPayment;
-//
-//        panel_price.setText("Panel Price: " + panelPrice + " ₺");
-//        heater_price.setText("Heater Price: " + heaterPrice + " ₺");
-//        inverter_price.setText("Inverter Price: " + inverterPrice + " ₺");
-//        battery_price.setText("Battery Price: " + batteryPrice + " ₺");
-//        inspection_cost.setText("Inspection Cost: " + inspectionCost + " ₺");
-//        cleaning_cost.setText("Cleaning Cost: " + cleaningCost + " ₺");
-//        electricity_cost.setText("Electricity Cost: " + totalPayment + " ₺");
-//        total_price.setText("Total Price: " + totalPrice + " ₺");
-//        payback_period.setText("Payback Period: " + paybackYear + " year(s)");
     }
 }

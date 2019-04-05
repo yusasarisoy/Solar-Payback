@@ -110,15 +110,11 @@ public class FragmentPanels extends Fragment {
                             JSONObject jsonObject = response.getJSONObject("rates");
                             liraPerEuro = jsonObject.getDouble("TRY");
 
-                            Log.i("CURRENCY", "Success: " + success + ", Timestamp: " + timestamp + ", Base: " + base + ", Date: " + date + ", TRY: " + liraPerEuro);
-
                             panel1 = (int) (145.53 * liraPerEuro);
                             panel2 = (int) (110.25 * liraPerEuro);
 
                             pricing_panel_1.setText(panel1 + " ₺");
                             pricing_panel_2.setText(panel2 + " ₺");
-
-                            Log.i("PANEL_PRICES", "Monocrystalline: " + pricing_panel_1.getText().toString() + ", Polycrystalline: " + pricing_panel_2.getText().toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

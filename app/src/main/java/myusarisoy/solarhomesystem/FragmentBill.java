@@ -422,14 +422,9 @@ public class FragmentBill extends Fragment {
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
                             .commit();
-
-                    Log.i("MONTH", monthName + "");
-                    Log.i("PAYMENT", monthPayment + "");
-                    Log.i("POWER_CONSUMPTION", monthPowerConsumption + "");
                 }
             }
         });
-
     }
 
     @Override

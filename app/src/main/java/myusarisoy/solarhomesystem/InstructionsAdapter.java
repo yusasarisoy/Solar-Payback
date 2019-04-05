@@ -19,13 +19,13 @@ public class InstructionsAdapter extends PagerAdapter {
 
     public int[] images = {
             R.drawable.solar_house,
-            R.drawable.hair_dryer,
+            R.drawable.main_page,
             R.drawable.sun
     };
 
     public String[] texts = {
-            "Solar Home System is a mobile application that provides to solar energy calculation for your home appliances.",
-            "You can select appliances in your home from the list and their amounts, and usage durations during the day.",
+            "Payback Calculation System is a mobile application that provides to solar energy calculation for your billing amounts or your home appliances.",
+            "You can save your monthly billing amount or select appliances in your home from the list and their amounts, and usage durations during the day.",
             "If you are ready, we can start!"
     };
 
