@@ -17,17 +17,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.Locale;
 import java.util.Objects;
-import java.util.prefs.Preferences;
 
 import butterknife.BindView;
-import io.paperdb.Paper;
-import myusarisoy.solarhomesystem.Helper.LocaleHelper;
-
-import static android.graphics.ColorSpace.Model.XYZ;
 
 public class FragmentWelcome extends Fragment {
     @BindView(R.id.image_language)
@@ -57,14 +50,6 @@ public class FragmentWelcome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
-//        Paper.init(getContext());
-//
-//        String language = Paper.book().read("language");
-//        if (language == null)
-//            Paper.book().write("language", "en");
-//
-//        updateView((String) Paper.book().read("language"));
-
 //        Change language.
         languageClick();
 
@@ -75,13 +60,6 @@ public class FragmentWelcome extends Fragment {
         login();
 
         return view;
-    }
-
-    private void updateView(String language) {
-        button_create_account = view.findViewById(R.id.button_create_account);
-        Context context = LocaleHelper.setLocale(getContext(), language);
-        Resources resources = context.getResources();
-        button_create_account.setText(R.string.create_account);
     }
 
     private void languageClick() {
@@ -99,17 +77,9 @@ public class FragmentWelcome extends Fragment {
                 Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
-//                Paper.book().write("language", "tr");
-//                updateView((String) Paper.book().read("language"));
             }
         });
     }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(LocaleHelper.onAttach(context, "en"));
-//    }
 
     public void createAccount() {
         button_create_account = view.findViewById(R.id.button_create_account);

@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Fusion Payback</string>
+    <string name="app_name">Solar Payback</string>
     <string name="user_name">Yuşa Sarısoy</string>
     <string name="user_mail">myusarisoy@gmail.com</string>
     <string name="save">SAVE</string>
     <string name="tr">TR</string>
     <string name="eng">ENG</string>
-    <string name="create_an_account">Create an account for Fusion Payback.</string>
+    <string name="create_an_account">Create an account for Solar Payback.</string>
     <string name="create_account">Create account</string>
     <string name="have_an_account">Have an account? Log in</string>
     <string name="full_name">Full Name</string>
@@ -18,7 +18,7 @@
     <string name="finish">Finish</string>
     <string name="back">Back</string>
     <string name="go_back">Go Back</string>
-    <string name="login_to">Log in to Fusion Payback.</string>
+    <string name="login_to">Log in to Solar Payback.</string>
     <string name="login">Log in</string>
     <string name="complete_register">Complete register</string>
     <string name="complete">Complete</string>
@@ -34,7 +34,7 @@
     <string name="confirm">Confirm</string>
     <string name="search">Search</string>
     <string name="detect">Detect</string>
-    <string name="find_your_account">Find your Fusion Payback account.</string>
+    <string name="find_your_account">Find your Solar Payback account.</string>
     <string name="enter_your_mail">Enter your email to reset your password.</string>
     <string name="reset_password">Reset password</string>
     <string name="consumer_type">Please choose your consumer type.</string>
@@ -91,4 +91,9 @@
     <string name="panel_2">Polycrystalline Solar Panel\n(250 W, 1.67 m²)</string>
     <string name="soon">Soon!</string>
     <string name="appliance_annual_billing">Please enter your annual billing amount.</string>
+    <string name="generator_choice">Please choose a generator you want to use.</string>
+    <string name="generator_1">Aksa AD Doosan Motorlu Kabinli Otomatik Dizel Jeneratör\n(330 kVA)</string>
+    <string name="generator_2">Aksa APD Cummins Kabinli Otomatik Dizel Jeneratör\n(110 kVA)</string>
+    <string name="pricing_generator_1">121.895,75 ₺</string>
+    <string name="pricing_generator_2">72.493,08 ₺</string>
 </resources>

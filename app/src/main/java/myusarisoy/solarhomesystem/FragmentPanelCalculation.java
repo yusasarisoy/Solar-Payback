@@ -184,13 +184,13 @@ public class FragmentPanelCalculation extends Fragment {
         });
 
         button_continue.setOnClickListener(v -> {
-            FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
+            FragmentGeneratorChoice fragmentGeneratorChoice = new FragmentGeneratorChoice();
             Bundle bundle = new Bundle();
             bundle.putInt("panelPrice", totalPrice);
             bundle.putInt("TotalPayment", totalPayment);
-            fragmentBatteryCalculation.setArguments(bundle);
+            fragmentGeneratorChoice.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
+                    .replace(R.id.layout_main, fragmentGeneratorChoice, "FragmentGeneratorChoice")
                     .commit();
         });
     }
