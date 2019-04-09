@@ -50,20 +50,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.checkBox.setChecked(appliance.isCheck());
         viewHolder.checkBox.setTag(appliance);
 
-        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CheckBox checkBox = (CheckBox) view;
-                Appliance applianceCheckBox = (Appliance) checkBox.getTag();
+        viewHolder.checkBox.setOnClickListener(view -> {
+            CheckBox checkBox = (CheckBox) view;
+            Appliance applianceCheckBox = (Appliance) checkBox.getTag();
 
-                applianceCheckBox.setCheck(checkBox.isChecked());
-                appliance.setCheck(checkBox.isChecked());
+            applianceCheckBox.setCheck(checkBox.isChecked());
+            appliance.setCheck(checkBox.isChecked());
 
-                if (checkBox.isChecked())
-                    showSnackbar(view, appliance.getAppliance() + " selected.");
-                else
-                    showSnackbar(view, appliance.getAppliance() + " unselected.");
-            }
+            if (checkBox.isChecked())
+                showSnackbar(view, appliance.getAppliance() + " selected.");
+            else
+                showSnackbar(view, appliance.getAppliance() + " unselected.");
         });
     }
 

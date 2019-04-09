@@ -1,7 +1,7 @@
 package myusarisoy.solarhomesystem;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,6 @@ public class FragmentSplash extends Fragment {
     @BindView(R.id.icon)
     ImageView icon;
 
-    CountDownTimer countDownTimer;
     View view;
 
     public static FragmentSplash newInstance(Objects... objects) {
@@ -35,25 +34,14 @@ public class FragmentSplash extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_splash, container, false);
 
-        // Display the application icon during 1 second.
-        countDownTimer = new CountDownTimer(1000, 500) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
-
-            @Override
-            public void onFinish() {
-                countDownTimer.cancel();
-
-                FragmentInstructions fragmentInstructions = new FragmentInstructions();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentInstructions, "FragmentInstructions")
-                        .addToBackStack(null)
-                        .commit();
-            }
-        }.start();
+        new Handler().postDelayed(() -> {
+            FragmentInstructions fragmentInstructions = new FragmentInstructions();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentInstructions, "FragmentInstructions")
+                    .addToBackStack(null)
+                    .commit();
+        }, 1000);
 
         return view;
     }
-
 }

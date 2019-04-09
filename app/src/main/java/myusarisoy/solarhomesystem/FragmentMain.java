@@ -11,8 +11,6 @@ import android.location.Geocoder;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.libraries.places.api.Places;
@@ -23,7 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
-import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -56,12 +54,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -79,8 +75,8 @@ public class FragmentMain extends Fragment {
     @BindView(R.id.recycler_view_appliance)
     RecyclerView recycler_view_appliance;
 
-    @BindView(R.id.image_add)
-    ImageView image_add;
+    @BindView(R.id.button_add)
+    FloatingActionButton button_add;
 
     @BindView(R.id.button_sign_out)
     Button button_sign_out;
@@ -146,17 +142,14 @@ public class FragmentMain extends Fragment {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         setDataToView(user);
 
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    FragmentWelcome fragmentWelcome = new FragmentWelcome();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
-                            .addToBackStack(null)
-                            .commit();
-                }
+        authStateListener = firebaseAuth -> {
+            FirebaseUser user1 = firebaseAuth.getCurrentUser();
+            if (user1 == null) {
+                FragmentWelcome fragmentWelcome = new FragmentWelcome();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                        .addToBackStack(null)
+                        .commit();
             }
         };
 
@@ -172,35 +165,27 @@ public class FragmentMain extends Fragment {
 
         String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject cityObject = response.getJSONObject(i);
-                        city = cityObject.getString("city");
-                        irradianceData = cityObject.getDouble("solar_irradiance");
-                        postalCode = cityObject.getString("postal_code");
-                        cityList.add(city);
-                        cityPostal.add(postalCode);
-                        solarIrradianceList.add(irradianceData);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, response -> {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject cityObject = response.getJSONObject(i);
+                    city = cityObject.getString("city");
+                    irradianceData = cityObject.getDouble("solar_irradiance");
+                    postalCode = cityObject.getString("postal_code");
+                    cityList.add(city);
+                    cityPostal.add(postalCode);
+                    solarIrradianceList.add(irradianceData);
 
-                        if (cityPostal.get(i).equals(cityName)) {
-                            cityLocation = cityList.get(i);
-                            irradianceLocation = solarIrradianceList.get(i);
-                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
-                        }
+                    if (cityPostal.get(i).equals(cityName)) {
+                        cityLocation = cityList.get(i);
+                        irradianceLocation = solarIrradianceList.get(i);
+                        showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("VOLLEY_ERROR", "" + error);
-            }
-        });
+        }, error -> Log.i("VOLLEY_ERROR", "" + error));
         requestQueue.add(jsonArrayRequest);
 
 //        Set adapter for Recycler View.
@@ -234,9 +219,59 @@ public class FragmentMain extends Fragment {
 //        email.setText("User Email: " + user.getEmail());
     }
 
-    FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
-        @Override
-        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+    FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+            FragmentWelcome fragmentWelcome = new FragmentWelcome();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+    public void clickToSignOut() {
+        button_sign_out = view.findViewById(R.id.button_sign_out);
+        button_sign_out.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.dialog_sign_out);
+            signOutDialog = reservationBuilder.create();
+            WindowManager.LayoutParams params = signOutDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.8);
+            params.height = (int) (height * 0.8);
+            signOutDialog.getWindow().setAttributes(params);
+            signOutDialog.show();
+
+            cancel_sign_out = signOutDialog.findViewById(R.id.cancel_sign_out);
+            confirm_sign_out = signOutDialog.findViewById(R.id.confirm_sign_out);
+
+            cancel_sign_out.setOnClickListener(v12 -> signOutDialog.dismiss());
+
+            confirm_sign_out.setOnClickListener(v1 -> {
+                signOutDialog.dismiss();
+
+                final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
+                progressDialog.setCancelable(false);
+                progressDialog.setCanceledOnTouchOutside(false);
+
+                Thread thread = new Thread(() -> {
+                    signOut();
+
+                    progressDialog.dismiss();
+                });
+                thread.start();
+            });
+        });
+    }
+
+    public void signOut() {
+        firebaseAuth.signOut();
+
+        FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user == null) {
                 FragmentWelcome fragmentWelcome = new FragmentWelcome();
@@ -244,80 +279,6 @@ public class FragmentMain extends Fragment {
                         .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
-            }
-        }
-    };
-
-    public void clickToSignOut() {
-        button_sign_out = view.findViewById(R.id.button_sign_out);
-        button_sign_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.dialog_sign_out);
-                signOutDialog = reservationBuilder.create();
-                WindowManager.LayoutParams params = signOutDialog.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.8);
-                params.height = (int) (height * 0.8);
-                signOutDialog.getWindow().setAttributes(params);
-                signOutDialog.show();
-
-                cancel_sign_out = signOutDialog.findViewById(R.id.cancel_sign_out);
-                confirm_sign_out = signOutDialog.findViewById(R.id.confirm_sign_out);
-
-                cancel_sign_out.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        signOutDialog.dismiss();
-                    }
-                });
-
-                confirm_sign_out.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        signOutDialog.dismiss();
-
-                        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
-                        progressDialog.setCancelable(false);
-                        progressDialog.setCanceledOnTouchOutside(false);
-
-                        // Display the progress during 1 second.
-                        countDownTimer = new CountDownTimer(1000, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                countDownTimer.cancel();
-                                progressDialog.dismiss();
-                                signOut();
-                            }
-                        }.start();
-                    }
-                });
-            }
-        });
-    }
-
-    public void signOut() {
-        firebaseAuth.signOut();
-
-        FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    FragmentWelcome fragmentWelcome = new FragmentWelcome();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
-                            .addToBackStack(null)
-                            .commit();
-                }
             }
         };
     }
@@ -405,9 +366,10 @@ public class FragmentMain extends Fragment {
 
     private void changeAppliances() {
         button_continue = view.findViewById(R.id.button_continue);
-        button_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button_continue.setOnClickListener(v -> {
+            if (cityLocation.equals("")) {
+                showSnackbar(getResources().getString(R.string.no_location));
+            } else {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
                 reservationBuilder.setView(R.layout.dialog_appliances);
                 appliancesDialog = reservationBuilder.create();
@@ -435,106 +397,83 @@ public class FragmentMain extends Fragment {
                         data += "\n" + appliance.getAppliance();
                         appliancesName.add(appliance.getAppliance());
                         appliancesImage.add(appliance.getImageResource());
+
+                        appliances_list.setText(data);
                     }
                 }
 
-                if (cityLocation.equals("")) {
-                    sure_to_add_appliance.setText(R.string.no_location);
-                    cancel_appliances.setText(R.string.back);
-                    confirm_appliances.setVisibility(View.GONE);
-                    appliances_list.setVisibility(View.GONE);
-                } else if (data.equals("")) {
+                if (data.equals("")) {
                     sure_to_add_appliance.setText(R.string.no_appliance);
                     cancel_appliances.setText(R.string.back);
                     confirm_appliances.setVisibility(View.GONE);
                     appliances_list.setVisibility(View.GONE);
-                } else
-                    appliances_list.setText(data);
+                }
 
-                cancel_appliances.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        appliancesDialog.dismiss();
-                    }
-                });
+                cancel_appliances.setOnClickListener(v12 -> appliancesDialog.dismiss());
 
-                confirm_appliances.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        appliancesDialog.dismiss();
+                confirm_appliances.setOnClickListener(v1 -> {
+                    appliancesDialog.dismiss();
 
-                        // Display the progress during 1 second.
-                        countDownTimer = new CountDownTimer(1000, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                            }
+                    // Display the progress during 2 seconds.
+                    countDownTimer = new CountDownTimer(2000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                        }
 
-                            @Override
-                            public void onFinish() {
-                                countDownTimer.cancel();
+                        @Override
+                        public void onFinish() {
+                            countDownTimer.cancel();
 
-                                FragmentAppliances fragmentAppliances = new FragmentAppliances();
-                                Bundle bundle = new Bundle();
-                                bundle.putStringArrayList("AppliancesName", appliancesName);
-                                bundle.putIntegerArrayList("AppliancesImage", appliancesImage);
-                                bundle.putString("City", cityLocation);
-                                bundle.putDouble("CityIrradiance", irradianceLocation);
-                                fragmentAppliances.setArguments(bundle);
-                                getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
-                                        .commit();
-                            }
-                        }.start();
-                    }
+                            FragmentAppliances fragmentAppliances = new FragmentAppliances();
+                            Bundle bundle = new Bundle();
+                            bundle.putStringArrayList("AppliancesName", appliancesName);
+                            bundle.putIntegerArrayList("AppliancesImage", appliancesImage);
+                            bundle.putString("City", cityLocation);
+                            bundle.putDouble("CityIrradiance", irradianceLocation);
+                            fragmentAppliances.setArguments(bundle);
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
+                                    .commit();
+                        }
+                    }.start();
                 });
             }
         });
     }
 
     private void addNewAppliance() {
-        image_add = view.findViewById(R.id.image_add);
-        image_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.dialog_new_appliance);
-                addApplianceDialog = reservationBuilder.create();
-                final WindowManager.LayoutParams params = addApplianceDialog.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.8);
-                params.height = (int) (height * 0.8);
-                addApplianceDialog.getWindow().setAttributes(params);
-                addApplianceDialog.show();
+        button_add = view.findViewById(R.id.button_add);
+        button_add.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.dialog_new_appliance);
+            addApplianceDialog = reservationBuilder.create();
+            final WindowManager.LayoutParams params = addApplianceDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.8);
+            params.height = (int) (height * 0.8);
+            addApplianceDialog.getWindow().setAttributes(params);
+            addApplianceDialog.show();
 
-                appliance_image = addApplianceDialog.findViewById(R.id.appliance_image);
-                appliance_name = addApplianceDialog.findViewById(R.id.appliance_name);
-                cancel_back = addApplianceDialog.findViewById(R.id.cancel_back);
-                confirm_back = addApplianceDialog.findViewById(R.id.confirm_back);
+            appliance_image = addApplianceDialog.findViewById(R.id.appliance_image);
+            appliance_name = addApplianceDialog.findViewById(R.id.appliance_name);
+            cancel_back = addApplianceDialog.findViewById(R.id.cancel_back);
+            confirm_back = addApplianceDialog.findViewById(R.id.confirm_back);
 
-                cancel_back.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        addApplianceDialog.dismiss();
-                    }
-                });
+            cancel_back.setOnClickListener(v12 -> addApplianceDialog.dismiss());
 
-                confirm_back.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!appliance_name.getText().toString().isEmpty()) {
-                            addApplianceDialog.dismiss();
+            confirm_back.setOnClickListener(v1 -> {
+                if (!appliance_name.getText().toString().isEmpty()) {
+                    addApplianceDialog.dismiss();
 
-                            Appliance newAppliance = new Appliance(false, R.drawable.user, appliance_name.getText().toString());
-                            applianceList.add(newAppliance);
+                    Appliance newAppliance = new Appliance(false, R.drawable.user, appliance_name.getText().toString());
+                    applianceList.add(newAppliance);
 
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-            }
+                    adapter.notifyDataSetChanged();
+                }
+            });
         });
     }
 
@@ -552,35 +491,27 @@ public class FragmentMain extends Fragment {
 
                 String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
 
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject cityObject = response.getJSONObject(i);
-                                city = cityObject.getString("city");
-                                irradianceData = cityObject.getDouble("solar_irradiance");
-                                postalCode = cityObject.getString("postal_code");
-                                cityList.add(city);
-                                cityPostal.add(postalCode);
-                                solarIrradianceList.add(irradianceData);
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, response -> {
+                    try {
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject cityObject = response.getJSONObject(i);
+                            city = cityObject.getString("city");
+                            irradianceData = cityObject.getDouble("solar_irradiance");
+                            postalCode = cityObject.getString("postal_code");
+                            cityList.add(city);
+                            cityPostal.add(postalCode);
+                            solarIrradianceList.add(irradianceData);
 
-                                if (cityList.get(i).equals(cityName)) {
-                                    cityLocation = cityList.get(i);
-                                    irradianceLocation = solarIrradianceList.get(i);
-                                    showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
-                                }
+                            if (cityList.get(i).equals(cityName)) {
+                                cityLocation = cityList.get(i);
+                                irradianceLocation = solarIrradianceList.get(i);
+                                showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("VOLLEY_ERROR", "" + error);
-                    }
-                });
+                }, error -> Log.i("VOLLEY_ERROR", "" + error));
                 requestQueue.add(jsonArrayRequest);
             }
         };
@@ -588,58 +519,51 @@ public class FragmentMain extends Fragment {
 
     public void locationClick() {
         button_location = view.findViewById(R.id.button_location);
-        button_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.dialog_location);
-                locationDialog = reservationBuilder.create();
-                final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.8);
-                params.height = (int) (height * 0.8);
-                locationDialog.getWindow().setAttributes(params);
-                locationDialog.show();
+        button_location.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.dialog_location);
+            locationDialog = reservationBuilder.create();
+            final WindowManager.LayoutParams params = locationDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.8);
+            params.height = (int) (height * 0.8);
+            locationDialog.getWindow().setAttributes(params);
+            locationDialog.show();
 
-                layout_detect = locationDialog.findViewById(R.id.layout_detect);
-                layout_search = locationDialog.findViewById(R.id.layout_search);
+            layout_detect = locationDialog.findViewById(R.id.layout_detect);
+            layout_search = locationDialog.findViewById(R.id.layout_search);
 
-                layout_detect.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        locationDialog.dismiss();
+            layout_detect.setOnClickListener(v15 -> {
+                locationDialog.dismiss();
 
-                        if (Build.VERSION.SDK_INT >= 23) {
-                            if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                Log.d("LOCATION", "Not granted");
-                                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                            } else
-                                requestLocation();
-                        } else
-                            requestLocation();
-                    }
-                });
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Log.d("LOCATION", "Not granted");
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    } else
+                        requestLocation();
+                } else
+                    requestLocation();
+            });
 
-                layout_search.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        locationDialog.dismiss();
+            layout_search.setOnClickListener(v14 -> {
+                locationDialog.dismiss();
 
-                        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                        reservationBuilder.setView(R.layout.pop_up_location);
-                        searchLocationDialog = reservationBuilder.create();
-                        final WindowManager.LayoutParams params = searchLocationDialog.getWindow().getAttributes();
-                        DisplayMetrics displayMetrics = new DisplayMetrics();
-                        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                        int width = displayMetrics.widthPixels;
-                        int height = displayMetrics.heightPixels;
-                        params.width = (int) (width * 0.8);
-                        params.height = (int) (height * 0.8);
-                        searchLocationDialog.getWindow().setAttributes(params);
-                        searchLocationDialog.show();
+                android.support.v7.app.AlertDialog.Builder reservationBuilder1 = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder1.setView(R.layout.pop_up_location);
+                searchLocationDialog = reservationBuilder1.create();
+                final WindowManager.LayoutParams params1 = searchLocationDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics1 = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics1);
+                int width1 = displayMetrics1.widthPixels;
+                int height1 = displayMetrics1.heightPixels;
+                params1.width = (int) (width1 * 0.8);
+                params1.height = (int) (height1 * 0.8);
+                searchLocationDialog.getWindow().setAttributes(params1);
+                searchLocationDialog.show();
 
 //                        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 //
@@ -693,100 +617,77 @@ public class FragmentMain extends Fragment {
 //                        });
 //                        requestQueue.add(jsonArrayRequest);
 
-                        layout_location = searchLocationDialog.findViewById(R.id.layout_location);
-                        locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
-                        locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
-                        cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
-                        confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
+                layout_location = searchLocationDialog.findViewById(R.id.layout_location);
+                locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
+                locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
+                cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
+                confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
 
-                        locationPicker.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                locationSpinner.performClick();
-                            }
-                        });
+                locationPicker.setOnClickListener(v13 -> locationSpinner.performClick());
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            locationSpinner.setPopupBackgroundResource(R.color.core_white);
-                        }
-                        ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, R.layout.spinner_item, cityList);
-                        locationSpinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
-                        locationSpinner.setAdapter(locationSpinnerAdapter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    locationSpinner.setPopupBackgroundResource(R.color.core_white);
+                }
+                ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, R.layout.spinner_item, cityList);
+                locationSpinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
+                locationSpinner.setAdapter(locationSpinnerAdapter);
 
-                        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                cityName = parent.getItemAtPosition(position).toString();
-                            }
+                locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        cityName = parent.getItemAtPosition(position).toString();
+                    }
 
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
-                            }
-                        });
-
-                        cancel_location.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                searchLocationDialog.dismiss();
-                            }
-                        });
-
-                        confirm_location.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                searchLocationDialog.dismiss();
-
-                                countDownTimer = new CountDownTimer(1000, 500) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        countDownTimer.cancel();
-
-                                        requestQueue = Volley.newRequestQueue(getContext());
-
-                                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
-
-                                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-                                            @Override
-                                            public void onResponse(JSONArray response) {
-                                                try {
-                                                    for (int i = 0; i < response.length(); i++) {
-                                                        JSONObject cityObject = response.getJSONObject(i);
-                                                        city = cityObject.getString("city");
-                                                        irradianceData = cityObject.getDouble("solar_irradiance");
-                                                        postalCode = cityObject.getString("postal_code");
-                                                        cityList.add(city);
-                                                        cityPostal.add(postalCode);
-                                                        solarIrradianceList.add(irradianceData);
-
-                                                        if (cityList.get(i).equals(cityName)) {
-                                                            cityLocation = cityList.get(i);
-                                                            irradianceLocation = solarIrradianceList.get(i);
-                                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
-                                                        }
-                                                    }
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                Log.i("VOLLEY_ERROR", "" + error);
-                                            }
-                                        });
-                                        requestQueue.add(jsonArrayRequest);
-                                    }
-                                }.start();
-                            }
-                        });
                     }
                 });
-            }
+
+                cancel_location.setOnClickListener(v12 -> searchLocationDialog.dismiss());
+
+                confirm_location.setOnClickListener(v1 -> {
+                    searchLocationDialog.dismiss();
+
+                    countDownTimer = new CountDownTimer(1000, 500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            countDownTimer.cancel();
+
+                            requestQueue = Volley.newRequestQueue(getContext());
+
+                            String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+
+                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, response -> {
+                                try {
+                                    for (int i = 0; i < response.length(); i++) {
+                                        JSONObject cityObject = response.getJSONObject(i);
+                                        city = cityObject.getString("city");
+                                        irradianceData = cityObject.getDouble("solar_irradiance");
+                                        postalCode = cityObject.getString("postal_code");
+                                        cityList.add(city);
+                                        cityPostal.add(postalCode);
+                                        solarIrradianceList.add(irradianceData);
+
+                                        if (cityList.get(i).equals(cityName)) {
+                                            cityLocation = cityList.get(i);
+                                            irradianceLocation = solarIrradianceList.get(i);
+                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }, error -> Log.i("VOLLEY_ERROR", "" + error));
+                            requestQueue.add(jsonArrayRequest);
+                        }
+                    }.start();
+                });
+            });
         });
     }
 
@@ -820,35 +721,27 @@ public class FragmentMain extends Fragment {
 
             String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
 
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    try {
-                        for (int i = 0; i < response.length(); i++) {
-                            JSONObject cityObject = response.getJSONObject(i);
-                            city = cityObject.getString("city");
-                            irradianceData = cityObject.getDouble("solar_irradiance");
-                            postalCode = cityObject.getString("postal_code");
-                            cityList.add(city);
-                            cityPostal.add(postalCode);
-                            solarIrradianceList.add(irradianceData);
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, response -> {
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject cityObject = response.getJSONObject(i);
+                        city = cityObject.getString("city");
+                        irradianceData = cityObject.getDouble("solar_irradiance");
+                        postalCode = cityObject.getString("postal_code");
+                        cityList.add(city);
+                        cityPostal.add(postalCode);
+                        solarIrradianceList.add(irradianceData);
 
-                            if (cityPostal.get(i).equals(cityName)) {
-                                cityLocation = cityList.get(i);
-                                irradianceLocation = solarIrradianceList.get(i);
-                                showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
-                            }
+                        if (cityPostal.get(i).equals(cityName)) {
+                            cityLocation = cityList.get(i);
+                            irradianceLocation = solarIrradianceList.get(i);
+                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.i("VOLLEY_ERROR", "" + error);
-                }
-            });
+            }, error -> Log.i("VOLLEY_ERROR", "" + error));
             requestQueue.add(jsonArrayRequest);
         } else {
             LocationRequest locationRequest = new LocationRequest();

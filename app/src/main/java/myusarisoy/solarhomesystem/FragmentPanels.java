@@ -41,7 +41,6 @@ public class FragmentPanels extends Fragment {
     @BindView(R.id.img_panel_2)
     ImageView panel_2;
 
-    private CountDownTimer countDownTimer;
     private RequestQueue requestQueue;
     private boolean success;
     private double liraPerEuro;
@@ -92,89 +91,69 @@ public class FragmentPanels extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
 
-        // Display the progress during 1 second.
-        countDownTimer = new CountDownTimer(2000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                String currencyAPI = "http://data.fixer.io/api/latest?access_key=5471e8c810ea396b3146e028c7d68ecb&%20base=EUR&symbols=TRY";
+        Thread thread = new Thread(() -> {
+            String currencyAPI = "http://data.fixer.io/api/latest?access_key=5471e8c810ea396b3146e028c7d68ecb&%20base=EUR&symbols=TRY";
 
-                requestQueue = Volley.newRequestQueue(getContext());
-                final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currencyAPI, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            success = response.getBoolean("success");
-                            timestamp = response.getInt("timestamp");
-                            base = response.getString("base");
-                            date = response.getString("date");
-                            JSONObject jsonObject = response.getJSONObject("rates");
-                            liraPerEuro = jsonObject.getDouble("TRY");
+            requestQueue = Volley.newRequestQueue(getContext());
+            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currencyAPI, null, response -> {
+                try {
+                    success = response.getBoolean("success");
+                    timestamp = response.getInt("timestamp");
+                    base = response.getString("base");
+                    date = response.getString("date");
+                    JSONObject jsonObject = response.getJSONObject("rates");
+                    liraPerEuro = jsonObject.getDouble("TRY");
 
-                            panel1 = (int) (145.53 * liraPerEuro);
-                            panel2 = (int) (110.25 * liraPerEuro);
+                    panel1 = (int) (145.53 * liraPerEuro);
+                    panel2 = (int) (110.25 * liraPerEuro);
 
-                            pricing_panel_1.setText(panel1 + " ₺");
-                            pricing_panel_2.setText(panel2 + " ₺");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                requestQueue.add(jsonObjectRequest);
-            }
+                    pricing_panel_1.setText(panel1 + " ₺");
+                    pricing_panel_2.setText(panel2 + " ₺");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show());
+            requestQueue.add(jsonObjectRequest);
+        });
+        thread.start();
 
-            @Override
-            public void onFinish() {
-                countDownTimer.cancel();
-                progressDialog.dismiss();
-            }
-        }.start();
+        progressDialog.dismiss();
     }
 
     private void clickPanels() {
         panel_1 = view.findViewById(R.id.img_panel_1);
         panel_2 = view.findViewById(R.id.img_panel_2);
 
-        panel_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
-                Bundle bundle = new Bundle();
-                bundle.putString("Panel", "panel1");
-                bundle.putDouble("PanelArea", 1.685);
-                bundle.putDouble("LiraPerEuro", liraPerEuro);
-                bundle.putString("City", cityLocation);
-                bundle.putDouble("CityIrradiance", irradianceLocation);
-                bundle.putInt("MostConsumption", mostConsumption);
-                bundle.putInt("TotalPayment", totalPayment);
-                fragmentPanelCalculation.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
-                        .commit();
-            }
+        panel_1.setOnClickListener(v -> {
+            FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+            Bundle bundle = new Bundle();
+            bundle.putString("Panel", "panel1");
+            bundle.putDouble("PanelArea", 1.685);
+            bundle.putDouble("LiraPerEuro", liraPerEuro);
+            bundle.putString("City", cityLocation);
+            bundle.putDouble("CityIrradiance", irradianceLocation);
+            bundle.putInt("MostConsumption", mostConsumption);
+            bundle.putInt("TotalPayment", totalPayment);
+            fragmentPanelCalculation.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                    .commit();
         });
 
-        panel_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
-                Bundle bundle = new Bundle();
-                bundle.putString("Panel", "panel2");
-                bundle.putDouble("PanelArea", 1.67);
-                bundle.putString("City", cityLocation);
-                bundle.putDouble("CityIrradiance", irradianceLocation);
-                bundle.putInt("MostConsumption", mostConsumption);
-                bundle.putInt("TotalPayment", totalPayment);
-                fragmentPanelCalculation.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
-                        .commit();
-            }
+        panel_2.setOnClickListener(v -> {
+            FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+            Bundle bundle = new Bundle();
+            bundle.putString("Panel", "panel2");
+            bundle.putDouble("PanelArea", 1.67);
+            bundle.putDouble("LiraPerEuro", liraPerEuro);
+            bundle.putString("City", cityLocation);
+            bundle.putDouble("CityIrradiance", irradianceLocation);
+            bundle.putInt("MostConsumption", mostConsumption);
+            bundle.putInt("TotalPayment", totalPayment);
+            fragmentPanelCalculation.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                    .commit();
         });
     }
 }

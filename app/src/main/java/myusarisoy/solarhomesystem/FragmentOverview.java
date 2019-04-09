@@ -69,7 +69,7 @@ public class FragmentOverview extends Fragment {
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
     public String cityLocation;
     public double irradianceLocation;
-    int totalPayment, totalConsumption, mostConsumption = 0, totalWatts;
+    int totalPayment, totalConsumption, mostConsumption = 0;
     View view;
 
     public static FragmentOverview newInstance(Object... objects) {
@@ -114,7 +114,7 @@ public class FragmentOverview extends Fragment {
 //        Go to panels.
             gotoPanels();
 
-            Toast.makeText(getContext(), "Total payment: " + totalPayment + " ₺\nTotal power consumption: " + totalConsumption + "kWh", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "Total payment: " + totalPayment + " ₺\nTotal power consumption: " + totalConsumption + "kWh", Toast.LENGTH_LONG).show();
         }
 
         return view;
@@ -159,43 +159,32 @@ public class FragmentOverview extends Fragment {
         layout_on_going.setVisibility(View.VISIBLE);
         image_main_page.setVisibility(View.VISIBLE);
 
-        image_main_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.layout_goto_main_page);
-                dialog_main_page = reservationBuilder.create();
-                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.9);
-                params.height = (int) (height * 0.9);
-                dialog_main_page.getWindow().setAttributes(params);
-                dialog_main_page.show();
+        image_main_page.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.layout_goto_main_page);
+            dialog_main_page = reservationBuilder.create();
+            WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.9);
+            params.height = (int) (height * 0.9);
+            dialog_main_page.getWindow().setAttributes(params);
+            dialog_main_page.show();
 
-                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
-                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
+            no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
+            yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
 
-                no_main_page.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_main_page.dismiss();
-                    }
-                });
+            no_main_page.setOnClickListener(v1 -> dialog_main_page.dismiss());
 
-                yes_main_page.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_main_page.dismiss();
+            yes_main_page.setOnClickListener(v12 -> {
+                dialog_main_page.dismiss();
 
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
-            }
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            });
         });
     }
 
@@ -265,86 +254,67 @@ public class FragmentOverview extends Fragment {
 
     private void showConsumption() {
         consumption = view.findViewById(R.id.image_view_consumption);
-        consumption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.layout_top_power_consumption);
-                dialog_power_consumption = reservationBuilder.create();
-                WindowManager.LayoutParams params = dialog_power_consumption.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.9);
-                params.height = (int) (height * 0.9);
-                dialog_power_consumption.getWindow().setAttributes(params);
-                dialog_power_consumption.show();
+        consumption.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.layout_top_power_consumption);
+            dialog_power_consumption = reservationBuilder.create();
+            WindowManager.LayoutParams params = dialog_power_consumption.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.9);
+            params.height = (int) (height * 0.9);
+            dialog_power_consumption.getWindow().setAttributes(params);
+            dialog_power_consumption.show();
 
-                setAdapterPowerConsumption();
-                initRecyclerViewPowerConsumption();
+            setAdapterPowerConsumption();
+            initRecyclerViewPowerConsumption();
 
-                ok_power_consumption = dialog_power_consumption.findViewById(R.id.ok_power_consumption);
+            ok_power_consumption = dialog_power_consumption.findViewById(R.id.ok_power_consumption);
 
-                ok_power_consumption.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_power_consumption.dismiss();
-                    }
-                });
-            }
+            ok_power_consumption.setOnClickListener(v1 -> dialog_power_consumption.dismiss());
         });
     }
 
     private void showTips() {
         tips = view.findViewById(R.id.image_view_tips);
-        tips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.layout_energy_saver_tips);
-                dialog_energy_saver_tips = reservationBuilder.create();
-                WindowManager.LayoutParams params = dialog_energy_saver_tips.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.9);
-                params.height = (int) (height * 0.9);
-                dialog_energy_saver_tips.getWindow().setAttributes(params);
-                dialog_energy_saver_tips.show();
+        tips.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.layout_energy_saver_tips);
+            dialog_energy_saver_tips = reservationBuilder.create();
+            WindowManager.LayoutParams params = dialog_energy_saver_tips.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.9);
+            params.height = (int) (height * 0.9);
+            dialog_energy_saver_tips.getWindow().setAttributes(params);
+            dialog_energy_saver_tips.show();
 
-                setAdapterEnergySaverTips();
-                initRecyclerViewEnergySaverTips();
+            setAdapterEnergySaverTips();
+            initRecyclerViewEnergySaverTips();
 
-                ok_energy_saver_tips = dialog_energy_saver_tips.findViewById(R.id.ok_energy_saver_tips);
+            ok_energy_saver_tips = dialog_energy_saver_tips.findViewById(R.id.ok_energy_saver_tips);
 
-                ok_energy_saver_tips.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_energy_saver_tips.dismiss();
-                    }
-                });
-            }
+            ok_energy_saver_tips.setOnClickListener(v1 -> dialog_energy_saver_tips.dismiss());
         });
     }
 
     private void gotoPanels() {
         button_next = view.findViewById(R.id.button_next);
-        button_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentPanels fragmentPanels = new FragmentPanels();
-                Bundle bundle = new Bundle();
-                bundle.putString("City", cityLocation);
-                bundle.putDouble("CityIrradiance", irradianceLocation);
-                bundle.putInt("MostConsumption", mostConsumption);
-                bundle.putInt("TotalPayment", totalPayment);
-                fragmentPanels.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
-                        .commit();
-            }
+        button_next.setOnClickListener(v -> {
+            FragmentPanels fragmentPanels = new FragmentPanels();
+            Bundle bundle = new Bundle();
+            bundle.putString("City", cityLocation);
+            bundle.putDouble("CityIrradiance", irradianceLocation);
+            bundle.putInt("MostConsumption", mostConsumption);
+            bundle.putInt("TotalPayment", totalPayment);
+            fragmentPanels.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
+                    .commit();
         });
     }
 
@@ -358,46 +328,4 @@ public class FragmentOverview extends Fragment {
         textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();
     }
-
-//    private void gotoMainPage() {
-//        main_page = view.findViewById(R.id.image_view_main_page);
-//        main_page.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-//                reservationBuilder.setView(R.layout.layout_goto_main_page);
-//                dialog_main_page = reservationBuilder.create();
-//                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
-//                DisplayMetrics displayMetrics = new DisplayMetrics();
-//                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//                int width = displayMetrics.widthPixels;
-//                int height = displayMetrics.heightPixels;
-//                params.width = (int) (width * 0.9);
-//                params.height = (int) (height * 0.9);
-//                dialog_main_page.getWindow().setAttributes(params);
-//                dialog_main_page.show();
-//
-//                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
-//                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
-//
-//                no_main_page.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog_main_page.dismiss();
-//                    }
-//                });
-//
-//                yes_main_page.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog_main_page.dismiss();
-//
-//                        Intent intent = new Intent(getContext(), MainActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
-//                    }
-//                });
-//            }
-//        });
-//    }
 }

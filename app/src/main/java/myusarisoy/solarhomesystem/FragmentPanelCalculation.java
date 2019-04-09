@@ -56,7 +56,7 @@ public class FragmentPanelCalculation extends Fragment {
     @BindView(R.id.layout_next)
     LinearLayout layout_next;
 
-    @BindView(R.id.button_continue)
+    @BindView(R.id.layout_continue)
     LinearLayout layout_continue;
 
     @BindView(R.id.button_back)
@@ -140,13 +140,14 @@ public class FragmentPanelCalculation extends Fragment {
         required_area = view.findViewById(R.id.required_area);
         total_payment = view.findViewById(R.id.total_payment);
 
-        if (panelEnergy == 330) {
+        if (getArguments().getString("Panel").equals("panel1")) {
             howManyPanels = (int) (mostConsumption / (irradianceLocation * 0.245)) + 1;
             producedEnergy = (int) (0.245 * irradianceLocation * howManyPanels);
-        } else if (panelEnergy == 245) {
+        } else if (getArguments().getString("Panel").equals("panel2")) {
             howManyPanels = (int) (mostConsumption / (irradianceLocation * 0.186)) + 1;
             producedEnergy = (int) (0.186 * irradianceLocation * howManyPanels);
         }
+
         requiredArea = (int) ((howManyPanels * panelArea) + 1);
         totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
 
@@ -166,40 +167,31 @@ public class FragmentPanelCalculation extends Fragment {
         button_next = view.findViewById(R.id.button_next);
         button_continue = view.findViewById(R.id.button_continue);
 
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutDecisions.setVisibility(View.VISIBLE);
-                layoutResults.setVisibility(View.GONE);
-                layout_back.setVisibility(View.GONE);
-                layout_next.setVisibility(View.VISIBLE);
-                layout_continue.setVisibility(View.GONE);
-            }
+        button_back.setOnClickListener(v -> {
+            layoutDecisions.setVisibility(View.VISIBLE);
+            layoutResults.setVisibility(View.GONE);
+            layout_back.setVisibility(View.GONE);
+            layout_next.setVisibility(View.VISIBLE);
+            layout_continue.setVisibility(View.GONE);
         });
 
-        button_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutDecisions.setVisibility(View.GONE);
-                layoutResults.setVisibility(View.VISIBLE);
-                layout_back.setVisibility(View.VISIBLE);
-                layout_next.setVisibility(View.GONE);
-                layout_continue.setVisibility(View.VISIBLE);
-            }
+        button_next.setOnClickListener(v -> {
+            layoutDecisions.setVisibility(View.GONE);
+            layoutResults.setVisibility(View.VISIBLE);
+            layout_back.setVisibility(View.VISIBLE);
+            layout_next.setVisibility(View.GONE);
+            layout_continue.setVisibility(View.VISIBLE);
         });
 
-        button_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
-                Bundle bundle = new Bundle();
-                bundle.putInt("panelPrice", totalPrice);
-                bundle.putInt("TotalPayment", totalPayment);
-                fragmentBatteryCalculation.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
-                        .commit();
-            }
+        button_continue.setOnClickListener(v -> {
+            FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
+            Bundle bundle = new Bundle();
+            bundle.putInt("panelPrice", totalPrice);
+            bundle.putInt("TotalPayment", totalPayment);
+            fragmentBatteryCalculation.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
+                    .commit();
         });
     }
 }

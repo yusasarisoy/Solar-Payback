@@ -116,7 +116,7 @@ public class FragmentOverviewAppliances extends Fragment {
 //        Go to panels.
         gotoPanels();
 
-        Toast.makeText(getContext(), "Total power consumption: " + totalConsumption + " kWh", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getContext(), "Total power consumption: " + totalConsumption + " kWh", Toast.LENGTH_LONG).show();
 
         return view;
     }
