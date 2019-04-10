@@ -3,10 +3,12 @@ package myusarisoy.solarhomesystem;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -68,6 +70,8 @@ public class FragmentPanelCalculation extends Fragment {
     @BindView(R.id.button_continue)
     Button button_continue;
 
+    AppCompatDialog generatorDialog;
+    Button buttonNo, buttonYes;
     public String cityLocation;
     public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441;
     public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment;
@@ -184,14 +188,47 @@ public class FragmentPanelCalculation extends Fragment {
         });
 
         button_continue.setOnClickListener(v -> {
-            FragmentGeneratorChoice fragmentGeneratorChoice = new FragmentGeneratorChoice();
-            Bundle bundle = new Bundle();
-            bundle.putInt("panelPrice", totalPrice);
-            bundle.putInt("TotalPayment", totalPayment);
-            fragmentGeneratorChoice.setArguments(bundle);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentGeneratorChoice, "FragmentGeneratorChoice")
-                    .commit();
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.dialog_generator);
+            generatorDialog = reservationBuilder.create();
+            WindowManager.LayoutParams params = generatorDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.8);
+            params.height = (int) (height * 0.8);
+            generatorDialog.getWindow().setAttributes(params);
+            generatorDialog.show();
+
+            buttonNo = generatorDialog.findViewById(R.id.button_no);
+            buttonYes = generatorDialog.findViewById(R.id.button_yes);
+
+            buttonNo.setOnClickListener(v1 -> {
+                generatorDialog.dismiss();
+
+                FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putInt("panelPrice", totalPrice);
+                bundle.putInt("TotalPayment", totalPayment);
+                fragmentBatteryCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
+                        .commit();
+            });
+
+            buttonYes.setOnClickListener(v12 -> {
+                generatorDialog.dismiss();
+
+                FragmentGeneratorChoice fragmentGeneratorChoice = new FragmentGeneratorChoice();
+                Bundle bundle = new Bundle();
+                bundle.putInt("panelPrice", totalPrice);
+                bundle.putInt("TotalPayment", totalPayment);
+                fragmentGeneratorChoice.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentGeneratorChoice, "FragmentGeneratorChoice")
+                        .commit();
+            });
         });
     }
 }

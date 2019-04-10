@@ -2,6 +2,7 @@ package myusarisoy.solarhomesystem;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,13 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 
 public class FragmentAppliances extends Fragment {
+    @BindView(R.id.layout_appliances)
+    LinearLayout layout_appliances;
     @BindView(R.id.recycler_view_appliance)
     RecyclerView recyclerView;
 
@@ -88,55 +92,44 @@ public class FragmentAppliances extends Fragment {
 
     private void clickToBack() {
         button_back = view.findViewById(R.id.button_back);
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.dialog_back);
-                backDialog = reservationBuilder.create();
-                WindowManager.LayoutParams params = backDialog.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.8);
-                params.height = (int) (height * 0.8);
-                backDialog.getWindow().setAttributes(params);
-                backDialog.show();
+        button_back.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.dialog_back);
+            backDialog = reservationBuilder.create();
+            WindowManager.LayoutParams params = backDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.8);
+            params.height = (int) (height * 0.8);
+            backDialog.getWindow().setAttributes(params);
+            backDialog.show();
 
-                cancel_back = backDialog.findViewById(R.id.cancel_back);
-                confirm_back = backDialog.findViewById(R.id.confirm_back);
+            cancel_back = backDialog.findViewById(R.id.cancel_back);
+            confirm_back = backDialog.findViewById(R.id.confirm_back);
 
-                cancel_back.setOnClickListener(new View.OnClickListener() {
+            cancel_back.setOnClickListener(v1 -> backDialog.dismiss());
+
+            confirm_back.setOnClickListener(v12 -> {
+                backDialog.dismiss();
+
+                countDownTimer = new CountDownTimer(500, 250) {
                     @Override
-                    public void onClick(View v) {
-                        backDialog.dismiss();
+                    public void onTick(long millisUntilFinished) {
                     }
-                });
 
-                confirm_back.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        backDialog.dismiss();
+                    public void onFinish() {
+                        countDownTimer.cancel();
 
-                        countDownTimer = new CountDownTimer(500, 250) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                countDownTimer.cancel();
-
-                                FragmentMain fragmentMain = new FragmentMain();
-                                getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_main, fragmentMain, "FragmentMain")
-                                        .commit();
-                            }
-                        }.start();
+                        FragmentMain fragmentMain = new FragmentMain();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.layout_main, fragmentMain, "FragmentMain")
+                                .commit();
                     }
-                });
-            }
+                }.start();
+            });
         });
     }
 
@@ -170,9 +163,12 @@ public class FragmentAppliances extends Fragment {
 
         consumptionList = adapter.getData();
 
-        button_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button_continue.setOnClickListener(v -> {
+            Log.i("QWERTY", consumptionList.size() + " - " + arrayListName.size());
+
+            if (consumptionList.size() != arrayListName.size())
+                showSnackbar("Please complete the missing part of the appliance(s).");
+            else {
                 FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
                 Bundle bundle = new Bundle();
                 bundle.putString("choice", "appliance");
@@ -187,5 +183,16 @@ public class FragmentAppliances extends Fragment {
                         .commit();
             }
         });
+    }
+
+    public void showSnackbar(String text) {
+        layout_appliances = view.findViewById(R.id.layout_appliances);
+
+        Snackbar snackbar = Snackbar.make(layout_appliances, text, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getResources().getColor(R.color.colorPrimary));
+        snackbar.show();
     }
 }
