@@ -72,67 +72,61 @@ public class FragmentGridChoice extends Fragment {
         on_grid = view.findViewById(R.id.img_on_grid);
         off_grid = view.findViewById(R.id.img_off_grid);
 
-        on_grid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getArguments().getString("choice").equals("bill")) {
-                    FragmentOverview fragmentOverview = new FragmentOverview();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Grid", "On-Grid");
-                    bundle.putStringArrayList("stringArray", stringArray);
-                    bundle.putIntegerArrayList("integerArray", integerArray);
-                    bundle.putIntegerArrayList("integerArray2", integerArray2);
-                    bundle.putString("City", cityLocation);
-                    bundle.putDouble("CityIrradiance", irradianceLocation);
-                    fragmentOverview.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
-                            .commit();
-                } else if (getArguments().getString("choice").equals("appliance")) {
-                    FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Grid", "On-Grid");
-                    bundle.putStringArrayList("stringArray", stringArray);
-                    bundle.putIntegerArrayList("integerArray", integerArray);
-                    bundle.putIntegerArrayList("integerArray2", integerArray2);
-                    fragmentOverviewAppliances.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
-                            .commit();
-                }
+        on_grid.setOnClickListener(v -> {
+            if (getArguments().getString("choice").equals("bill")) {
+                FragmentOverview fragmentOverview = new FragmentOverview();
+                Bundle bundle = new Bundle();
+                bundle.putString("Grid", "On-Grid");
+                bundle.putStringArrayList("stringArray", stringArray);
+                bundle.putIntegerArrayList("integerArray", integerArray);
+                bundle.putIntegerArrayList("integerArray2", integerArray2);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                fragmentOverview.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
+                        .commit();
+            } else if (getArguments().getString("choice").equals("appliance")) {
+                FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
+                Bundle bundle = new Bundle();
+                bundle.putString("Grid", "On-Grid");
+                bundle.putStringArrayList("stringArray", stringArray);
+                bundle.putIntegerArrayList("integerArray", integerArray);
+                bundle.putIntegerArrayList("integerArray2", integerArray2);
+                fragmentOverviewAppliances.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
+                        .commit();
             }
         });
 
-        off_grid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getArguments().getString("choice").equals("bill")) {
-                    FragmentOverview fragmentOverview = new FragmentOverview();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Grid", "Off-Grid");
-                    bundle.putStringArrayList("stringArray", stringArray);
-                    bundle.putIntegerArrayList("integerArray", integerArray);
-                    bundle.putIntegerArrayList("integerArray2", integerArray2);
-                    bundle.putString("City", cityLocation);
-                    bundle.putDouble("CityIrradiance", irradianceLocation);
-                    fragmentOverview.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
-                            .commit();
-                } else if (getArguments().getString("choice").equals("appliance")) {
-                    FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Grid", "Off-Grid");
-                    bundle.putStringArrayList("stringArray", stringArray);
-                    bundle.putIntegerArrayList("integerArray", integerArray);
-                    bundle.putIntegerArrayList("integerArray2", integerArray2);
-                    bundle.putString("City", cityLocation);
-                    bundle.putDouble("CityIrradiance", irradianceLocation);
-                    fragmentOverviewAppliances.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
-                            .commit();
-                }
+        off_grid.setOnClickListener(v -> {
+            if (getArguments().getString("choice").equals("bill")) {
+                FragmentOverview fragmentOverview = new FragmentOverview();
+                Bundle bundle = new Bundle();
+                bundle.putString("Grid", "Off-Grid");
+                bundle.putStringArrayList("stringArray", stringArray);
+                bundle.putIntegerArrayList("integerArray", integerArray);
+                bundle.putIntegerArrayList("integerArray2", integerArray2);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                fragmentOverview.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
+                        .commit();
+            } else if (getArguments().getString("choice").equals("appliance")) {
+                FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
+                Bundle bundle = new Bundle();
+                bundle.putString("Grid", "Off-Grid");
+                bundle.putStringArrayList("stringArray", stringArray);
+                bundle.putIntegerArrayList("integerArray", integerArray);
+                bundle.putIntegerArrayList("integerArray2", integerArray2);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                fragmentOverviewAppliances.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
+                        .commit();
             }
         });
     }

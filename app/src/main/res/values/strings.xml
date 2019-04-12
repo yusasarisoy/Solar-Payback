@@ -94,8 +94,8 @@
     <string name="want_generator">Generator choice</string>
     <string name="look_generator">Do you want to look at the generators?</string>
     <string name="generator_choice">Please choose a generator you want to use.</string>
-    <string name="generator_1">Aksa AD Doosan Motorlu Kabinli Otomatik Dizel Jeneratör\n(330 kVA)</string>
-    <string name="generator_2">Aksa APD Cummins Kabinli Otomatik Dizel Jeneratör\n(110 kVA)</string>
+    <string name="generator_1">Aksa AD Doosan Automatic Diesel Generator With Motor Cabinet\n(330 kVA)</string>
+    <string name="generator_2">Aksa APD Cummins Automatic Diesel Generator with Cabinet\n(110 kVA)</string>
     <string name="pricing_generator_1">121.895,75 ₺</string>
     <string name="pricing_generator_2">72.493,08 ₺</string>
 </resources>

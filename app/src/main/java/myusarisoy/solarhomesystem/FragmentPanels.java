@@ -42,10 +42,9 @@ public class FragmentPanels extends Fragment {
     ImageView panel_2;
 
     private RequestQueue requestQueue;
-    private boolean success;
     private double liraPerEuro;
-    private int timestamp, panel1, panel2, mostConsumption, totalPayment;
-    private String base, date, cityLocation;
+    private int panel1, panel2, mostConsumption, totalPayment;
+    private String base, cityLocation;
     public double irradianceLocation;
     View view;
 
@@ -88,36 +87,33 @@ public class FragmentPanels extends Fragment {
         pricing_panel_2 = view.findViewById(R.id.pricing_panel_2);
 
         final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Getting exchange rates", "Please wait...", true, true);
-        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
         progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
 
-        Thread thread = new Thread(() -> {
-            String currencyAPI = "http://data.fixer.io/api/latest?access_key=5471e8c810ea396b3146e028c7d68ecb&%20base=EUR&symbols=TRY";
+        String currencyAPI = "https://api.exchangeratesapi.io/latest?base=EUR";
 
-            requestQueue = Volley.newRequestQueue(getContext());
-            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currencyAPI, null, response -> {
-                try {
-                    success = response.getBoolean("success");
-                    timestamp = response.getInt("timestamp");
-                    base = response.getString("base");
-                    date = response.getString("date");
-                    JSONObject jsonObject = response.getJSONObject("rates");
-                    liraPerEuro = jsonObject.getDouble("TRY");
+        requestQueue = Volley.newRequestQueue(getContext());
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currencyAPI, null, response -> {
+            try {
+                base = response.getString("base");
+                JSONObject jsonObject = response.getJSONObject("rates");
+                liraPerEuro = jsonObject.getDouble("TRY");
 
-                    panel1 = (int) (145.53 * liraPerEuro);
-                    panel2 = (int) (110.25 * liraPerEuro);
+                panel1 = (int) (145.53 * liraPerEuro);
+                panel2 = (int) (110.25 * liraPerEuro);
 
-                    pricing_panel_1.setText(panel1 + " ₺");
-                    pricing_panel_2.setText(panel2 + " ₺");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show());
-            requestQueue.add(jsonObjectRequest);
-        });
-        thread.start();
+                pricing_panel_1.setText(panel1 + " ₺");
+                pricing_panel_2.setText(panel2 + " ₺");
 
-        progressDialog.dismiss();
+                if (!pricing_panel_1.getText().toString().isEmpty())
+                    progressDialog.dismiss();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show());
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void clickPanels() {

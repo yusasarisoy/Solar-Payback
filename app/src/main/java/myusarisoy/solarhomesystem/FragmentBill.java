@@ -207,11 +207,9 @@ public class FragmentBill extends Fragment {
                     e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("VOLLEY_ERROR", "" + error);
-            }
+        }, error -> {
+            Log.i("VOLLEY_ERROR", "" + error);
+            showSnackbar("Please check your internet connection.");
         });
         requestQueue.add(jsonArrayRequest);
 
@@ -348,29 +346,27 @@ public class FragmentBill extends Fragment {
                     }
                 });
 
-                confirm_sign_out.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        signOutDialog.dismiss();
+                confirm_sign_out.setOnClickListener(v1 -> {
+                    signOutDialog.dismiss();
 
-                        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
-                        progressDialog.setCancelable(false);
-                        progressDialog.setCanceledOnTouchOutside(false);
+                    final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setCancelable(false);
+                    progressDialog.setCanceledOnTouchOutside(false);
 
-                        // Display the progress during 1 second.
-                        countDownTimer = new CountDownTimer(1000, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                            }
+                    // Display the progress during 1 second.
+                    countDownTimer = new CountDownTimer(1000, 500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                        }
 
-                            @Override
-                            public void onFinish() {
-                                countDownTimer.cancel();
-                                progressDialog.dismiss();
-                                signOut();
-                            }
-                        }.start();
-                    }
+                        @Override
+                        public void onFinish() {
+                            countDownTimer.cancel();
+                            progressDialog.dismiss();
+                            signOut();
+                        }
+                    }.start();
                 });
             }
         });
@@ -483,11 +479,9 @@ public class FragmentBill extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("VOLLEY_ERROR", "" + error);
-                    }
+                }, error -> {
+                    Log.i("VOLLEY_ERROR", "" + error);
+                    showSnackbar("Please check your internet connection.");
                 });
                 requestQueue.add(jsonArrayRequest);
             }
@@ -681,11 +675,9 @@ public class FragmentBill extends Fragment {
                                                     e.printStackTrace();
                                                 }
                                             }
-                                        }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                Log.i("VOLLEY_ERROR", "" + error);
-                                            }
+                                        }, error -> {
+                                            Log.i("VOLLEY_ERROR", "" + error);
+                                            showSnackbar("Please check your internet connection.");
                                         });
                                         requestQueue.add(jsonArrayRequest);
                                     }
@@ -751,11 +743,9 @@ public class FragmentBill extends Fragment {
                         e.printStackTrace();
                     }
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.i("VOLLEY_ERROR", "" + error);
-                }
+            }, error -> {
+                Log.i("VOLLEY_ERROR", "" + error);
+                showSnackbar("Please check your internet connection.");
             });
             requestQueue.add(jsonArrayRequest);
         } else {

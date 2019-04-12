@@ -16,7 +16,7 @@ public class FragmentGeneratorChoice extends Fragment {
     @BindView(R.id.img_generator_2)
     ImageView generator2;
 
-    int panelPrice, totalPayment;
+    int panelPrice, totalPayment, generatorPrice1 = 121896, generatorPrice2 = 72493;
     View view;
 
     public static FragmentGeneratorChoice newInstance(Object... objects) {
@@ -40,6 +40,7 @@ public class FragmentGeneratorChoice extends Fragment {
         panelPrice = getArguments().getInt("panelPrice");
         totalPayment = getArguments().getInt("TotalPayment");
 
+//        Go to battery calculation.
         gotoBatteryCalculation();
 
         return view;
@@ -50,7 +51,7 @@ public class FragmentGeneratorChoice extends Fragment {
         generator2 = view.findViewById(R.id.img_generator_2);
 
         generator1.setOnClickListener(v -> {
-            totalPayment += 121896;
+            panelPrice = panelPrice + generatorPrice1;
             FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
             Bundle bundle = new Bundle();
             bundle.putInt("panelPrice", panelPrice);
@@ -62,7 +63,7 @@ public class FragmentGeneratorChoice extends Fragment {
         });
 
         generator2.setOnClickListener(v -> {
-            totalPayment += 72493;
+            panelPrice = panelPrice + generatorPrice2;
             FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
             Bundle bundle = new Bundle();
             bundle.putInt("panelPrice", panelPrice);

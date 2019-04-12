@@ -40,7 +40,7 @@ public class FragmentSplash extends Fragment {
                     .replace(R.id.layout_main, fragmentInstructions, "FragmentInstructions")
                     .addToBackStack(null)
                     .commit();
-        }, 1000);
+        }, 250);
 
         return view;
     }

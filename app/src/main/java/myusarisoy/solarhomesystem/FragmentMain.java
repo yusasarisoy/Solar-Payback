@@ -185,7 +185,10 @@ public class FragmentMain extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, error -> Log.i("VOLLEY_ERROR", "" + error));
+        }, error -> {
+            Log.i("VOLLEY_ERROR", "" + error);
+            showSnackbar("Please check your internet connection.");
+        });
         requestQueue.add(jsonArrayRequest);
 
 //        Set adapter for Recycler View.
@@ -255,15 +258,14 @@ public class FragmentMain extends Fragment {
                 signOutDialog.dismiss();
 
                 final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
-                progressDialog.setCancelable(false);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setIndeterminate(true);
                 progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
 
-                Thread thread = new Thread(() -> {
-                    signOut();
+                signOut();
 
-                    progressDialog.dismiss();
-                });
-                thread.start();
+                progressDialog.dismiss();
             });
         });
     }
@@ -352,6 +354,7 @@ public class FragmentMain extends Fragment {
 
     private void setAdapter() {
         recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
+        recycler_view_appliance.setHasFixedSize(true);
 
         adapter = new RecyclerViewAdapter(applianceList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -511,7 +514,10 @@ public class FragmentMain extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }, error -> Log.i("VOLLEY_ERROR", "" + error));
+                }, error -> {
+                    Log.i("VOLLEY_ERROR", "" + error);
+                    showSnackbar("Please check your internet connection.");
+                });
                 requestQueue.add(jsonArrayRequest);
             }
         };
@@ -682,7 +688,10 @@ public class FragmentMain extends Fragment {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            }, error -> Log.i("VOLLEY_ERROR", "" + error));
+                            }, error -> {
+                                Log.i("VOLLEY_ERROR", "" + error);
+                                showSnackbar("Please check your internet connection.");
+                            });
                             requestQueue.add(jsonArrayRequest);
                         }
                     }.start();
@@ -741,7 +750,10 @@ public class FragmentMain extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }, error -> Log.i("VOLLEY_ERROR", "" + error));
+            }, error -> {
+                Log.i("VOLLEY_ERROR", "" + error);
+                showSnackbar("Please check your internet connection.");
+            });
             requestQueue.add(jsonArrayRequest);
         } else {
             LocationRequest locationRequest = new LocationRequest();
@@ -760,7 +772,7 @@ public class FragmentMain extends Fragment {
     public void showSnackbar(String text) {
         layout_main = view.findViewById(R.id.layout_main);
 
-        Snackbar snackbar = Snackbar.make(layout_main, text, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(layout_main, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);

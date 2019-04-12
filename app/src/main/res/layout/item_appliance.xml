@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova"
             android:textColor="@color/core_white"
-            android:textSize="20sp"
+            android:textSize="17sp"
             tools:ignore="UnusedAttribute"
             tools:text="Fridge" />
 

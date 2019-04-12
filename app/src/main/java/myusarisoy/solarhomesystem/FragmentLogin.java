@@ -2,7 +2,6 @@ package myusarisoy.solarhomesystem;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -16,9 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -85,7 +81,7 @@ public class FragmentLogin extends Fragment {
         showLoginPassword();
 
 //        Go to FragmentNotes.
-        gotoFragmentNotes();
+        login();
 
 //        Go to FragmentForgotPassword.
         forgotPassword();
@@ -95,103 +91,87 @@ public class FragmentLogin extends Fragment {
 
     private void goBack() {
         go_back = view.findViewById(R.id.img_go_back);
-        go_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().popBackStackImmediate();
-            }
-        });
+        go_back.setOnClickListener(v -> getFragmentManager().popBackStackImmediate());
     }
 
     private void showLoginPassword() {
         login_password = view.findViewById(R.id.et_login_password);
         show_password = view.findViewById(R.id.show_login_password);
 
-        show_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isLoginPasswordVisible) {
-                    isLoginPasswordVisible = true;
-                    show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye));
-                    login_password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    login_password.setSelection(login_password.length());
-                } else {
-                    isLoginPasswordVisible = false;
-                    show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye_active));
-                    login_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    login_password.setSelection(login_password.length());
-                }
-
+        show_password.setOnClickListener(v -> {
+            if (!isLoginPasswordVisible) {
+                isLoginPasswordVisible = true;
+                show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye));
+                login_password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                login_password.setSelection(login_password.length());
+            } else {
+                isLoginPasswordVisible = false;
+                show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye_active));
+                login_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                login_password.setSelection(login_password.length());
             }
+
         });
     }
 
     private void forgotPassword() {
         forgot_password = view.findViewById(R.id.tv_forgot_password);
 
-        forgot_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentForgotPassword fragmentForgotPassword = new FragmentForgotPassword();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentForgotPassword, "FragmentForgotPassword")
-                        .addToBackStack(null)
-                        .commit();
-            }
+        forgot_password.setOnClickListener(v -> {
+            FragmentForgotPassword fragmentForgotPassword = new FragmentForgotPassword();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentForgotPassword, "FragmentForgotPassword")
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 
-    private void gotoFragmentNotes() {
+    private void login() {
         login_mail = view.findViewById(R.id.et_login_mail);
         login_password = view.findViewById(R.id.et_login_password);
         button_login = view.findViewById(R.id.button_login);
 
-        button_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Login", "Please wait...", true, true);
-                progressDialog.setCancelable(false);
-                progressDialog.setCanceledOnTouchOutside(false);
+        button_login.setOnClickListener(v -> {
+            final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Login", "Please wait...", true, true);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
 
-                mail = login_mail.getText().toString();
-                password = login_password.getText().toString();
+            mail = login_mail.getText().toString();
+            password = login_password.getText().toString();
 
-                if (TextUtils.isEmpty(mail)) {
-                    progressDialog.dismiss();
-                    showSnackbar("Please enter your email address");
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    progressDialog.dismiss();
-                    showSnackbar("Please enter your password");
-                    return;
-                }
-
-                //authenticate user
-                firebaseAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressDialog.dismiss();
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (password.length() < 6)
-                                        showSnackbar("Password must contains at least 6 characters");
-                                    else
-                                        showSnackbar("Wrong password");
-                                } else {
-                                    FragmentConsumer fragmentConsumer = new FragmentConsumer();
-                                    getActivity().getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.layout_main, fragmentConsumer, "FragmentConsumer")
-                                            .addToBackStack(null)
-                                            .commit();
-                                }
-                            }
-                        });
+            if (TextUtils.isEmpty(mail)) {
+                progressDialog.dismiss();
+                showSnackbar("Please enter your email address");
+                return;
             }
+
+            if (TextUtils.isEmpty(password)) {
+                progressDialog.dismiss();
+                showSnackbar("Please enter your password");
+                return;
+            }
+
+            //authenticate user
+            firebaseAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(task -> {
+                progressDialog.dismiss();
+                // If sign in fails, display a message to the user. If sign in succeeds
+                // the auth state listener will be notified and logic to handle the
+                // signed in user can be handled in the listener.
+                if (!task.isSuccessful()) {
+                    // there was an error
+                    if (password.length() < 6)
+                        showSnackbar("Password must contains at least 6 characters");
+                    else
+                        showSnackbar("Wrong password");
+                } else {
+                    FragmentConsumer fragmentConsumer = new FragmentConsumer();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.layout_main, fragmentConsumer, "FragmentConsumer")
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
         });
     }
 

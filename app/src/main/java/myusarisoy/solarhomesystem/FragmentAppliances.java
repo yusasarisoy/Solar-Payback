@@ -164,8 +164,6 @@ public class FragmentAppliances extends Fragment {
         consumptionList = adapter.getData();
 
         button_continue.setOnClickListener(v -> {
-            Log.i("QWERTY", consumptionList.size() + " - " + arrayListName.size());
-
             if (consumptionList.size() != arrayListName.size())
                 showSnackbar("Please complete the missing part of the appliance(s).");
             else {
