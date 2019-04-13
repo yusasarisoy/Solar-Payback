@@ -115,7 +115,7 @@
     <string name="wrong_password">Yanlış şifre!</string>
     <string name="intro1">Solar Payback, fatura bilgileriniz veya ev aletleriniz için solar enerji hesaplaması sağlayan bir mobil uygulamadır. </string>
     <string name="intro2">Aylık fatura bilgilerinizi veya seçtiğiniz ev aletlerinin gün boyunca kullanım miktarını ve kullanım sürelerini kaydedebilirsiniz.</string>
-    <string name="intro3">"Hazırsanız başlayalım!"</string>
+    <string name="intro3">Hazırsanız başlayalım!</string>
     <string name="please_wait">Lütfen bekleyiniz...</string>
     <string name="air_conditioner">Klima</string>
     <string name="bakery">Fırın</string>
@@ -154,6 +154,6 @@
     <string name="electricity_cost">Elektrik Bedeli:&#160;</string>
     <string name="total_price">Toplam Ücret:&#160;</string>
     <string name="payback_period">Geri Ödeme Süresi:&#160;</string>
-    <string name="watt_per_day">&#160;kWh/gün</string>
+    <string name="watt_per_day">&#160;kWh/güny</string>
     <string name="years">&#160;yıl</string>
 </resources>

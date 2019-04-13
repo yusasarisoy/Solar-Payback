@@ -132,7 +132,8 @@ public class FragmentLogin extends Fragment {
         button_login = view.findViewById(R.id.button_login);
 
         button_login.setOnClickListener(v -> {
-            final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Login", "Please wait...", true, true);
+            final ProgressDialog progressDialog = ProgressDialog.show(getContext(),
+                    getResources().getString(R.string.login), getResources().getString(R.string.please_wait), true, true);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(false);
             progressDialog.setCanceledOnTouchOutside(false);
@@ -142,13 +143,13 @@ public class FragmentLogin extends Fragment {
 
             if (TextUtils.isEmpty(mail)) {
                 progressDialog.dismiss();
-                showSnackbar("Please enter your email address");
+                showSnackbar(getResources().getString(R.string.enter_email));
                 return;
             }
 
             if (TextUtils.isEmpty(password)) {
                 progressDialog.dismiss();
-                showSnackbar("Please enter your password");
+                showSnackbar(getResources().getString(R.string.enter_password));
                 return;
             }
 
@@ -161,9 +162,9 @@ public class FragmentLogin extends Fragment {
                 if (!task.isSuccessful()) {
                     // there was an error
                     if (password.length() < 6)
-                        showSnackbar("Password must contains at least 6 characters");
+                        showSnackbar(getResources().getString(R.string.six_digits));
                     else
-                        showSnackbar("Wrong password");
+                        showSnackbar(getResources().getString(R.string.wrong_password));
                 } else {
                     FragmentConsumer fragmentConsumer = new FragmentConsumer();
                     getActivity().getSupportFragmentManager().beginTransaction()

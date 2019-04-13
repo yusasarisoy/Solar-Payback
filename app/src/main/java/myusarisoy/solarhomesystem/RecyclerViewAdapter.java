@@ -58,9 +58,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             appliance.setCheck(checkBox.isChecked());
 
             if (checkBox.isChecked())
-                showSnackbar(view, appliance.getAppliance() + " selected.");
+                showSnackbar(view, appliance.getAppliance() + context.getResources().getString(R.string.selected));
             else
-                showSnackbar(view, appliance.getAppliance() + " unselected.");
+                showSnackbar(view, appliance.getAppliance() + context.getResources().getString(R.string.unselected));
         });
     }
 

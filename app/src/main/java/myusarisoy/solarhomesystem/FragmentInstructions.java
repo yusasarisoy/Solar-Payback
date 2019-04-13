@@ -81,26 +81,25 @@ public class FragmentInstructions extends Fragment {
         button_next.setEnabled(true);
         button_next.setText(R.string.next);
 
-        button_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (button_next.getText().toString().equals("Finish")) {
-                    FragmentWelcome fragmentWelcome = new FragmentWelcome();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
-                            .addToBackStack(null)
-                            .commit();
-                } else
-                    viewPager.setCurrentItem(currentPage + 1);
+        button_next.setOnClickListener(v -> {
+            if (button_next.getText().toString().equals("Finish")) {
+                FragmentWelcome fragmentWelcome = new FragmentWelcome();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                        .addToBackStack(null)
+                        .commit();
             }
+            else if (button_next.getText().toString().equals("Bitir")) {
+                FragmentWelcome fragmentWelcome = new FragmentWelcome();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                        .addToBackStack(null)
+                        .commit();
+            }else
+                viewPager.setCurrentItem(currentPage + 1);
         });
 
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(currentPage - 1);
-            }
-        });
+        button_back.setOnClickListener(v -> viewPager.setCurrentItem(currentPage - 1));
 
         return view;
     }

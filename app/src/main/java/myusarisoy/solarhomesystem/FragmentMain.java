@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -71,6 +73,12 @@ public class FragmentMain extends Fragment {
 
     @BindView(R.id.image_icon)
     ImageView icon;
+
+    @BindView(R.id.image_language_english)
+    ImageView languageEnglish;
+
+    @BindView(R.id.image_language_turkish)
+    ImageView languageTurkish;
 
     @BindView(R.id.recycler_view_appliance)
     RecyclerView recycler_view_appliance;
@@ -179,7 +187,7 @@ public class FragmentMain extends Fragment {
                     if (cityPostal.get(i).equals(cityName)) {
                         cityLocation = cityList.get(i);
                         irradianceLocation = solarIrradianceList.get(i);
-                        showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                        showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                     }
                 }
             } catch (Exception e) {
@@ -187,9 +195,13 @@ public class FragmentMain extends Fragment {
             }
         }, error -> {
             Log.i("VOLLEY_ERROR", "" + error);
-            showSnackbar("Please check your internet connection.");
+            showSnackbar(getResources().getString(R.string.internet_connection));
         });
         requestQueue.add(jsonArrayRequest);
+
+//        Change language.
+        loadLocale();
+        languageClick();
 
 //        Set adapter for Recycler View.
         setAdapter();
@@ -216,6 +228,39 @@ public class FragmentMain extends Fragment {
         locationClick();
 
         return view;
+    }
+
+    private void languageClick() {
+        languageEnglish = view.findViewById(R.id.image_language_english);
+        languageTurkish = view.findViewById(R.id.image_language_turkish);
+
+        languageEnglish.setOnClickListener(v -> {
+            setLocale("en");
+            getActivity().recreate();
+        });
+
+        languageTurkish.setOnClickListener(v -> {
+            setLocale("tr");
+            getActivity().recreate();
+        });
+    }
+
+    private void setLocale(String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getContext().getResources().updateConfiguration(configuration, getContext().getResources().getDisplayMetrics());
+
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+        editor.putString("language", language);
+        editor.apply();
+    }
+
+    public void loadLocale() {
+        SharedPreferences preferences = getContext().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
+        String language = preferences.getString("language", "");
+        setLocale(language);
     }
 
     private void setDataToView(FirebaseUser user) {
@@ -307,46 +352,46 @@ public class FragmentMain extends Fragment {
     public void initAppliances() {
         recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
 
-        Appliance airConditioner = new Appliance(false, R.drawable.air_conditioner, "Air Conditioner");
+        Appliance airConditioner = new Appliance(false, R.drawable.air_conditioner, getContext().getResources().getString(R.string.air_conditioner));
         applianceList.add(airConditioner);
 
-        Appliance bakery = new Appliance(false, R.drawable.bakery, "Bakery");
+        Appliance bakery = new Appliance(false, R.drawable.bakery, getContext().getResources().getString(R.string.bakery));
         applianceList.add(bakery);
 
-        Appliance coffeeMachine = new Appliance(false, R.drawable.coffee_machine, "Coffee Machine");
+        Appliance coffeeMachine = new Appliance(false, R.drawable.coffee_machine, getContext().getResources().getString(R.string.coffee_machine));
         applianceList.add(coffeeMachine);
 
-        Appliance computer = new Appliance(false, R.drawable.computer, "Computer");
+        Appliance computer = new Appliance(false, R.drawable.computer, getContext().getResources().getString(R.string.computer));
         applianceList.add(computer);
 
-        Appliance fridge = new Appliance(false, R.drawable.fridge, "Fridge");
+        Appliance fridge = new Appliance(false, R.drawable.fridge, getContext().getResources().getString(R.string.fridge));
         applianceList.add(fridge);
 
-        Appliance hairDryer = new Appliance(false, R.drawable.hair_dryer, "Hair Dryer");
+        Appliance hairDryer = new Appliance(false, R.drawable.hair_dryer, getContext().getResources().getString(R.string.hair_dryer));
         applianceList.add(hairDryer);
 
-        Appliance iron = new Appliance(false, R.drawable.iron, "Iron");
+        Appliance iron = new Appliance(false, R.drawable.iron, getContext().getResources().getString(R.string.iron));
         applianceList.add(iron);
 
-        Appliance lights = new Appliance(false, R.drawable.lights, "Lights");
+        Appliance lights = new Appliance(false, R.drawable.lights, getContext().getResources().getString(R.string.lights));
         applianceList.add(lights);
 
-        Appliance oven = new Appliance(false, R.drawable.oven, "Oven");
+        Appliance oven = new Appliance(false, R.drawable.oven, getContext().getResources().getString(R.string.oven));
         applianceList.add(oven);
 
-        Appliance smartphone = new Appliance(false, R.drawable.smartphone, "Smartphone");
+        Appliance smartphone = new Appliance(false, R.drawable.smartphone, getContext().getResources().getString(R.string.smartphone));
         applianceList.add(smartphone);
 
-        Appliance television = new Appliance(false, R.drawable.television, "Television");
+        Appliance television = new Appliance(false, R.drawable.television, getContext().getResources().getString(R.string.television));
         applianceList.add(television);
 
-        Appliance vacuumCleaner = new Appliance(false, R.drawable.vacuum_cleaner, "Vacuum Cleaner");
+        Appliance vacuumCleaner = new Appliance(false, R.drawable.vacuum_cleaner, getContext().getResources().getString(R.string.vacuum_cleaner));
         applianceList.add(vacuumCleaner);
 
-        Appliance washingMachine = new Appliance(false, R.drawable.washing_machine, "Washing Machine");
+        Appliance washingMachine = new Appliance(false, R.drawable.washing_machine, getContext().getResources().getString(R.string.washing_machine));
         applianceList.add(washingMachine);
 
-        Appliance waterHeater = new Appliance(false, R.drawable.water_heater, "Water Heater");
+        Appliance waterHeater = new Appliance(false, R.drawable.water_heater, getContext().getResources().getString(R.string.water_heater));
         applianceList.add(waterHeater);
 
         adapter.notifyDataSetChanged();
@@ -508,7 +553,7 @@ public class FragmentMain extends Fragment {
                             if (cityList.get(i).equals(cityName)) {
                                 cityLocation = cityList.get(i);
                                 irradianceLocation = solarIrradianceList.get(i);
-                                showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                             }
                         }
                     } catch (Exception e) {
@@ -516,7 +561,7 @@ public class FragmentMain extends Fragment {
                     }
                 }, error -> {
                     Log.i("VOLLEY_ERROR", "" + error);
-                    showSnackbar("Please check your internet connection.");
+                    showSnackbar(getResources().getString(R.string.internet_connection));
                 });
                 requestQueue.add(jsonArrayRequest);
             }
@@ -682,7 +727,7 @@ public class FragmentMain extends Fragment {
                                         if (cityList.get(i).equals(cityName)) {
                                             cityLocation = cityList.get(i);
                                             irradianceLocation = solarIrradianceList.get(i);
-                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                                         }
                                     }
                                 } catch (Exception e) {
@@ -690,7 +735,7 @@ public class FragmentMain extends Fragment {
                                 }
                             }, error -> {
                                 Log.i("VOLLEY_ERROR", "" + error);
-                                showSnackbar("Please check your internet connection.");
+                                showSnackbar(getResources().getString(R.string.internet_connection));
                             });
                             requestQueue.add(jsonArrayRequest);
                         }
@@ -744,7 +789,7 @@ public class FragmentMain extends Fragment {
                         if (cityPostal.get(i).equals(cityName)) {
                             cityLocation = cityList.get(i);
                             irradianceLocation = solarIrradianceList.get(i);
-                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                         }
                     }
                 } catch (Exception e) {
@@ -752,14 +797,14 @@ public class FragmentMain extends Fragment {
                 }
             }, error -> {
                 Log.i("VOLLEY_ERROR", "" + error);
-                showSnackbar("Please check your internet connection.");
+                showSnackbar(getResources().getString(R.string.internet_connection));
             });
             requestQueue.add(jsonArrayRequest);
         } else {
             LocationRequest locationRequest = new LocationRequest();
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            showSnackbar("We are trying to detect your location...");
+            showSnackbar(getResources().getString(R.string.trying_to_location));
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;

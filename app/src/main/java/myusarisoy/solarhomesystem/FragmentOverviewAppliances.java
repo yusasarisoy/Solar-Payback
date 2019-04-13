@@ -362,7 +362,7 @@ public class FragmentOverviewAppliances extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (appliance_annual_billing.getText().toString().isEmpty() || appliance_annual_billing.getText().toString().equals("0"))
-                            showSnackbar("Please enter a valid annual billing amount.");
+                            showSnackbar(getResources().getString(R.string.valid_amount));
                         else {
                             annualBillingDialog.dismiss();
 

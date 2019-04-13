@@ -2,6 +2,7 @@ package myusarisoy.solarhomesystem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -23,8 +24,11 @@ import java.util.Objects;
 import butterknife.BindView;
 
 public class FragmentWelcome extends Fragment {
-    @BindView(R.id.image_language)
-    ImageView language;
+    @BindView(R.id.image_language_english)
+    ImageView languageEnglish;
+
+    @BindView(R.id.image_language_turkish)
+    ImageView languageTurkish;
 
     @BindView(R.id.button_create_account)
     Button button_create_account;
@@ -51,6 +55,7 @@ public class FragmentWelcome extends Fragment {
         view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
 //        Change language.
+        loadLocale();
         languageClick();
 
 //        Create an account.
@@ -63,63 +68,58 @@ public class FragmentWelcome extends Fragment {
     }
 
     private void languageClick() {
-        language = view.findViewById(R.id.image_language);
-        language.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String languageToLoad = "tr";
-                Locale locale = new Locale(languageToLoad);
-                Locale.setDefault(locale);
-                Configuration config = new Configuration();
-                config.locale = locale;
-                getContext().getResources().updateConfiguration(config, getContext().getResources().getDisplayMetrics());
+        languageEnglish = view.findViewById(R.id.image_language_english);
+        languageTurkish = view.findViewById(R.id.image_language_turkish);
 
-                Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
+        languageEnglish.setOnClickListener(v -> {
+            setLocale("en");
+            getActivity().recreate();
         });
+
+        languageTurkish.setOnClickListener(v -> {
+            setLocale("tr");
+            getActivity().recreate();
+        });
+    }
+
+    private void setLocale(String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getContext().getResources().updateConfiguration(configuration, getContext().getResources().getDisplayMetrics());
+
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+        editor.putString("language", language);
+        editor.apply();
+    }
+
+    public void loadLocale() {
+        SharedPreferences preferences = getContext().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
+        String language = preferences.getString("language", "");
+        setLocale(language);
     }
 
     public void createAccount() {
         button_create_account = view.findViewById(R.id.button_create_account);
-        button_create_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentRegister fragmentRegister = new FragmentRegister();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentRegister, "FragmentRegister")
-                        .addToBackStack(null)
-                        .commit();
-            }
+        button_create_account.setOnClickListener(v -> {
+            FragmentRegister fragmentRegister = new FragmentRegister();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentRegister, "FragmentRegister")
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 
     public void login() {
         tv_login = view.findViewById(R.id.tv_login);
 
-        SpannableString spannableString = new SpannableString("Have an account? Log in");
-
-        ClickableSpan login = new ClickableSpan() {
-            @Override
-            public void onClick(View view) {
-                FragmentLogin fragmentLogin = new FragmentLogin();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentLogin, "FragmentLogin")
-                        .addToBackStack(null)
-                        .commit();
-            }
-        };
-
-        spannableString.setSpan(login, 17, 23, 0);
-        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)), 17, 23, 0);
-        setClickableSpan(tv_login, R.id.tv_login, spannableString);
-    }
-
-    public void setClickableSpan(TextView textView, int tvId, SpannableString spannableString) {
-        textView = view.findViewById(tvId);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.setText(spannableString, TextView.BufferType.SPANNABLE);
-        textView.setSelected(true);
+        tv_login.setOnClickListener(v -> {
+            FragmentLogin fragmentLogin = new FragmentLogin();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentLogin, "FragmentLogin")
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 }

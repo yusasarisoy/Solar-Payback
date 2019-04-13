@@ -68,45 +68,34 @@ public class FragmentForgotPassword extends Fragment {
 
     private void goBack() {
         go_back = root.findViewById(R.id.img_go_back);
-        go_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().popBackStackImmediate();
-            }
-        });
+        go_back.setOnClickListener(v -> getFragmentManager().popBackStackImmediate());
     }
 
     private void reset_password() {
         mail = root.findViewById(R.id.et_forgot_password_mail);
         reset_password = root.findViewById(R.id.button_forgot_password_reset);
 
-        reset_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = mail.getText().toString().trim();
+        reset_password.setOnClickListener(v -> {
+            String email = mail.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)) {
-                    showSnackbar("Enter your registered email address");
-                    return;
-                }
-
-                firebaseAuth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    showSnackbar("We have sent you instructions to reset your password!");
-
-                                    FragmentWelcome fragmentWelcome = new FragmentWelcome();
-                                    getActivity().getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
-                                            .addToBackStack(null)
-                                            .commit();
-                                } else
-                                    showSnackbar("Failed to send reset email!");
-                            }
-                        });
+            if (TextUtils.isEmpty(email)) {
+                showSnackbar(getResources().getString(R.string.registered_email));
+                return;
             }
+
+            firebaseAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            showSnackbar(getResources().getString(R.string.reset_your_password));
+
+                            FragmentWelcome fragmentWelcome = new FragmentWelcome();
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                                    .addToBackStack(null)
+                                    .commit();
+                        } else
+                            showSnackbar(getResources().getString(R.string.failed_to_reset_passowrd));
+                    });
         });
     }
 

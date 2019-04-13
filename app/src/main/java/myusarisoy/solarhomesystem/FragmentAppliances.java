@@ -165,7 +165,7 @@ public class FragmentAppliances extends Fragment {
 
         button_continue.setOnClickListener(v -> {
             if (consumptionList.size() != arrayListName.size())
-                showSnackbar("Please complete the missing part of the appliance(s).");
+                showSnackbar(getResources().getString(R.string.complete_parts_appliances));
             else {
                 FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
                 Bundle bundle = new Bundle();

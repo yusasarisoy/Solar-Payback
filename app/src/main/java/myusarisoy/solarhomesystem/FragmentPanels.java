@@ -86,7 +86,7 @@ public class FragmentPanels extends Fragment {
         pricing_panel_1 = view.findViewById(R.id.pricing_panel_1);
         pricing_panel_2 = view.findViewById(R.id.pricing_panel_2);
 
-        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Getting exchange rates", "Please wait...", true, true);
+        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getResources().getString(R.string.exchange_rate), getResources().getString(R.string.please_wait), true, true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
         progressDialog.setCanceledOnTouchOutside(false);

@@ -131,11 +131,11 @@ public class FragmentPanelCalculation extends Fragment {
         mostConsumption = getArguments().getInt("MostConsumption");
         totalPayment = getArguments().getInt("TotalPayment");
 
-        selected_panel_energy.setText("Selected Panel Energy: " + panelEnergy + " W");
-        selected_panel_area.setText("Selected Panel Area: " + panelArea + " m²");
-        selected_city.setText("Selected City: " + cityLocation);
-        selected_city_irradiance.setText("Minimum City Irradiance: " + irradianceLocation);
-        most_power_consumption.setText("Consumption: " + mostConsumption + " kWh/day");
+        selected_panel_energy.setText(getResources().getString(R.string.selected_panel_energy) + panelEnergy + " W");
+        selected_panel_area.setText(getResources().getString(R.string.selected_panel_area) + panelArea + " m²");
+        selected_city.setText(getResources().getString(R.string.selected_city) + cityLocation);
+        selected_city_irradiance.setText(getResources().getString(R.string.selected_irradiance) + irradianceLocation);
+        most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + mostConsumption + getResources().getString(R.string.watt_per_day));
     }
 
     private void calculatePanels() {
@@ -155,10 +155,10 @@ public class FragmentPanelCalculation extends Fragment {
         requiredArea = (int) ((howManyPanels * panelArea) + 1);
         totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
 
-        required_panels.setText("Required Panels: " + howManyPanels);
-        produced_energy.setText("Produced Energy: " + producedEnergy + " Wh");
-        required_area.setText("Required Area: " + requiredArea + " m²");
-        total_payment.setText("Total Panel Payment: " + totalPrice + " ₺");
+        required_panels.setText(getResources().getString(R.string.required_panels) + howManyPanels);
+        produced_energy.setText(getResources().getString(R.string.produced_energy) + producedEnergy + " Wh");
+        required_area.setText(getResources().getString(R.string.required_area) + requiredArea + " m²");
+        total_payment.setText(getResources().getString(R.string.total_panel_payment) + totalPrice + " ₺");
     }
 
     private void getResults() {

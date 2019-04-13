@@ -123,51 +123,49 @@ public class FragmentRegister extends Fragment {
         et_password = view.findViewById(R.id.et_password);
         next = view.findViewById(R.id.button_continue);
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                name = et_name.getText().toString().trim();
-                mail = et_mail.getText().toString().trim();
-                password = et_password.getText().toString().trim();
+        next.setOnClickListener(v -> {
+            name = et_name.getText().toString().trim();
+            mail = et_mail.getText().toString().trim();
+            password = et_password.getText().toString().trim();
 
-                if (TextUtils.isEmpty(name)) {
-                    showSnackbar("Please enter your full name");
-                    return;
-                }
-                if (TextUtils.isEmpty(mail)) {
-                    showSnackbar("Please enter your mail address");
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    showSnackbar("Please enter your password");
-                    return;
-                }
-                if (password.length() < 6) {
-                    showSnackbar("Password must contains at least 6 characters");
-                    return;
-                }
-
-                firebaseAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.i("REGISTER", "Register action is successful.");
-                                if (!task.isSuccessful()) {
-                                    showSnackbar("Authentication failed." + task.getException());
-                                } else {
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
-
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    user.updateProfile(profileUpdates);
-
-                                    FragmentConsumer fragmentConsumer = new FragmentConsumer();
-                                    getActivity().getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.layout_main, fragmentConsumer, "FragmentConsumer")
-                                            .addToBackStack(null)
-                                            .commit();
-                                }
-                            }
-                        });
+            if (TextUtils.isEmpty(name)) {
+                showSnackbar(getResources().getString(R.string.enter_full_name));
+                return;
             }
+            if (TextUtils.isEmpty(mail)) {
+                showSnackbar(getResources().getString(R.string.enter_your_mail));
+                return;
+            }
+            if (TextUtils.isEmpty(password)) {
+                showSnackbar(getResources().getString(R.string.enter_password));
+                return;
+            }
+            if (password.length() < 6) {
+                showSnackbar(getResources().getString(R.string.six_digits));
+                return;
+            }
+
+            firebaseAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.i("REGISTER", "Register action is successful.");
+                    if (!task.isSuccessful()) {
+                        Log.i("ERROR", "Authentication failed: " + task.getException());
+                        showSnackbar(getResources().getString(R.string.authentication_failed));
+                    } else {
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        user.updateProfile(profileUpdates);
+
+                        FragmentConsumer fragmentConsumer = new FragmentConsumer();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.layout_main, fragmentConsumer, "FragmentConsumer")
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
+            });
         });
     }
 

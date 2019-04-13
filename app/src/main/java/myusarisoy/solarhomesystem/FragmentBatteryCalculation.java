@@ -121,7 +121,7 @@ public class FragmentBatteryCalculation extends Fragment {
     }
 
     private void getCurrency() {
-        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Getting exchange rates", "Please wait...", true, true);
+        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getResources().getString(R.string.exchange_rate), getResources().getString(R.string.please_wait), true, true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -159,15 +159,15 @@ public class FragmentBatteryCalculation extends Fragment {
                 totalPrice = panelPrice + finalHeater + finalInverter + finalBattery + finalInspection + finalCleaning;
                 paybackYear = totalPrice / totalPayment;
 
-                panel_price.setText("Panel Price: " + ((panelPrice)) + " ₺");
-                heater_price.setText("Heater Price: " + finalHeater + " ₺");
-                inverter_price.setText("Inverter Price: " + finalInverter + " ₺");
-                battery_price.setText("Battery Price: " + finalBattery + " ₺");
-                inspection_cost.setText("Inspection Cost: " + finalInspection + " ₺");
-                cleaning_cost.setText("Cleaning Cost: " + finalCleaning + " ₺");
-                electricity_cost.setText("Electricity Cost: " + (totalPayment) + " ₺");
-                total_price.setText("Total Price: " + (totalPrice) + " ₺");
-                payback_period.setText("Payback Period: " + paybackYear + " year(s)");
+                panel_price.setText(getResources().getString(R.string.panel_price) + ((panelPrice)) + " ₺");
+                heater_price.setText(getResources().getString(R.string.heater_price) + finalHeater + " ₺");
+                inverter_price.setText(getResources().getString(R.string.inverter_price) + finalInverter + " ₺");
+                battery_price.setText(getResources().getString(R.string.battery_price) + finalBattery + " ₺");
+                inspection_cost.setText(getResources().getString(R.string.inspection_cost) + finalInspection + " ₺");
+                cleaning_cost.setText(getResources().getString(R.string.cleaning_cost) + finalCleaning + " ₺");
+                electricity_cost.setText(getResources().getString(R.string.electricity_cost) + (totalPayment) + " ₺");
+                total_price.setText(getResources().getString(R.string.total_price) + (totalPrice) + " ₺");
+                payback_period.setText(getResources().getString(R.string.payback_period) + paybackYear + getResources().getString(R.string.years));
 
                 if (!heater_price.getText().toString().isEmpty())
                     progressDialog.dismiss();
@@ -204,7 +204,7 @@ public class FragmentBatteryCalculation extends Fragment {
             layout_main_page.setVisibility(View.VISIBLE);
 
             if (paybackYear > 10)
-                showSnackbar("Payback period is too long. You should use On-Grid method.");
+                showSnackbar(getResources().getString(R.string.long_payback_period));
         });
 
         image_main_page.setOnClickListener(v -> {

@@ -17,17 +17,9 @@ public class InstructionsAdapter extends PagerAdapter {
         this.context = context;
     }
 
-    public int[] images = {
-            R.drawable.solar_house,
-            R.drawable.main_page,
-            R.drawable.sun
-    };
+    public int[] images = {R.drawable.solar_house, R.drawable.main_page, R.drawable.sun};
 
-    public String[] texts = {
-            "Solar Payback is a mobile application that provides to solar energy calculation for your billing amounts or your home appliances.",
-            "You can save your monthly billing amount or select appliances in your home from the list and their amounts, and usage durations during the day.",
-            "If you are ready, we can start!"
-    };
+    public int[] texts = {R.string.intro1, R.string.intro2, R.string.intro3};
 
     @Override
     public int getCount() {

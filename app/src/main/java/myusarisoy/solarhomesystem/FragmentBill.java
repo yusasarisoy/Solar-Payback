@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -75,6 +77,12 @@ public class FragmentBill extends Fragment {
 
     @BindView(R.id.app_name)
     TextView app_name;
+
+    @BindView(R.id.image_language_english)
+    ImageView languageEnglish;
+
+    @BindView(R.id.image_language_turkish)
+    ImageView languageTurkish;
 
     @BindView(R.id.bill_desc)
     TextView bill_desc;
@@ -200,7 +208,7 @@ public class FragmentBill extends Fragment {
                         if (cityPostal.get(i).equals(cityName)) {
                             cityLocation = cityList.get(i);
                             irradianceLocation = solarIrradianceList.get(i);
-                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                         }
                     }
                 } catch (Exception e) {
@@ -209,9 +217,13 @@ public class FragmentBill extends Fragment {
             }
         }, error -> {
             Log.i("VOLLEY_ERROR", "" + error);
-            showSnackbar("Please check your internet connection.");
+            showSnackbar(getResources().getString(R.string.internet_connection));
         });
         requestQueue.add(jsonArrayRequest);
+
+//        Change language.
+        loadLocale();
+        languageClick();
 
 //        Make text white.
         makeTextWhite();
@@ -241,6 +253,39 @@ public class FragmentBill extends Fragment {
         continueToGridChoice();
 
         return view;
+    }
+
+    private void languageClick() {
+        languageEnglish = view.findViewById(R.id.image_language_english);
+        languageTurkish = view.findViewById(R.id.image_language_turkish);
+
+        languageEnglish.setOnClickListener(v -> {
+            setLocale("en");
+            getActivity().recreate();
+        });
+
+        languageTurkish.setOnClickListener(v -> {
+            setLocale("tr");
+            getActivity().recreate();
+        });
+    }
+
+    private void setLocale(String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getContext().getResources().updateConfiguration(configuration, getContext().getResources().getDisplayMetrics());
+
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+        editor.putString("language", language);
+        editor.apply();
+    }
+
+    public void loadLocale() {
+        SharedPreferences preferences = getContext().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
+        String language = preferences.getString("language", "");
+        setLocale(language);
     }
 
     private void addMonths() {
@@ -295,7 +340,7 @@ public class FragmentBill extends Fragment {
                         button_continue.setVisibility(View.VISIBLE);
                     }
                 } else
-                    showSnackbar("Please makes sure to complete the missing parts.");
+                    showSnackbar(getResources().getString(R.string.make_sure_to_complete));
             }
         });
     }
@@ -401,7 +446,7 @@ public class FragmentBill extends Fragment {
                 if (cityLocation.isEmpty())
                     showSnackbar(getResources().getString(R.string.no_location));
                 else if (bill_payment.getText().toString().isEmpty() && bill_power_consumption.getText().toString().isEmpty())
-                    showSnackbar("Please makes sure to complete the missing parts.");
+                    showSnackbar(getResources().getString(R.string.make_sure_to_complete));
                 else {
                     monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
                     monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
@@ -472,7 +517,7 @@ public class FragmentBill extends Fragment {
                                 if (cityList.get(i).equals(cityName)) {
                                     cityLocation = cityList.get(i);
                                     irradianceLocation = solarIrradianceList.get(i);
-                                    showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                    showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                                 }
                             }
                         } catch (Exception e) {
@@ -481,7 +526,7 @@ public class FragmentBill extends Fragment {
                     }
                 }, error -> {
                     Log.i("VOLLEY_ERROR", "" + error);
-                    showSnackbar("Please check your internet connection.");
+                    showSnackbar(getResources().getString(R.string.internet_connection));
                 });
                 requestQueue.add(jsonArrayRequest);
             }
@@ -668,7 +713,7 @@ public class FragmentBill extends Fragment {
                                                         if (cityList.get(i).equals(cityName)) {
                                                             cityLocation = cityList.get(i);
                                                             irradianceLocation = solarIrradianceList.get(i);
-                                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                                                         }
                                                     }
                                                 } catch (Exception e) {
@@ -677,7 +722,7 @@ public class FragmentBill extends Fragment {
                                             }
                                         }, error -> {
                                             Log.i("VOLLEY_ERROR", "" + error);
-                                            showSnackbar("Please check your internet connection.");
+                                            showSnackbar(getResources().getString(R.string.internet_connection));
                                         });
                                         requestQueue.add(jsonArrayRequest);
                                     }
@@ -736,7 +781,7 @@ public class FragmentBill extends Fragment {
                             if (cityPostal.get(i).equals(cityName)) {
                                 cityLocation = cityList.get(i);
                                 irradianceLocation = solarIrradianceList.get(i);
-                                showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
+                                showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                             }
                         }
                     } catch (Exception e) {
@@ -745,14 +790,14 @@ public class FragmentBill extends Fragment {
                 }
             }, error -> {
                 Log.i("VOLLEY_ERROR", "" + error);
-                showSnackbar("Please check your internet connection.");
+                showSnackbar(getResources().getString(R.string.internet_connection));
             });
             requestQueue.add(jsonArrayRequest);
         } else {
             LocationRequest locationRequest = new LocationRequest();
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            showSnackbar("We are trying to detect your location...");
+            showSnackbar(getResources().getString(R.string.trying_to_location));
             FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
