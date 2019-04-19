@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -106,8 +107,8 @@ public class FragmentMain extends Fragment {
     private CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
-    private Button cancel_back, confirm_back, cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances;
-    private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog;
+    private Button cancel_back, confirm_back, cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances, exit_from_app;
+    private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog, exitDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
     private EditText appliance_name;
@@ -302,7 +303,7 @@ public class FragmentMain extends Fragment {
             confirm_sign_out.setOnClickListener(v1 -> {
                 signOutDialog.dismiss();
 
-                final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
+                final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getResources().getString(R.string.logout), getResources().getString(R.string.please_wait), true, true);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.setIndeterminate(true);
                 progressDialog.setCanceledOnTouchOutside(false);
@@ -562,10 +563,35 @@ public class FragmentMain extends Fragment {
                 }, error -> {
                     Log.i("VOLLEY_ERROR", "" + error);
                     showSnackbar(getResources().getString(R.string.internet_connection));
+                    exitFromApplication();
                 });
                 requestQueue.add(jsonArrayRequest);
             }
         };
+    }
+
+    public void exitFromApplication() {
+        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+        reservationBuilder.setView(R.layout.dialog_exit);
+        exitDialog = reservationBuilder.create();
+        final WindowManager.LayoutParams params = exitDialog.getWindow().getAttributes();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        params.width = (int) (width * 0.8);
+        params.height = (int) (height * 0.8);
+        exitDialog.getWindow().setAttributes(params);
+        exitDialog.setCancelable(false);
+        exitDialog.show();
+
+        exit_from_app = exitDialog.findViewById(R.id.exit_from_app);
+        exit_from_app.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
     }
 
     public void locationClick() {

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -124,8 +125,8 @@ public class FragmentBill extends Fragment {
     private LocationManager locationManager;
     private CountDownTimer countDownTimer;
     private LocationCallback mLocationCallback;
-    private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location;
-    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog;
+    private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, exit_from_app;
+    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, exitDialog;
     private FirebaseAuth firebaseAuth;
     private LinearLayout layout_location;
     private ImageView locationPicker;
@@ -218,6 +219,7 @@ public class FragmentBill extends Fragment {
         }, error -> {
             Log.i("VOLLEY_ERROR", "" + error);
             showSnackbar(getResources().getString(R.string.internet_connection));
+            exitFromApplication();
         });
         requestQueue.add(jsonArrayRequest);
 
@@ -312,36 +314,33 @@ public class FragmentBill extends Fragment {
 
         bill_months.setText(monthName.get(monthIncrementer));
 
-        button_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!bill_payment.getText().toString().isEmpty() && !bill_power_consumption.getText().toString().isEmpty()) {
-                    bill_months.setText(monthName.get(monthIncrementer += 1));
-                    monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
-                    monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
+        button_next.setOnClickListener(v -> {
+            if (!bill_payment.getText().toString().isEmpty() && !bill_power_consumption.getText().toString().isEmpty()) {
+                bill_months.setText(monthName.get(monthIncrementer += 1));
+                monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
+                monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
 
-                    bill_payment.getText().clear();
-                    bill_power_consumption.getText().clear();
-                    bill_payment.requestFocus();
+                bill_payment.getText().clear();
+                bill_power_consumption.getText().clear();
+                bill_payment.requestFocus();
 
-                    if (monthName.get(monthIncrementer).equals("March")) {
-                        layout_bill.setBackgroundResource(R.drawable.spring);
-                        makeTextBlack();
-                    } else if (monthName.get(monthIncrementer).equals("June")) {
-                        layout_bill.setBackgroundResource(R.drawable.summer);
-                        makeTextWhite();
-                    } else if (monthName.get(monthIncrementer).equals("September")) {
-                        layout_bill.setBackgroundResource(R.drawable.autumn);
-                        makeTextWhite();
-                    } else if (monthName.get(monthIncrementer).equals("December")) {
-                        layout_bill.setBackgroundResource(R.drawable.winter);
-                        makeTextBlack();
-                        button_next.setVisibility(View.GONE);
-                        button_continue.setVisibility(View.VISIBLE);
-                    }
-                } else
-                    showSnackbar(getResources().getString(R.string.make_sure_to_complete));
-            }
+                if (monthName.get(monthIncrementer).equals("March")) {
+                    layout_bill.setBackgroundResource(R.drawable.spring);
+                    makeTextBlack();
+                } else if (monthName.get(monthIncrementer).equals("June")) {
+                    layout_bill.setBackgroundResource(R.drawable.summer);
+                    makeTextWhite();
+                } else if (monthName.get(monthIncrementer).equals("September")) {
+                    layout_bill.setBackgroundResource(R.drawable.autumn);
+                    makeTextWhite();
+                } else if (monthName.get(monthIncrementer).equals("December")) {
+                    layout_bill.setBackgroundResource(R.drawable.winter);
+                    makeTextBlack();
+                    button_next.setVisibility(View.GONE);
+                    button_continue.setVisibility(View.VISIBLE);
+                }
+            } else
+                showSnackbar(getResources().getString(R.string.make_sure_to_complete));
         });
     }
 
@@ -349,9 +348,72 @@ public class FragmentBill extends Fragment {
 //        email.setText("User Email: " + user.getEmail());
     }
 
-    FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
-        @Override
-        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+    FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+            FragmentWelcome fragmentWelcome = new FragmentWelcome();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+    public void clickToSignOut() {
+        button_sign_out = view.findViewById(R.id.button_sign_out);
+        button_sign_out.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.dialog_sign_out);
+            signOutDialog = reservationBuilder.create();
+            WindowManager.LayoutParams params = signOutDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.8);
+            params.height = (int) (height * 0.8);
+            signOutDialog.getWindow().setAttributes(params);
+            signOutDialog.show();
+
+            cancel_sign_out = signOutDialog.findViewById(R.id.cancel_sign_out);
+            confirm_sign_out = signOutDialog.findViewById(R.id.confirm_sign_out);
+
+            cancel_sign_out.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signOutDialog.dismiss();
+                }
+            });
+
+            confirm_sign_out.setOnClickListener(v1 -> {
+                signOutDialog.dismiss();
+
+                final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCancelable(false);
+                progressDialog.setCanceledOnTouchOutside(false);
+
+                // Display the progress during 1 second.
+                countDownTimer = new CountDownTimer(1000, 500) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        countDownTimer.cancel();
+                        progressDialog.dismiss();
+                        signOut();
+                    }
+                }.start();
+            });
+        });
+    }
+
+    public void signOut() {
+        firebaseAuth.signOut();
+
+        FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user == null) {
                 FragmentWelcome fragmentWelcome = new FragmentWelcome();
@@ -359,78 +421,6 @@ public class FragmentBill extends Fragment {
                         .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
-            }
-        }
-    };
-
-    public void clickToSignOut() {
-        button_sign_out = view.findViewById(R.id.button_sign_out);
-        button_sign_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.dialog_sign_out);
-                signOutDialog = reservationBuilder.create();
-                WindowManager.LayoutParams params = signOutDialog.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.8);
-                params.height = (int) (height * 0.8);
-                signOutDialog.getWindow().setAttributes(params);
-                signOutDialog.show();
-
-                cancel_sign_out = signOutDialog.findViewById(R.id.cancel_sign_out);
-                confirm_sign_out = signOutDialog.findViewById(R.id.confirm_sign_out);
-
-                cancel_sign_out.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        signOutDialog.dismiss();
-                    }
-                });
-
-                confirm_sign_out.setOnClickListener(v1 -> {
-                    signOutDialog.dismiss();
-
-                    final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    progressDialog.setCancelable(false);
-                    progressDialog.setCanceledOnTouchOutside(false);
-
-                    // Display the progress during 1 second.
-                    countDownTimer = new CountDownTimer(1000, 500) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            countDownTimer.cancel();
-                            progressDialog.dismiss();
-                            signOut();
-                        }
-                    }.start();
-                });
-            }
-        });
-    }
-
-    public void signOut() {
-        firebaseAuth.signOut();
-
-        FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    FragmentWelcome fragmentWelcome = new FragmentWelcome();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
-                            .addToBackStack(null)
-                            .commit();
-                }
             }
         };
     }
@@ -440,30 +430,27 @@ public class FragmentBill extends Fragment {
         bill_power_consumption = view.findViewById(R.id.bill_power_consumption);
         button_continue = view.findViewById(R.id.button_continue);
 
-        button_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cityLocation.isEmpty())
-                    showSnackbar(getResources().getString(R.string.no_location));
-                else if (bill_payment.getText().toString().isEmpty() && bill_power_consumption.getText().toString().isEmpty())
-                    showSnackbar(getResources().getString(R.string.make_sure_to_complete));
-                else {
-                    monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
-                    monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
+        button_continue.setOnClickListener(v -> {
+            if (cityLocation.isEmpty())
+                showSnackbar(getResources().getString(R.string.no_location));
+            else if (bill_payment.getText().toString().isEmpty() && bill_power_consumption.getText().toString().isEmpty())
+                showSnackbar(getResources().getString(R.string.make_sure_to_complete));
+            else {
+                monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
+                monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
 
-                    FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("choice", "bill");
-                    bundle.putStringArrayList("MonthName", monthName);
-                    bundle.putIntegerArrayList("MonthPayment", monthPayment);
-                    bundle.putIntegerArrayList("MonthPowerConsumption", monthPowerConsumption);
-                    bundle.putString("City", cityLocation);
-                    bundle.putDouble("CityIrradiance", irradianceLocation);
-                    fragmentGridChoice.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
-                            .commit();
-                }
+                FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
+                Bundle bundle = new Bundle();
+                bundle.putString("choice", "bill");
+                bundle.putStringArrayList("MonthName", monthName);
+                bundle.putIntegerArrayList("MonthPayment", monthPayment);
+                bundle.putIntegerArrayList("MonthPowerConsumption", monthPowerConsumption);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                fragmentGridChoice.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
+                        .commit();
             }
         });
     }
@@ -527,6 +514,7 @@ public class FragmentBill extends Fragment {
                 }, error -> {
                     Log.i("VOLLEY_ERROR", "" + error);
                     showSnackbar(getResources().getString(R.string.internet_connection));
+                    exitFromApplication();
                 });
                 requestQueue.add(jsonArrayRequest);
             }
@@ -570,23 +558,21 @@ public class FragmentBill extends Fragment {
                     }
                 });
 
-                layout_search.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        locationDialog.dismiss();
+                layout_search.setOnClickListener(v1 -> {
+                    locationDialog.dismiss();
 
-                        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                        reservationBuilder.setView(R.layout.pop_up_location);
-                        searchLocationDialog = reservationBuilder.create();
-                        final WindowManager.LayoutParams params = searchLocationDialog.getWindow().getAttributes();
-                        DisplayMetrics displayMetrics = new DisplayMetrics();
-                        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                        int width = displayMetrics.widthPixels;
-                        int height = displayMetrics.heightPixels;
-                        params.width = (int) (width * 0.8);
-                        params.height = (int) (height * 0.8);
-                        searchLocationDialog.getWindow().setAttributes(params);
-                        searchLocationDialog.show();
+                    android.support.v7.app.AlertDialog.Builder reservationBuilder1 = new android.support.v7.app.AlertDialog.Builder(getContext());
+                    reservationBuilder1.setView(R.layout.pop_up_location);
+                    searchLocationDialog = reservationBuilder1.create();
+                    final WindowManager.LayoutParams params1 = searchLocationDialog.getWindow().getAttributes();
+                    DisplayMetrics displayMetrics1 = new DisplayMetrics();
+                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics1);
+                    int width1 = displayMetrics1.widthPixels;
+                    int height1 = displayMetrics1.heightPixels;
+                    params1.width = (int) (width1 * 0.8);
+                    params1.height = (int) (height1 * 0.8);
+                    searchLocationDialog.getWindow().setAttributes(params1);
+                    searchLocationDialog.show();
 
 //                        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 //
@@ -640,98 +626,114 @@ public class FragmentBill extends Fragment {
 //                        });
 //                        requestQueue.add(jsonArrayRequest);
 
-                        layout_location = searchLocationDialog.findViewById(R.id.layout_location);
-                        locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
-                        locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
-                        cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
-                        confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
+                    layout_location = searchLocationDialog.findViewById(R.id.layout_location);
+                    locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
+                    locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
+                    cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
+                    confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
 
-                        locationPicker.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                locationSpinner.performClick();
-                            }
-                        });
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            locationSpinner.setPopupBackgroundResource(R.color.core_white);
+                    locationPicker.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v1) {
+                            locationSpinner.performClick();
                         }
-                        ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, R.layout.spinner_item, cityList);
-                        locationSpinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
-                        locationSpinner.setAdapter(locationSpinnerAdapter);
+                    });
 
-                        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        locationSpinner.setPopupBackgroundResource(R.color.core_white);
+                    }
+                    ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, R.layout.spinner_item, cityList);
+                    locationSpinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
+                    locationSpinner.setAdapter(locationSpinnerAdapter);
+
+                    locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            cityName = parent.getItemAtPosition(position).toString();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    cancel_location.setOnClickListener(v11 -> searchLocationDialog.dismiss());
+
+                    confirm_location.setOnClickListener(v112 -> {
+                        searchLocationDialog.dismiss();
+
+                        countDownTimer = new CountDownTimer(500, 250) {
                             @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                cityName = parent.getItemAtPosition(position).toString();
+                            public void onTick(long millisUntilFinished) {
                             }
 
                             @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
+                            public void onFinish() {
+                                countDownTimer.cancel();
 
-                            }
-                        });
+                                requestQueue = Volley.newRequestQueue(getContext());
 
-                        cancel_location.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                searchLocationDialog.dismiss();
-                            }
-                        });
+                                String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
 
-                        confirm_location.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                searchLocationDialog.dismiss();
-
-                                countDownTimer = new CountDownTimer(500, 250) {
+                                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                                     @Override
-                                    public void onTick(long millisUntilFinished) {
-                                    }
+                                    public void onResponse(JSONArray response) {
+                                        try {
+                                            for (int i = 0; i < response.length(); i++) {
+                                                JSONObject cityObject = response.getJSONObject(i);
+                                                city = cityObject.getString("city");
+                                                irradianceData = cityObject.getDouble("solar_irradiance");
+                                                postalCode = cityObject.getString("postal_code");
+                                                cityList.add(city);
+                                                cityPostal.add(postalCode);
+                                                solarIrradianceList.add(irradianceData);
 
-                                    @Override
-                                    public void onFinish() {
-                                        countDownTimer.cancel();
-
-                                        requestQueue = Volley.newRequestQueue(getContext());
-
-                                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
-
-                                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-                                            @Override
-                                            public void onResponse(JSONArray response) {
-                                                try {
-                                                    for (int i = 0; i < response.length(); i++) {
-                                                        JSONObject cityObject = response.getJSONObject(i);
-                                                        city = cityObject.getString("city");
-                                                        irradianceData = cityObject.getDouble("solar_irradiance");
-                                                        postalCode = cityObject.getString("postal_code");
-                                                        cityList.add(city);
-                                                        cityPostal.add(postalCode);
-                                                        solarIrradianceList.add(irradianceData);
-
-                                                        if (cityList.get(i).equals(cityName)) {
-                                                            cityLocation = cityList.get(i);
-                                                            irradianceLocation = solarIrradianceList.get(i);
-                                                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
-                                                        }
-                                                    }
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
+                                                if (cityList.get(i).equals(cityName)) {
+                                                    cityLocation = cityList.get(i);
+                                                    irradianceLocation = solarIrradianceList.get(i);
+                                                    showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
                                                 }
                                             }
-                                        }, error -> {
-                                            Log.i("VOLLEY_ERROR", "" + error);
-                                            showSnackbar(getResources().getString(R.string.internet_connection));
-                                        });
-                                        requestQueue.add(jsonArrayRequest);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }.start();
+                                }, error -> {
+                                    Log.i("VOLLEY_ERROR", "" + error);
+                                    showSnackbar(getResources().getString(R.string.internet_connection));
+                                    exitFromApplication();
+                                });
+                                requestQueue.add(jsonArrayRequest);
                             }
-                        });
-                    }
+                        }.start();
+                    });
                 });
             }
+        });
+    }
+
+    public void exitFromApplication() {
+        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+        reservationBuilder.setView(R.layout.dialog_exit);
+        exitDialog = reservationBuilder.create();
+        final WindowManager.LayoutParams params = exitDialog.getWindow().getAttributes();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        params.width = (int) (width * 0.8);
+        params.height = (int) (height * 0.8);
+        exitDialog.getWindow().setAttributes(params);
+        exitDialog.setCancelable(false);
+        exitDialog.show();
+
+        exit_from_app = exitDialog.findViewById(R.id.exit_from_app);
+        exit_from_app.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
     }
 
@@ -791,6 +793,7 @@ public class FragmentBill extends Fragment {
             }, error -> {
                 Log.i("VOLLEY_ERROR", "" + error);
                 showSnackbar(getResources().getString(R.string.internet_connection));
+                exitFromApplication();
             });
             requestQueue.add(jsonArrayRequest);
         } else {
