@@ -1,6 +1,7 @@
 package myusarisoy.solarhomesystem;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -72,6 +73,11 @@ public class FragmentPanels extends Fragment {
         irradianceLocation = getArguments().getDouble("CityIrradiance");
         mostConsumption = getArguments().getInt("MostConsumption");
         totalPayment = getArguments().getInt("TotalPayment");
+
+//        Get user's experience status about the solar energy.
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Experience", 0);
+        String experience = sharedPreferences.getString("Experience", "");
+        Log.i("EXPERIENCE_STATUS", experience);
 
 //       Get currency.
         getCurrency();

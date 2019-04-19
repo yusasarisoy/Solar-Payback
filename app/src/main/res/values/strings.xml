@@ -20,6 +20,7 @@
     <string name="go_back">Go Back</string>
     <string name="login_to">Log in to Solar Payback.</string>
     <string name="login">Log in</string>
+    <string name="logout">Log out</string>
     <string name="complete_register">Complete register</string>
     <string name="complete">Complete</string>
     <string name="sign_up">Sign up</string>
@@ -155,4 +156,10 @@
     <string name="payback_period">Payback Period:&#160;</string>
     <string name="watt_per_day">&#160;kWh/day</string>
     <string name="years">&#160;year(s)</string>
+    <string name="check_your_connection">Check your connection</string>
+    <string name="restart">Please check your internet connection and restart the application.</string>
+    <string name="exit">Exit</string>
+    <string name="experience">How much you have knowledge about the solar energy?</string>
+    <string name="beginner">Beginner</string>
+    <string name="expert">Expert</string>
 </resources>

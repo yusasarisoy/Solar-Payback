@@ -21,6 +21,7 @@
     <string name="go_back">Geri Dön</string>
     <string name="login_to">Solar Payback için giriş yap.</string>
     <string name="login">Giriş yap</string>
+    <string name="logout">Çıkış yap</string>
     <string name="complete_register">Üyeliği tamamla</string>
     <string name="complete">Tamamla</string>
     <string name="sign_up">Üye ol</string>
@@ -156,4 +157,10 @@
     <string name="payback_period">Geri Ödeme Süresi:&#160;</string>
     <string name="watt_per_day">&#160;kWh/gün</string>
     <string name="years">&#160;yıl</string>
+    <string name="check_your_connection">Bağlantınızı kontrol edin</string>
+    <string name="restart">Lütfen internet bağlantınızı kontrol edin ve uygulamayı yeniden başlatın.</string>
+    <string name="exit">Çıkış</string>
+    <string name="experience">Güneş enerjisi hakkında ne kadar bilginiz var?</string>
+    <string name="beginner">Acemi</string>
+    <string name="expert">Uzman</string>
 </resources>

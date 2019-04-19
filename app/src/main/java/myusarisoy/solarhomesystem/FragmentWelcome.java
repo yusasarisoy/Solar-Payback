@@ -38,7 +38,7 @@ public class FragmentWelcome extends Fragment {
 
     View view;
 
-    public static FragmentWelcome newInstance(Objects... objects) {
+    public static FragmentWelcome newInstance(Object... objects) {
         FragmentWelcome fragment = new FragmentWelcome();
         Bundle args = new Bundle();
         fragment.setArguments(args);

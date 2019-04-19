@@ -2,6 +2,7 @@ package myusarisoy.solarhomesystem;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,30 +45,24 @@ public class FragmentConsumer extends Fragment {
         residental = view.findViewById(R.id.img_residental);
         commercial = view.findViewById(R.id.img_commercial);
 
-        residental.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
-                Bundle bundle = new Bundle();
-                bundle.putString("consumer", "residental");
-                fragmentCalculationType.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
-                        .commit();
-            }
+        residental.setOnClickListener(v -> {
+            FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
+            Bundle bundle = new Bundle();
+            bundle.putString("consumer", "residental");
+            fragmentCalculationType.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
+                    .commit();
         });
 
-        commercial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
-                Bundle bundle = new Bundle();
-                bundle.putString("consumer", "commercial");
-                fragmentCalculationType.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
-                        .commit();
-            }
+        commercial.setOnClickListener(v -> {
+            FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
+            Bundle bundle = new Bundle();
+            bundle.putString("consumer", "commercial");
+            fragmentCalculationType.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
+                    .commit();
         });
     }
 }

@@ -57,9 +57,9 @@ public class FragmentInstructions extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         if (firebaseAuth.getCurrentUser() != null) {
-            FragmentConsumer fragmentConsumer = new FragmentConsumer();
+            FragmentExperience fragmentExperience= new FragmentExperience();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentConsumer, "FragmentConsumer")
+                    .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
                     .addToBackStack(null)
                     .commit();
         }
@@ -88,14 +88,13 @@ public class FragmentInstructions extends Fragment {
                         .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
-            }
-            else if (button_next.getText().toString().equals("Bitir")) {
+            } else if (button_next.getText().toString().equals("Bitir")) {
                 FragmentWelcome fragmentWelcome = new FragmentWelcome();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
-            }else
+            } else
                 viewPager.setCurrentItem(currentPage + 1);
         });
 

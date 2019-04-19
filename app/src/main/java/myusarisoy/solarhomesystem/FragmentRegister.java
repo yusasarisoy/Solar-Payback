@@ -158,9 +158,9 @@ public class FragmentRegister extends Fragment {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         user.updateProfile(profileUpdates);
 
-                        FragmentConsumer fragmentConsumer = new FragmentConsumer();
+                        FragmentExperience fragmentExperience= new FragmentExperience();
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.layout_main, fragmentConsumer, "FragmentConsumer")
+                                .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
                                 .addToBackStack(null)
                                 .commit();
                     }
