@@ -74,11 +74,6 @@ public class FragmentPanels extends Fragment {
         mostConsumption = getArguments().getInt("MostConsumption");
         totalPayment = getArguments().getInt("TotalPayment");
 
-//        Get user's experience status about the solar energy.
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Experience", 0);
-        String experience = sharedPreferences.getString("Experience", "");
-        Log.i("EXPERIENCE_STATUS", experience);
-
 //       Get currency.
         getCurrency();
 

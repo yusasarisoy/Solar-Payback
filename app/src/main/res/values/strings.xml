@@ -162,4 +162,17 @@
     <string name="experience">How much you have knowledge about the solar energy?</string>
     <string name="beginner">Beginner</string>
     <string name="expert">Expert</string>
+    <string name="component_prices">Component prices</string>
+    <string name="enter_prices">Please enter prices for the solar panel components.</string>
+    <string name="heater">Heater Price (₺)</string>
+    <string name="inverter">Inverter Price (₺)</string>
+    <string name="battery">Battery Price (₺)</string>
+    <string name="inspection">Inspection Cost (₺)</string>
+    <string name="cleaning">Cleaning Cost (₺)</string>
+    <string name="about_us">About Us</string>
+    <string name="copyright">Copyright © 2019 Solar Payback | All Rights Reserved</string>
+    <string name="algorithms">Algorithms</string>
+    <string name="development">Development</string>
+    <string name="algorithm_members">Ahmet Orkun Gençer\nOnur Karaosmangil</string>
+    <string name="development_members">Gökhan Peker\nMuhammed Yuşa Sarısoy</string>
 </resources>

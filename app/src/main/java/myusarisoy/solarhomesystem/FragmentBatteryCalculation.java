@@ -8,12 +8,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +32,9 @@ import butterknife.BindView;
 public class FragmentBatteryCalculation extends Fragment {
     @BindView(R.id.layout_battery_calculation)
     LinearLayout layout_battery_calculation;
+
+    @BindView(R.id.img_info)
+    ImageView info;
 
     @BindView(R.id.layout_prices)
     LinearLayout layout_prices;
@@ -84,12 +87,13 @@ public class FragmentBatteryCalculation extends Fragment {
     @BindView(R.id.image_main_page)
     ImageView image_main_page;
 
-    AppCompatDialog dialog_main_page;
-    Button no_main_page, yes_main_page;
+    AppCompatDialog dialog_main_page, infoDialog, masterBatteryDialog;
+    Button no_main_page, yes_main_page, confirmBack, closeInfo;
+    EditText heater, inverter, battery, inspection, cleaning;
     private RequestQueue requestQueueUSD;
     private double liraPerDollar, paybackYear;
     private int totalPrice;
-    private String baseUSD;
+    private String baseUSD, experience;
     private int panelPrice, totalPayment, heaterPrice = 1800, inverterPrice = 3595, batteryPrice = 12980, inspectionCost = 150, cleaningCost = 2500;
     View view;
 
@@ -112,6 +116,9 @@ public class FragmentBatteryCalculation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_battery_calculation, container, false);
 
+//        Get info about the app.
+        getInfo();
+
 //        Get currency;
         getCurrency();
 
@@ -121,22 +128,57 @@ public class FragmentBatteryCalculation extends Fragment {
         return view;
     }
 
+    private void getInfo() {
+        info = view.findViewById(R.id.img_info);
+
+        info.setOnClickListener(v -> {
+            android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilder.setView(R.layout.dialog_info);
+            infoDialog = reservationBuilder.create();
+            WindowManager.LayoutParams params = infoDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+            params.width = (int) (width * 0.9);
+            params.height = (int) (height * 0.9);
+            infoDialog.getWindow().setAttributes(params);
+            infoDialog.show();
+
+            closeInfo = infoDialog.findViewById(R.id.close_info);
+
+            closeInfo.setOnClickListener(v1 -> infoDialog.dismiss());
+        });
+    }
+
     private void getCurrency() {
-        final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getResources().getString(R.string.exchange_rate), getResources().getString(R.string.please_wait), true, true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+//        Get user's experience status about the solar energy.
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Experience", 0);
+        experience = sharedPreferences.getString("Experience", "");
 
-//            Get USD/TRY.
-        String currencyUSD = "https://api.exchangeratesapi.io/latest?base=USD";
+        if (experience.equals("Expert")) {
+            android.support.v7.app.AlertDialog.Builder reservationBuilderMaster = new android.support.v7.app.AlertDialog.Builder(getContext());
+            reservationBuilderMaster.setView(R.layout.dialog_master_battery);
+            masterBatteryDialog = reservationBuilderMaster.create();
+            WindowManager.LayoutParams paramsMaster = masterBatteryDialog.getWindow().getAttributes();
+            DisplayMetrics displayMetricsMaster = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetricsMaster);
+            int widthMaster = displayMetricsMaster.widthPixels;
+            int heightMaster = displayMetricsMaster.heightPixels;
+            paramsMaster.width = (int) (widthMaster * 0.7);
+            paramsMaster.height = (int) (heightMaster * 0.7);
+            masterBatteryDialog.getWindow().setAttributes(paramsMaster);
+            masterBatteryDialog.show();
 
-        requestQueueUSD = Volley.newRequestQueue(getContext());
-        final JsonObjectRequest jsonObjectRequestUSD = new JsonObjectRequest(Request.Method.GET, currencyUSD, null, response -> {
-            try {
-                baseUSD = response.getString("base");
-                JSONObject jsonObject = response.getJSONObject("rates");
-                liraPerDollar = jsonObject.getDouble("TRY");
+            heater = masterBatteryDialog.findViewById(R.id.heater_price);
+            inverter = masterBatteryDialog.findViewById(R.id.inverter_price);
+            battery = masterBatteryDialog.findViewById(R.id.battery_price);
+            inspection = masterBatteryDialog.findViewById(R.id.inspection_cost);
+            cleaning = masterBatteryDialog.findViewById(R.id.cleaning_cost);
+            confirmBack = masterBatteryDialog.findViewById(R.id.confirm_back);
+
+            confirmBack.setOnClickListener(v -> {
+                masterBatteryDialog.dismiss();
 
                 panel_price = view.findViewById(R.id.panel_price);
                 heater_price = view.findViewById(R.id.heater_price);
@@ -151,11 +193,11 @@ public class FragmentBatteryCalculation extends Fragment {
                 panelPrice = getArguments().getInt("panelPrice");
                 totalPayment = getArguments().getInt("TotalPayment");
 
-                int finalHeater = (int) (heaterPrice * liraPerDollar);
-                int finalInverter = (int) (inverterPrice * liraPerDollar);
-                int finalBattery = (int) (batteryPrice * liraPerDollar);
-                int finalInspection = (int) (inspectionCost * liraPerDollar * 25);
-                int finalCleaning = (int) (cleaningCost * liraPerDollar * 5);
+                int finalHeater = Integer.parseInt(heater.getText().toString());
+                int finalInverter = Integer.parseInt(inverter.getText().toString());
+                int finalBattery = Integer.parseInt(battery.getText().toString());
+                int finalInspection = Integer.parseInt(inspection.getText().toString());
+                int finalCleaning = Integer.parseInt(cleaning.getText().toString());
 
                 totalPrice = panelPrice + finalHeater + finalInverter + finalBattery + finalInspection + finalCleaning;
                 paybackYear = totalPrice / totalPayment;
@@ -169,14 +211,64 @@ public class FragmentBatteryCalculation extends Fragment {
                 electricity_cost.setText(getResources().getString(R.string.electricity_cost) + (totalPayment) + " ₺");
                 total_price.setText(getResources().getString(R.string.total_price) + (totalPrice) + " ₺");
                 payback_period.setText(getResources().getString(R.string.payback_period) + paybackYear + getResources().getString(R.string.years));
+            });
+        } else if (experience.equals("Beginner")) {
+            final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getResources().getString(R.string.exchange_rate), getResources().getString(R.string.please_wait), true, true);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
 
-                if (!heater_price.getText().toString().isEmpty())
-                    progressDialog.dismiss();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show());
-        requestQueueUSD.add(jsonObjectRequestUSD);
+//            Get USD/TRY.
+            String currencyUSD = "https://api.exchangeratesapi.io/latest?base=USD";
+
+            requestQueueUSD = Volley.newRequestQueue(getContext());
+            final JsonObjectRequest jsonObjectRequestUSD = new JsonObjectRequest(Request.Method.GET, currencyUSD, null, response -> {
+                try {
+                    baseUSD = response.getString("base");
+                    JSONObject jsonObject = response.getJSONObject("rates");
+                    liraPerDollar = jsonObject.getDouble("TRY");
+
+                    panel_price = view.findViewById(R.id.panel_price);
+                    heater_price = view.findViewById(R.id.heater_price);
+                    inverter_price = view.findViewById(R.id.inverter_price);
+                    battery_price = view.findViewById(R.id.battery_price);
+                    inspection_cost = view.findViewById(R.id.inspection_cost);
+                    cleaning_cost = view.findViewById(R.id.cleaning_cost);
+                    electricity_cost = view.findViewById(R.id.electricity_cost);
+                    total_price = view.findViewById(R.id.total_price);
+                    payback_period = view.findViewById(R.id.payback_period);
+
+                    panelPrice = getArguments().getInt("panelPrice");
+                    totalPayment = getArguments().getInt("TotalPayment");
+
+                    int finalHeater = (int) (heaterPrice * liraPerDollar);
+                    int finalInverter = (int) (inverterPrice * liraPerDollar);
+                    int finalBattery = (int) (batteryPrice * liraPerDollar);
+                    int finalInspection = (int) (inspectionCost * liraPerDollar * 25);
+                    int finalCleaning = (int) (cleaningCost * liraPerDollar * 5);
+
+                    totalPrice = panelPrice + finalHeater + finalInverter + finalBattery + finalInspection + finalCleaning;
+                    paybackYear = totalPrice / totalPayment;
+
+                    panel_price.setText(getResources().getString(R.string.panel_price) + ((panelPrice)) + " ₺");
+                    heater_price.setText(getResources().getString(R.string.heater_price) + finalHeater + " ₺");
+                    inverter_price.setText(getResources().getString(R.string.inverter_price) + finalInverter + " ₺");
+                    battery_price.setText(getResources().getString(R.string.battery_price) + finalBattery + " ₺");
+                    inspection_cost.setText(getResources().getString(R.string.inspection_cost) + finalInspection + " ₺");
+                    cleaning_cost.setText(getResources().getString(R.string.cleaning_cost) + finalCleaning + " ₺");
+                    electricity_cost.setText(getResources().getString(R.string.electricity_cost) + (totalPayment) + " ₺");
+                    total_price.setText(getResources().getString(R.string.total_price) + (totalPrice) + " ₺");
+                    payback_period.setText(getResources().getString(R.string.payback_period) + paybackYear + getResources().getString(R.string.years));
+
+                    if (!heater_price.getText().toString().isEmpty())
+                        progressDialog.dismiss();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show());
+            requestQueueUSD.add(jsonObjectRequestUSD);
+        }
     }
 
     private void getResults() {

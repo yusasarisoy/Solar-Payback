@@ -163,4 +163,17 @@
     <string name="experience">Güneş enerjisi hakkında ne kadar bilginiz var?</string>
     <string name="beginner">Acemi</string>
     <string name="expert">Uzman</string>
+    <string name="component_prices">Parça ücretleri</string>
+    <string name="enter_prices">Lütfen solar panel parçaları için ücretleri giriniz.</string>
+    <string name="heater">Isıtıcı Ücreti (₺)</string>
+    <string name="inverter">Enversör Ücreti (₺)</string>
+    <string name="battery">Batarya Ücreti (₺)</string>
+    <string name="inspection">Bakım Bedeli (₺)</string>
+    <string name="cleaning">Temizlik Bedeli (₺)</string>
+    <string name="about_us">Hakkımızda</string>
+    <string name="copyright">Telif Hakkı © 2019 Solar Payback | Tüm Hakları Saklıdır</string>
+    <string name="algorithms">Algoritmalar</string>
+    <string name="development">Kodlama ve Geliştirme</string>
+    <string name="algorithm_members">Ahmet Orkun Gençer\nOnur Karaosmangil</string>
+    <string name="development_members">Gökhan Peker\nMuhammed Yuşa Sarısoy</string>
 </resources>
