@@ -88,9 +88,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Selected Panel Energy: 330 W" />
+                tools:text="Generated Power by Panel: 330 W" />
 
         </LinearLayout>
 
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Selected Panel Area: 1.685 m²" />
 
@@ -174,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Selected City: Istanbul" />
 
@@ -217,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Minimum City Irradiance: 2.96" />
 
@@ -260,9 +260,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Consumption: 234 kWh/day" />
+                tools:text="Energy Consumption: 234 kWh/year" />
 
         </LinearLayout>
 
@@ -308,7 +308,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Produced Energy: 54800 Wh" />
 
@@ -351,7 +351,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Required Panels: 167" />
 
@@ -394,7 +394,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Required Area: 281.395 m²" />
 
@@ -437,7 +437,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
                 android:textColor="@color/core_white"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Total Panel Payment: 153.127 ₺" />
 

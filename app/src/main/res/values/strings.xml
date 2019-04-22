@@ -74,7 +74,7 @@
     <string name="month">Month</string>
     <string name="payment">Payment</string>
     <string name="power_consumption">Power Consumption</string>
-    <string name="power_consumption_2">Consumption</string>
+    <string name="power_consumption_2">Energy Consumption</string>
     <string name="energy_saver_tips">Energy Saver Tips</string>
     <string name="air_conditioner_consumption_text">If your house has electric heat, you’ll see a big spike on your electricity bill in the middle of winter when you use a lot of power. If you have a heat pump and use it a lot, you may run it somewhere between 10 and 15 hours a day. If your electricity costs 10 cents an hour, that could cost you $15 to $22 a day. The same applies to homes with central air conditioning in the middle of summer.</string>
     <string name="air_conditioner_saver_text">Install a programmable thermostat and set it back at least 10 degrees for eight hours a day. Doing so can save you 10 percent on your energy costs every year, according to the U.S. Department of Energy.</string>
@@ -142,7 +142,7 @@
     <string name="selected_irradiance">Minimum City Irradiance:&#160;</string>
     <string name="selected_consumption">Consumption:&#160;</string>
     <string name="required_panels">Required Panels:&#160;</string>
-    <string name="produced_energy">Produced Energy:&#160;</string>
+    <string name="produced_energy">Generated Power by Panel:&#160;</string>
     <string name="required_area">Required Area:&#160;</string>
     <string name="total_panel_payment">Total Panel Payment:&#160;</string>
     <string name="panel_price">Panel Price:&#160;</string>
