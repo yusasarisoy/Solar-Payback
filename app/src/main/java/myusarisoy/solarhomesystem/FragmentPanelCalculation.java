@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,15 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 
@@ -69,11 +79,12 @@ public class FragmentPanelCalculation extends Fragment {
     @BindView(R.id.button_continue)
     Button button_continue;
 
+    RequestQueue requestQueueUSD;
     AppCompatDialog generatorDialog;
     Button buttonNo, buttonYes;
-    public String cityLocation;
-    public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441;
-    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment;
+    public String cityLocation, grid, baseUSD;
+    public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441, liraPerDollar, liraForOverProduction = 0.13;
+    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment, totalConsumption, overProduction;
     View view;
 
     public static FragmentPanelCalculation newInstance(Object... objects) {
@@ -86,6 +97,8 @@ public class FragmentPanelCalculation extends Fragment {
         args.putDouble("CityIrradiance", (Double) objects[4]);
         args.putInt("MostConsumption", (Integer) objects[5]);
         args.putInt("TotalPayment", (Integer) objects[6]);
+        args.putInt("TotalConsumption", (Integer) objects[7]);
+        args.putString("Grid", (String) objects[8]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,6 +111,26 @@ public class FragmentPanelCalculation extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_panel_calculation, container, false);
+
+        grid = getArguments().getString("Grid");
+
+        //            Get USD/TRY.
+        String currencyUSD = "https://api.exchangeratesapi.io/latest?base=USD";
+
+        requestQueueUSD = Volley.newRequestQueue(getContext());
+        final JsonObjectRequest jsonObjectRequestUSD = new JsonObjectRequest(Request.Method.GET, currencyUSD, null, response -> {
+            try {
+                baseUSD = response.getString("base");
+                JSONObject jsonObject = response.getJSONObject("rates");
+                liraPerDollar = jsonObject.getDouble("TRY");
+                liraForOverProduction = liraPerDollar * liraForOverProduction;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show());
+        requestQueueUSD.add(jsonObjectRequestUSD);
+
 
 //        Get all arguments.
         getArgument();
@@ -129,12 +162,13 @@ public class FragmentPanelCalculation extends Fragment {
         irradianceLocation = getArguments().getDouble("CityIrradiance");
         mostConsumption = getArguments().getInt("MostConsumption");
         totalPayment = getArguments().getInt("TotalPayment");
+        totalConsumption = getArguments().getInt("TotalConsumption");
 
         selected_panel_energy.setText(getResources().getString(R.string.selected_panel_energy) + panelEnergy + " W");
         selected_panel_area.setText(getResources().getString(R.string.selected_panel_area) + panelArea + " m²");
         selected_city.setText(getResources().getString(R.string.selected_city) + cityLocation);
         selected_city_irradiance.setText(getResources().getString(R.string.selected_irradiance) + irradianceLocation);
-        most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + mostConsumption + getResources().getString(R.string.watt_per_day));
+        most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + totalConsumption + " kWh/year");
     }
 
     private void calculatePanels() {
@@ -144,18 +178,25 @@ public class FragmentPanelCalculation extends Fragment {
         total_payment = view.findViewById(R.id.total_payment);
 
         if (getArguments().getString("Panel").equals("panel1")) {
-            howManyPanels = (int) (mostConsumption / (irradianceLocation * 0.245)) + 1;
-            producedEnergy = (int) (0.245 * irradianceLocation * howManyPanels);
+            howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.245 * 30)) + 1;
+            producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
         } else if (getArguments().getString("Panel").equals("panel2")) {
-            howManyPanels = (int) (mostConsumption / (irradianceLocation * 0.186)) + 1;
-            producedEnergy = (int) (0.186 * irradianceLocation * howManyPanels);
+            howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.186 * 30)) + 1;
+            producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
         }
+
+//        Get over production.
+        overProduction = producedEnergy - totalConsumption;
+        overProduction = (int) (overProduction * liraForOverProduction);
+
+        if (grid.equals("On-Grid"))
+            totalPayment += overProduction;
 
         requiredArea = (int) ((howManyPanels * panelArea) + 1);
         totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
 
         required_panels.setText(getResources().getString(R.string.required_panels) + howManyPanels);
-        produced_energy.setText(getResources().getString(R.string.produced_energy) + producedEnergy + " Wh");
+        produced_energy.setText(getResources().getString(R.string.produced_energy) + producedEnergy + " kWh/year");
         required_area.setText(getResources().getString(R.string.required_area) + requiredArea + " m²");
         total_payment.setText(getResources().getString(R.string.total_panel_payment) + totalPrice + " ₺");
     }
@@ -210,6 +251,7 @@ public class FragmentPanelCalculation extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("panelPrice", totalPrice);
                 bundle.putInt("TotalPayment", totalPayment);
+                bundle.putString("Grid", grid);
                 fragmentBatteryCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
@@ -223,10 +265,12 @@ public class FragmentPanelCalculation extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("panelPrice", totalPrice);
                 bundle.putInt("TotalPayment", totalPayment);
+                bundle.putString("Grid", grid);
                 fragmentGeneratorChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentGeneratorChoice, "FragmentGeneratorChoice")
                         .commit();
+
             });
         });
     }

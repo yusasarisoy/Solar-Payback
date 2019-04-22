@@ -153,9 +153,10 @@
     <string name="inspection_cost">Bakım Bedeli:&#160;</string>
     <string name="cleaning_cost">Temizlik Bedeli:&#160;</string>
     <string name="electricity_cost">Elektrik Bedeli:&#160;</string>
+    <string name="electricity_cost_and_income">Elektrik Bedeli and Gelir:&#160;</string>
     <string name="total_price">Toplam Ücret:&#160;</string>
     <string name="payback_period">Geri Ödeme Süresi:&#160;</string>
-    <string name="watt_per_day">&#160;kWh/gün</string>
+    <string name="watt_per_day">&#160;kWh/ay</string>
     <string name="years">&#160;yıl</string>
     <string name="check_your_connection">Bağlantınızı kontrol edin</string>
     <string name="restart">Lütfen internet bağlantınızı kontrol edin ve uygulamayı yeniden başlatın.</string>

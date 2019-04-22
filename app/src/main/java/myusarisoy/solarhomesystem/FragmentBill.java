@@ -438,6 +438,7 @@ public class FragmentBill extends Fragment {
             else {
                 monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
                 monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
+                Log.i("TOTAL POWER CONSUMPTION", monthPowerConsumption + " kWh");
 
                 FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
                 Bundle bundle = new Bundle();

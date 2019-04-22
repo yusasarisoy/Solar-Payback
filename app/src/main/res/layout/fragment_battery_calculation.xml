@@ -203,6 +203,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
+            android:id="@+id/battery_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -251,6 +252,7 @@
         android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/inspection_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -294,6 +296,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
+            android:id="@+id/cleaning_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

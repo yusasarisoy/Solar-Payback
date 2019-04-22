@@ -44,8 +44,8 @@ public class FragmentPanels extends Fragment {
 
     private RequestQueue requestQueue;
     private double liraPerEuro;
-    private int panel1, panel2, mostConsumption, totalPayment;
-    private String base, cityLocation;
+    private int panel1, panel2, mostConsumption, totalPayment, totalConsumption;
+    private String base, cityLocation, grid;
     public double irradianceLocation;
     View view;
 
@@ -56,6 +56,8 @@ public class FragmentPanels extends Fragment {
         args.putDouble("irradiance", (Double) objects[1]);
         args.putInt("consumption", (Integer) objects[2]);
         args.putInt("TotalPayment", (Integer) objects[3]);
+        args.putInt("TotalConsumption", (Integer) objects[4]);
+        args.putString("Grid", (String) objects[5]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +75,8 @@ public class FragmentPanels extends Fragment {
         irradianceLocation = getArguments().getDouble("CityIrradiance");
         mostConsumption = getArguments().getInt("MostConsumption");
         totalPayment = getArguments().getInt("TotalPayment");
+        totalConsumption = getArguments().getInt("TotalConsumption");
+        grid = getArguments().getString("Grid");
 
 //       Get currency.
         getCurrency();
@@ -131,6 +135,8 @@ public class FragmentPanels extends Fragment {
             bundle.putDouble("CityIrradiance", irradianceLocation);
             bundle.putInt("MostConsumption", mostConsumption);
             bundle.putInt("TotalPayment", totalPayment);
+            bundle.putInt("TotalConsumption", totalConsumption);
+            bundle.putString("Grid", grid);
             fragmentPanelCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
@@ -147,6 +153,8 @@ public class FragmentPanels extends Fragment {
             bundle.putDouble("CityIrradiance", irradianceLocation);
             bundle.putInt("MostConsumption", mostConsumption);
             bundle.putInt("TotalPayment", totalPayment);
+            bundle.putInt("TotalConsumption", totalConsumption);
+            bundle.putString("Grid", grid);
             fragmentPanelCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")

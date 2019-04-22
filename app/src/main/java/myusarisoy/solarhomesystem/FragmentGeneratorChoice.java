@@ -17,6 +17,7 @@ public class FragmentGeneratorChoice extends Fragment {
     ImageView generator2;
 
     int panelPrice, totalPayment, generatorPrice1 = 121896, generatorPrice2 = 72493;
+    String grid;
     View view;
 
     public static FragmentGeneratorChoice newInstance(Object... objects) {
@@ -24,6 +25,7 @@ public class FragmentGeneratorChoice extends Fragment {
         Bundle args = new Bundle();
         args.putInt("panelPrice", (Integer) objects[0]);
         args.putInt("TotalPayment", (Integer) objects[1]);
+        args.putString("Grid", (String) objects[2]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,6 +41,7 @@ public class FragmentGeneratorChoice extends Fragment {
 
         panelPrice = getArguments().getInt("panelPrice");
         totalPayment = getArguments().getInt("TotalPayment");
+        grid = getArguments().getString("Grid");
 
 //        Go to battery calculation.
         gotoBatteryCalculation();
@@ -56,6 +59,7 @@ public class FragmentGeneratorChoice extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putInt("panelPrice", panelPrice);
             bundle.putInt("TotalPayment", totalPayment);
+            bundle.putString("Grid", grid);
             fragmentBatteryCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
@@ -68,6 +72,7 @@ public class FragmentGeneratorChoice extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putInt("panelPrice", panelPrice);
             bundle.putInt("TotalPayment", totalPayment);
+            bundle.putString("Grid", grid);
             fragmentBatteryCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")

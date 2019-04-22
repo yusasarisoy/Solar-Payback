@@ -152,9 +152,10 @@
     <string name="inspection_cost">Inspection Cost:&#160;</string>
     <string name="cleaning_cost">Cleaning Cost:&#160;</string>
     <string name="electricity_cost">Electricity Cost:&#160;</string>
+    <string name="electricity_cost_and_income">Electricity Cost and Income:&#160;</string>
     <string name="total_price">Total Price:&#160;</string>
     <string name="payback_period">Payback Period:&#160;</string>
-    <string name="watt_per_day">&#160;kWh/day</string>
+    <string name="watt_per_day">&#160;kWh/month</string>
     <string name="years">&#160;year(s)</string>
     <string name="check_your_connection">Check your connection</string>
     <string name="restart">Please check your internet connection and restart the application.</string>

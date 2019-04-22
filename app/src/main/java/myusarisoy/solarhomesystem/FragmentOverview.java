@@ -67,7 +67,7 @@ public class FragmentOverview extends Fragment {
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
-    public String cityLocation;
+    public String cityLocation, grid;
     public double irradianceLocation;
     int totalPayment, totalConsumption, mostConsumption = 0;
     View view;
@@ -94,28 +94,25 @@ public class FragmentOverview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        if (getArguments().getString("Grid").equals("On-Grid"))
-            onGoing();
-        else if (getArguments().getString("Grid").equals("Off-Grid")) {
-            stringArray = getArguments().getStringArrayList("stringArray");
-            integerArray = getArguments().getIntegerArrayList("integerArray");
-            integerArray2 = getArguments().getIntegerArrayList("integerArray2");
-            cityLocation = getArguments().getString("City");
-            irradianceLocation = getArguments().getDouble("CityIrradiance");
+        stringArray = getArguments().getStringArrayList("stringArray");
+        integerArray = getArguments().getIntegerArrayList("integerArray");
+        integerArray2 = getArguments().getIntegerArrayList("integerArray2");
+        cityLocation = getArguments().getString("City");
+        irradianceLocation = getArguments().getDouble("CityIrradiance");
+        grid = getArguments().getString("Grid");
 
 //        Set adapter and run RecyclerView.
-            setAdapter();
-            initRecyclerView();
+        setAdapter();
+        initRecyclerView();
 
 //        Show power consumption and energy saver lists.
-            showConsumption();
-            showTips();
+        showConsumption();
+        showTips();
 
 //        Go to panels.
-            gotoPanels();
+        gotoPanels();
 
-//            Toast.makeText(getContext(), "Total payment: " + totalPayment + " ₺\nTotal power consumption: " + totalConsumption + "kWh", Toast.LENGTH_LONG).show();
-        }
+//        Toast.makeText(getContext(), "Total payment: " + totalPayment + " ₺\nTotal power consumption: " + totalConsumption + "kWh", Toast.LENGTH_LONG).show();
 
         return view;
     }
@@ -311,6 +308,8 @@ public class FragmentOverview extends Fragment {
             bundle.putDouble("CityIrradiance", irradianceLocation);
             bundle.putInt("MostConsumption", mostConsumption);
             bundle.putInt("TotalPayment", totalPayment);
+            bundle.putInt("TotalConsumption", totalConsumption);
+            bundle.putString("Grid", grid);
             fragmentPanels.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")

@@ -69,7 +69,7 @@ public class FragmentOverviewAppliances extends Fragment {
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
     public EditText appliance_annual_billing;
-    public String cityLocation;
+    public String cityLocation, grid;
     public double irradianceLocation;
     int totalConsumption, mostConsumption = 0, annualBilling;
     View view;
@@ -96,14 +96,12 @@ public class FragmentOverviewAppliances extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_overview_appliances, container, false);
 
-        if (getArguments().getString("Grid").equals("Off-Grid")) {
-            stringArray = getArguments().getStringArrayList("stringArray");
-            integerArray = getArguments().getIntegerArrayList("integerArray");
-            integerArray2 = getArguments().getIntegerArrayList("integerArray2");
-            cityLocation = getArguments().getString("City");
-            irradianceLocation = getArguments().getDouble("CityIrradiance");
-        } else if (getArguments().getString("Grid").equals("On-Grid"))
-            onGoing();
+        stringArray = getArguments().getStringArrayList("stringArray");
+        integerArray = getArguments().getIntegerArrayList("integerArray");
+        integerArray2 = getArguments().getIntegerArrayList("integerArray2");
+        cityLocation = getArguments().getString("City");
+        irradianceLocation = getArguments().getDouble("CityIrradiance");
+        grid = getArguments().getString("Grid");
 
 //        Set adapter and run RecyclerView.
         setAdapter();
@@ -374,6 +372,8 @@ public class FragmentOverviewAppliances extends Fragment {
                             bundle.putDouble("CityIrradiance", irradianceLocation);
                             bundle.putInt("MostConsumption", mostConsumption);
                             bundle.putInt("TotalPayment", annualBilling);
+                            bundle.putInt("TotalConsumption", totalConsumption);
+                            bundle.putString("Grid", grid);
                             fragmentPanels.setArguments(bundle);
                             getActivity().getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")

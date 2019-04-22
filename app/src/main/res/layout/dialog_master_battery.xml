@@ -138,6 +138,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/master_battery_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -175,6 +176,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/master_inspection_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -212,6 +214,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/master_cleaning_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
