@@ -1,16 +1,10 @@
 package myusarisoy.solarhomesystem;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Locale;
-import java.util.Objects;
 
 import butterknife.BindView;
 

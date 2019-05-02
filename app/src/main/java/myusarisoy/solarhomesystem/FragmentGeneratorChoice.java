@@ -16,7 +16,7 @@ public class FragmentGeneratorChoice extends Fragment {
     @BindView(R.id.img_generator_2)
     ImageView generator2;
 
-    int panelPrice, totalPayment, generatorPrice1 = 121896, generatorPrice2 = 72493;
+    int panelPrice, totalPayment, generatorPrice1 = 121896, generatorPrice2 = 72493, lowerProduction;
     String grid;
     View view;
 
@@ -26,6 +26,7 @@ public class FragmentGeneratorChoice extends Fragment {
         args.putInt("panelPrice", (Integer) objects[0]);
         args.putInt("TotalPayment", (Integer) objects[1]);
         args.putString("Grid", (String) objects[2]);
+        args.putInt("lowerProduction", (Integer) objects[3]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,6 +43,7 @@ public class FragmentGeneratorChoice extends Fragment {
         panelPrice = getArguments().getInt("panelPrice");
         totalPayment = getArguments().getInt("TotalPayment");
         grid = getArguments().getString("Grid");
+        lowerProduction = getArguments().getInt("lowerProduction");
 
 //        Go to battery calculation.
         gotoBatteryCalculation();
@@ -60,6 +62,7 @@ public class FragmentGeneratorChoice extends Fragment {
             bundle.putInt("panelPrice", panelPrice);
             bundle.putInt("TotalPayment", totalPayment);
             bundle.putString("Grid", grid);
+            bundle.putInt("lowerProduction", lowerProduction);
             fragmentBatteryCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
@@ -73,6 +76,7 @@ public class FragmentGeneratorChoice extends Fragment {
             bundle.putInt("panelPrice", panelPrice);
             bundle.putInt("TotalPayment", totalPayment);
             bundle.putString("Grid", grid);
+            bundle.putInt("lowerProduction", lowerProduction);
             fragmentBatteryCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")

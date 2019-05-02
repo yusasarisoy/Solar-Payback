@@ -52,6 +52,8 @@
     <string name="appliances">Cihazlar</string>
     <string name="on_grid">Şebekeye Bağlı</string>
     <string name="off_grid">Şebekeden Bağımsız</string>
+    <string name="enter_your_area">Alanınızı girin</string>
+    <string name="area_place">Yerinizin alanı (m²)</string>
     <string name="add_annual_billing">Yıllık fatura ekle</string>
     <string name="billing_amount">Fatura Tutarı (₺)</string>
     <string name="annual_billing_amount">Yıllık Fatura Tutarı (₺)</string>
@@ -91,6 +93,7 @@
     <string name="panel_1">Tek Kristalli Güneş Paneli\n(330 W, 1.685 m²)</string>
     <string name="panel_2">Çok Kristalli Güneş Paneli\n(250 W, 1.67 m²)</string>
     <string name="soon">Yakında!</string>
+    <string name="area_info">Lütfen panelleri kurmak istediğiniz alan bilgisini giriniz.</string>
     <string name="appliance_annual_billing">Lütfen yıllık fatura tutarını giriniz.</string>
     <string name="want_generator">Jeneratör Seçimi</string>
     <string name="look_generator">Jeneratörlere göz atmak ister misiniz?</string>
@@ -137,7 +140,7 @@
     <string name="selected">&#160;seçildi.</string>
     <string name="unselected">&#160;seçilmedi.</string>
     <string name="exchange_rate">Kur bilgileri güncelleniyor</string>
-    <string name="selected_panel_energy">Seçilen Panelin Enerjisi:&#160;</string>
+    <string name="selected_panel_energy">Seçilen Panelin Gücü:&#160;</string>
     <string name="selected_panel_area">Seçilen Panelin Alanı:&#160;</string>
     <string name="selected_city">Seçilen Şehir:&#160;</string>
     <string name="selected_irradiance">Minimum Şehir Işıması:&#160;</string>
@@ -171,10 +174,11 @@
     <string name="battery">Batarya Ücreti (₺)</string>
     <string name="inspection">Bakım Bedeli (₺)</string>
     <string name="cleaning">Temizlik Bedeli (₺)</string>
+    <string name="extra_cost">Ekstra Maliyet:&#160;</string>
     <string name="about_us">Hakkımızda</string>
     <string name="copyright">Telif Hakkı © 2019 Solar Payback | Tüm Hakları Saklıdır</string>
     <string name="algorithms">Algoritmalar</string>
     <string name="development">Kodlama ve Geliştirme</string>
-    <string name="algorithm_members">Ahmet Orkun Gençer\nOnur Karaosmangil</string>
-    <string name="development_members">Gökhan Peker\nMuhammed Yuşa Sarısoy</string>
+    <string name="algorithm_members">Ahmed HAJJO RIFAI\nAhmet Orkun GENÇER\nMoumen ALHWANI\nOnur KARAOSMANGİL</string>
+    <string name="development_members">Gökhan PEKER\nMuhammed Yuşa SARISOY</string>
 </resources>

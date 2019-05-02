@@ -102,7 +102,7 @@ public class FragmentBatteryCalculation extends Fragment {
     LinearLayout master_battery_layout, master_inspection_layout, master_cleaning_layout;
     private RequestQueue requestQueueUSD;
     private double liraPerDollar, paybackYear;
-    private int totalPrice;
+    private int totalPrice, lowerProduction;
     private String baseUSD, experience, grid;
     private int panelPrice, totalPayment, heaterPrice = 1800, inverterPrice = 3595, batteryPrice = 12980, inspectionCost = 150, cleaningCost = 2500;
     View view;
@@ -113,6 +113,7 @@ public class FragmentBatteryCalculation extends Fragment {
         args.putInt("panelPrice", (Integer) objects[0]);
         args.putInt("TotalPayment", (Integer) objects[1]);
         args.putString("Grid", (String) objects[2]);
+        args.putInt("lowerProduction", (Integer) objects[3]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -128,6 +129,7 @@ public class FragmentBatteryCalculation extends Fragment {
         view = inflater.inflate(R.layout.fragment_battery_calculation, container, false);
 
         grid = getArguments().getString("Grid");
+        lowerProduction = getArguments().getInt("lowerProduction");
 
 //        Get info about the app.
         getInfo();
@@ -232,7 +234,7 @@ public class FragmentBatteryCalculation extends Fragment {
                     heater_price.setText(getResources().getString(R.string.heater_price) + finalHeater + " ₺");
                     inverter_price.setText(getResources().getString(R.string.inverter_price) + finalInverter + " ₺");
                     electricity_cost.setText(getResources().getString(R.string.electricity_cost_and_income) + (totalPayment) + " ₺");
-                    total_price.setText(getResources().getString(R.string.total_price) + (totalPrice) + " ₺");
+                    total_price.setText(getResources().getString(R.string.total_price) + (totalPrice + lowerProduction) + " ₺");
                     payback_period.setText(getResources().getString(R.string.payback_period) + paybackYear + getResources().getString(R.string.years));
                 });
             } else if (experience.equals("Beginner")) {
@@ -272,7 +274,7 @@ public class FragmentBatteryCalculation extends Fragment {
                         heater_price.setText(getResources().getString(R.string.heater_price) + finalHeater + " ₺");
                         inverter_price.setText(getResources().getString(R.string.inverter_price) + finalInverter + " ₺");
                         electricity_cost.setText(getResources().getString(R.string.electricity_cost_and_income) + (totalPayment) + " ₺");
-                        total_price.setText(getResources().getString(R.string.total_price) + (totalPrice) + " ₺");
+                        total_price.setText(getResources().getString(R.string.total_price) + (totalPrice + lowerProduction) + " ₺");
                         payback_period.setText(getResources().getString(R.string.payback_period) + paybackYear + getResources().getString(R.string.years));
 
                         if (!heater_price.getText().toString().isEmpty())
@@ -340,7 +342,7 @@ public class FragmentBatteryCalculation extends Fragment {
                     inspection_cost.setText(getResources().getString(R.string.inspection_cost) + finalInspection + " ₺");
                     cleaning_cost.setText(getResources().getString(R.string.cleaning_cost) + finalCleaning + " ₺");
                     electricity_cost.setText(getResources().getString(R.string.electricity_cost) + (totalPayment) + " ₺");
-                    total_price.setText(getResources().getString(R.string.total_price) + (totalPrice) + " ₺");
+                    total_price.setText(getResources().getString(R.string.total_price) + (totalPrice + lowerProduction) + " ₺");
                     payback_period.setText(getResources().getString(R.string.payback_period) + paybackYear + getResources().getString(R.string.years));
                 });
             } else if (experience.equals("Beginner")) {
@@ -389,7 +391,7 @@ public class FragmentBatteryCalculation extends Fragment {
                         inspection_cost.setText(getResources().getString(R.string.inspection_cost) + finalInspection + " ₺");
                         cleaning_cost.setText(getResources().getString(R.string.cleaning_cost) + finalCleaning + " ₺");
                         electricity_cost.setText(getResources().getString(R.string.electricity_cost) + (totalPayment) + " ₺");
-                        total_price.setText(getResources().getString(R.string.total_price) + (totalPrice) + " ₺");
+                        total_price.setText(getResources().getString(R.string.total_price) + (totalPrice + lowerProduction) + " ₺");
                         payback_period.setText(getResources().getString(R.string.payback_period) + paybackYear + getResources().getString(R.string.years));
 
                         if (!heater_price.getText().toString().isEmpty())

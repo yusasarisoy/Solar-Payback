@@ -1,5 +1,6 @@
 package myusarisoy.solarhomesystem;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialog;
@@ -58,6 +59,12 @@ public class FragmentPanelCalculation extends Fragment {
     @BindView(R.id.required_area)
     TextView required_area;
 
+    @BindView(R.id.layout_extra_cost)
+    LinearLayout layout_extra_cost;
+
+    @BindView(R.id.extra_cost)
+    TextView extra_cost;
+
     @BindView(R.id.total_payment)
     TextView total_payment;
 
@@ -82,9 +89,9 @@ public class FragmentPanelCalculation extends Fragment {
     RequestQueue requestQueueUSD;
     AppCompatDialog generatorDialog;
     Button buttonNo, buttonYes;
-    public String cityLocation, grid, baseUSD;
-    public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441, liraPerDollar, liraForOverProduction = 0.13;
-    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment, totalConsumption, overProduction;
+    public String cityLocation, grid, baseUSD, consumer;
+    public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441, liraPerDollar, liraForOverProduction = 0.13, liraForLowerProduction;
+    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment, totalConsumption, overProduction, lowerProduction;
     View view;
 
     public static FragmentPanelCalculation newInstance(Object... objects) {
@@ -99,6 +106,7 @@ public class FragmentPanelCalculation extends Fragment {
         args.putInt("TotalPayment", (Integer) objects[6]);
         args.putInt("TotalConsumption", (Integer) objects[7]);
         args.putString("Grid", (String) objects[8]);
+        args.putInt("AreaInfo", (Integer) objects[9]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,7 +122,7 @@ public class FragmentPanelCalculation extends Fragment {
 
         grid = getArguments().getString("Grid");
 
-        //            Get USD/TRY.
+//        Get USD/TRY.
         String currencyUSD = "https://api.exchangeratesapi.io/latest?base=USD";
 
         requestQueueUSD = Volley.newRequestQueue(getContext());
@@ -124,13 +132,13 @@ public class FragmentPanelCalculation extends Fragment {
                 JSONObject jsonObject = response.getJSONObject("rates");
                 liraPerDollar = jsonObject.getDouble("TRY");
                 liraForOverProduction = liraPerDollar * liraForOverProduction;
+                liraForLowerProduction = liraPerDollar;
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show());
         requestQueueUSD.add(jsonObjectRequestUSD);
-
 
 //        Get all arguments.
         getArgument();
@@ -177,17 +185,46 @@ public class FragmentPanelCalculation extends Fragment {
         required_area = view.findViewById(R.id.required_area);
         total_payment = view.findViewById(R.id.total_payment);
 
-        if (getArguments().getString("Panel").equals("panel1")) {
-            howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.245 * 30)) + 1;
-            producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
-        } else if (getArguments().getString("Panel").equals("panel2")) {
-            howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.186 * 30)) + 1;
-            producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+        if (getArguments().getString("Grid").equals("On-Grid")) {
+            if (getArguments().getString("Panel").equals("panel1")) {
+                howManyPanels = getArguments().getInt("AreaInfo");
+                producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
+            } else if (getArguments().getString("Panel").equals("panel2")) {
+                howManyPanels = getArguments().getInt("AreaInfo");
+                producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+            }
+        } else if (getArguments().getString("Grid").equals("Off-Grid")) {
+            if (getArguments().getString("Panel").equals("panel1")) {
+                howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.245 * 30)) + 1;
+                producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
+            } else if (getArguments().getString("Panel").equals("panel2")) {
+                howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.186 * 30)) + 1;
+                producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+            }
         }
 
-//        Get over production.
+//        Get over and lower productions.
         overProduction = producedEnergy - totalConsumption;
-        overProduction = (int) (overProduction * liraForOverProduction);
+        lowerProduction = totalConsumption - producedEnergy;
+
+        if (overProduction >= 0) {
+            overProduction = (int) (overProduction * liraForOverProduction);
+            lowerProduction = 0;
+        } else if (lowerProduction > 0) {
+            layout_extra_cost = view.findViewById(R.id.layout_extra_cost);
+            extra_cost = view.findViewById(R.id.extra_cost);
+
+//            Get user's consumer status about the solar energy.
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Consumer", 0);
+            consumer = sharedPreferences.getString("Consumer", "");
+
+            if (consumer.equals("Commercial"))
+                lowerProduction = (int) (lowerProduction * liraForLowerProduction * 0.71);
+            else if (consumer.equals("Residental"))
+                lowerProduction = (int) (lowerProduction * liraForLowerProduction * 0.69);
+
+            extra_cost.setText(getResources().getString(R.string.extra_cost) + lowerProduction + " ₺");
+        }
 
         if (grid.equals("On-Grid"))
             totalPayment += overProduction;
@@ -252,6 +289,7 @@ public class FragmentPanelCalculation extends Fragment {
                 bundle.putInt("panelPrice", totalPrice);
                 bundle.putInt("TotalPayment", totalPayment);
                 bundle.putString("Grid", grid);
+                bundle.putInt("lowerProduction", lowerProduction);
                 fragmentBatteryCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
@@ -266,11 +304,11 @@ public class FragmentPanelCalculation extends Fragment {
                 bundle.putInt("panelPrice", totalPrice);
                 bundle.putInt("TotalPayment", totalPayment);
                 bundle.putString("Grid", grid);
+                bundle.putInt("lowerProduction", lowerProduction);
                 fragmentGeneratorChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentGeneratorChoice, "FragmentGeneratorChoice")
                         .commit();
-
             });
         });
     }

@@ -57,8 +57,9 @@ public class FragmentOverviewAppliances extends Fragment {
     @BindView(R.id.image_main_page)
     ImageView image_main_page;
 
-    AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page, annualBillingDialog;
-    Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page, cancel_back, confirm_back;
+    AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page, annualBillingDialog, dialog_area;
+    Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page, cancel_back, confirm_back, cancelBackArea, confirmBackArea;
+    EditText area_place_info;
     private RecyclerViewOverviewAppliancesAdapter adapter;
     private RecyclerViewPowerConsumptionAdapter adapterPowerConsumption;
     private RecyclerViewEnergySaverTipsAdapter adapterEnergySaverTips;
@@ -71,7 +72,7 @@ public class FragmentOverviewAppliances extends Fragment {
     public EditText appliance_annual_billing;
     public String cityLocation, grid;
     public double irradianceLocation;
-    int totalConsumption, mostConsumption = 0, annualBilling;
+    int totalConsumption, mostConsumption = 0, annualBilling, area_info;
     View view;
 
     public static FragmentOverviewAppliances newInstance(Object... objects) {
@@ -102,6 +103,9 @@ public class FragmentOverviewAppliances extends Fragment {
         cityLocation = getArguments().getString("City");
         irradianceLocation = getArguments().getDouble("CityIrradiance");
         grid = getArguments().getString("Grid");
+
+        if (grid.equals("On-Grid"))
+            enterTheAreaOfYourPlace();
 
 //        Set adapter and run RecyclerView.
         setAdapter();
@@ -148,51 +152,30 @@ public class FragmentOverviewAppliances extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private void onGoing() {
-        layout_appliance_overview = view.findViewById(R.id.layout_appliance_overview);
-        layout_on_going = view.findViewById(R.id.layout_on_going);
-        image_main_page = view.findViewById(R.id.image_main_page);
+    private void enterTheAreaOfYourPlace() {
+        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+        reservationBuilder.setView(R.layout.dialog_area);
+        dialog_area = reservationBuilder.create();
+        WindowManager.LayoutParams params = dialog_area.getWindow().getAttributes();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        params.width = (int) (width * 0.9);
+        params.height = (int) (height * 0.9);
+        dialog_area.getWindow().setAttributes(params);
+        dialog_area.show();
 
-        layout_appliance_overview.setVisibility(View.GONE);
-        layout_on_going.setVisibility(View.VISIBLE);
-        image_main_page.setVisibility(View.VISIBLE);
+        area_place_info = dialog_area.findViewById(R.id.area_place_info);
+        cancelBackArea = dialog_area.findViewById(R.id.cancel_back);
+        confirmBackArea = dialog_area.findViewById(R.id.confirm_back);
 
-        image_main_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                reservationBuilder.setView(R.layout.layout_goto_main_page);
-                dialog_main_page = reservationBuilder.create();
-                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                params.width = (int) (width * 0.9);
-                params.height = (int) (height * 0.9);
-                dialog_main_page.getWindow().setAttributes(params);
-                dialog_main_page.show();
+        cancel_back.setOnClickListener(v1 -> dialog_area.dismiss());
 
-                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
-                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
-
-                no_main_page.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_main_page.dismiss();
-                    }
-                });
-
-                yes_main_page.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_main_page.dismiss();
-
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
+        confirm_back.setOnClickListener(v -> {
+            if (!area_place_info.getText().toString().equals("")) {
+                dialog_area.dismiss();
+                area_info = Integer.parseInt(area_place_info.getText().toString());
             }
         });
     }
@@ -366,18 +349,35 @@ public class FragmentOverviewAppliances extends Fragment {
 
                             annualBilling = Integer.parseInt(appliance_annual_billing.getText().toString());
 
-                            FragmentPanels fragmentPanels = new FragmentPanels();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("City", cityLocation);
-                            bundle.putDouble("CityIrradiance", irradianceLocation);
-                            bundle.putInt("MostConsumption", mostConsumption);
-                            bundle.putInt("TotalPayment", annualBilling);
-                            bundle.putInt("TotalConsumption", totalConsumption);
-                            bundle.putString("Grid", grid);
-                            fragmentPanels.setArguments(bundle);
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
-                                    .commit();
+                            if (getArguments().getString("Grid").equals("On-Grid")) {
+                                FragmentPanels fragmentPanels = new FragmentPanels();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("City", cityLocation);
+                                bundle.putDouble("CityIrradiance", irradianceLocation);
+                                bundle.putInt("MostConsumption", mostConsumption);
+                                bundle.putInt("TotalPayment", annualBilling);
+                                bundle.putInt("TotalConsumption", totalConsumption);
+                                bundle.putString("Grid", grid);
+                                bundle.putInt("AreaInfo", area_info);
+                                fragmentPanels.setArguments(bundle);
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
+                                        .commit();
+                            } else if (getArguments().getString("Grid").equals("Off-Grid")) {
+                                FragmentPanels fragmentPanels = new FragmentPanels();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("City", cityLocation);
+                                bundle.putDouble("CityIrradiance", irradianceLocation);
+                                bundle.putInt("MostConsumption", mostConsumption);
+                                bundle.putInt("TotalPayment", annualBilling);
+                                bundle.putInt("TotalConsumption", totalConsumption);
+                                bundle.putString("Grid", grid);
+                                bundle.putInt("AreaInfo", 0);
+                                fragmentPanels.setArguments(bundle);
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
+                                        .commit();
+                            }
                         }
                     }
                 });

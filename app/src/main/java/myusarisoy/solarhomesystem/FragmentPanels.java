@@ -44,7 +44,7 @@ public class FragmentPanels extends Fragment {
 
     private RequestQueue requestQueue;
     private double liraPerEuro;
-    private int panel1, panel2, mostConsumption, totalPayment, totalConsumption;
+    private int panel1, panel2, mostConsumption, totalPayment, totalConsumption, area_info;
     private String base, cityLocation, grid;
     public double irradianceLocation;
     View view;
@@ -58,6 +58,7 @@ public class FragmentPanels extends Fragment {
         args.putInt("TotalPayment", (Integer) objects[3]);
         args.putInt("TotalConsumption", (Integer) objects[4]);
         args.putString("Grid", (String) objects[5]);
+        args.putInt("AreaInfo", (Integer) objects[6]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,6 +78,9 @@ public class FragmentPanels extends Fragment {
         totalPayment = getArguments().getInt("TotalPayment");
         totalConsumption = getArguments().getInt("TotalConsumption");
         grid = getArguments().getString("Grid");
+
+        if (grid.equals("On-Grid"))
+            area_info = getArguments().getInt("AreaInfo");
 
 //       Get currency.
         getCurrency();
@@ -125,40 +129,82 @@ public class FragmentPanels extends Fragment {
         panel_1 = view.findViewById(R.id.img_panel_1);
         panel_2 = view.findViewById(R.id.img_panel_2);
 
-        panel_1.setOnClickListener(v -> {
-            FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
-            Bundle bundle = new Bundle();
-            bundle.putString("Panel", "panel1");
-            bundle.putDouble("PanelArea", 1.685);
-            bundle.putDouble("LiraPerEuro", liraPerEuro);
-            bundle.putString("City", cityLocation);
-            bundle.putDouble("CityIrradiance", irradianceLocation);
-            bundle.putInt("MostConsumption", mostConsumption);
-            bundle.putInt("TotalPayment", totalPayment);
-            bundle.putInt("TotalConsumption", totalConsumption);
-            bundle.putString("Grid", grid);
-            fragmentPanelCalculation.setArguments(bundle);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
-                    .commit();
-        });
+        if (getArguments().getString("Grid").equals("On-Grid")) {
+            panel_1.setOnClickListener(v -> {
+                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putString("Panel", "panel1");
+                bundle.putDouble("PanelArea", 1.685);
+                bundle.putDouble("LiraPerEuro", liraPerEuro);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putInt("MostConsumption", mostConsumption);
+                bundle.putInt("TotalPayment", totalPayment);
+                bundle.putInt("TotalConsumption", totalConsumption);
+                bundle.putString("Grid", grid);
+                bundle.putInt("AreaInfo", (int) (area_info / 1.685));
+                fragmentPanelCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                        .commit();
+            });
 
-        panel_2.setOnClickListener(v -> {
-            FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
-            Bundle bundle = new Bundle();
-            bundle.putString("Panel", "panel2");
-            bundle.putDouble("PanelArea", 1.67);
-            bundle.putDouble("LiraPerEuro", liraPerEuro);
-            bundle.putString("City", cityLocation);
-            bundle.putDouble("CityIrradiance", irradianceLocation);
-            bundle.putInt("MostConsumption", mostConsumption);
-            bundle.putInt("TotalPayment", totalPayment);
-            bundle.putInt("TotalConsumption", totalConsumption);
-            bundle.putString("Grid", grid);
-            fragmentPanelCalculation.setArguments(bundle);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
-                    .commit();
-        });
+            panel_2.setOnClickListener(v -> {
+                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putString("Panel", "panel2");
+                bundle.putDouble("PanelArea", 1.67);
+                bundle.putDouble("LiraPerEuro", liraPerEuro);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putInt("MostConsumption", mostConsumption);
+                bundle.putInt("TotalPayment", totalPayment);
+                bundle.putInt("TotalConsumption", totalConsumption);
+                bundle.putString("Grid", grid);
+                bundle.putInt("AreaInfo", (int) (area_info / 1.685));
+                fragmentPanelCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                        .commit();
+            });
+        } else if (getArguments().getString("Grid").equals("Off-Grid")) {
+            panel_1.setOnClickListener(v -> {
+                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putString("Panel", "panel1");
+                bundle.putDouble("PanelArea", 1.685);
+                bundle.putDouble("LiraPerEuro", liraPerEuro);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putInt("MostConsumption", mostConsumption);
+                bundle.putInt("TotalPayment", totalPayment);
+                bundle.putInt("TotalConsumption", totalConsumption);
+                bundle.putString("Grid", grid);
+                bundle.putInt("AreaInfo", 0);
+                fragmentPanelCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                        .commit();
+            });
+
+            panel_2.setOnClickListener(v -> {
+                FragmentPanelCalculation fragmentPanelCalculation = new FragmentPanelCalculation();
+                Bundle bundle = new Bundle();
+                bundle.putString("Panel", "panel2");
+                bundle.putDouble("PanelArea", 1.67);
+                bundle.putDouble("LiraPerEuro", liraPerEuro);
+                bundle.putString("City", cityLocation);
+                bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putInt("MostConsumption", mostConsumption);
+                bundle.putInt("TotalPayment", totalPayment);
+                bundle.putInt("TotalConsumption", totalConsumption);
+                bundle.putString("Grid", grid);
+                bundle.putInt("AreaInfo", 0);
+                fragmentPanelCalculation.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
+                        .commit();
+            });
+        }
     }
 }

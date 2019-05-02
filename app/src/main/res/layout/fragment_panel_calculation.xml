@@ -90,7 +90,7 @@
                 android:textColor="@color/core_white"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="Generated Power by Panel: 330 W" />
+                tools:text="Generated Energy by Panel: 330 W" />
 
         </LinearLayout>
 
@@ -440,6 +440,51 @@
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Total Panel Payment: 153.127 ₺" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/transparent" />
+
+        <LinearLayout
+            android:id="@+id/layout_extra_cost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/extra_cost" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/transparent" />
+
+            <TextView
+                android:id="@+id/extra_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova"
+                android:textColor="@color/core_white"
+                android:textSize="18sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="Extra Cost: 10000 ₺" />
 
         </LinearLayout>
 

@@ -51,6 +51,8 @@
     <string name="appliances">Appliances</string>
     <string name="on_grid">On-Grid</string>
     <string name="off_grid">Off-Grid</string>
+    <string name="enter_your_area">Enter your area</string>
+    <string name="area_place">Area of your place (m²)</string>
     <string name="add_annual_billing">Add annual billing</string>
     <string name="billing_amount">Billing Amount (₺)</string>
     <string name="annual_billing_amount">Annual Billing Amount (₺)</string>
@@ -90,6 +92,7 @@
     <string name="panel_1">Monocrystalline Solar Panel\n(330 W, 1.685 m²)</string>
     <string name="panel_2">Polycrystalline Solar Panel\n(250 W, 1.67 m²)</string>
     <string name="soon">Soon!</string>
+    <string name="area_info">Please enter your area information.</string>
     <string name="appliance_annual_billing">Please enter your annual billing amount.</string>
     <string name="want_generator">Generator choice</string>
     <string name="look_generator">Do you want to look at the generators?</string>
@@ -136,13 +139,13 @@
     <string name="selected">&#160;selected.</string>
     <string name="unselected">&#160;unselected.</string>
     <string name="exchange_rate">Getting exchange rates</string>
-    <string name="selected_panel_energy">Selected Panel Energy:&#160;</string>
+    <string name="selected_panel_energy">Selected Panel Power:&#160;</string>
     <string name="selected_panel_area">Selected Panel Area:&#160;</string>
     <string name="selected_city">Selected City:&#160;</string>
     <string name="selected_irradiance">Minimum City Irradiance:&#160;</string>
     <string name="selected_consumption">Consumption:&#160;</string>
     <string name="required_panels">Required Panels:&#160;</string>
-    <string name="produced_energy">Generated Power by Panel:&#160;</string>
+    <string name="produced_energy">Generated Energy by Panel:&#160;</string>
     <string name="required_area">Required Area:&#160;</string>
     <string name="total_panel_payment">Total Panel Payment:&#160;</string>
     <string name="panel_price">Panel Price:&#160;</string>
@@ -170,10 +173,11 @@
     <string name="battery">Battery Price (₺)</string>
     <string name="inspection">Inspection Cost (₺)</string>
     <string name="cleaning">Cleaning Cost (₺)</string>
+    <string name="extra_cost">Extra Cost:&#160;</string>
     <string name="about_us">About Us</string>
     <string name="copyright">Copyright © 2019 Solar Payback | All Rights Reserved</string>
     <string name="algorithms">Algorithms</string>
     <string name="development">Development</string>
-    <string name="algorithm_members">Ahmet Orkun Gençer\nOnur Karaosmangil</string>
-    <string name="development_members">Gökhan Peker\nMuhammed Yuşa Sarısoy</string>
+    <string name="algorithm_members">Ahmed HAJJO RIFAI\nAhmet Orkun GENÇER\nMoumen ALHWANI\nOnur KARAOSMANGİL</string>
+    <string name="development_members">Gökhan PEKER\nMuhammed Yuşa SARISOY</string>
 </resources>

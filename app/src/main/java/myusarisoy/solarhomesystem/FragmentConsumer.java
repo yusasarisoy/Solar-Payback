@@ -1,5 +1,6 @@
 package myusarisoy.solarhomesystem;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,6 +47,8 @@ public class FragmentConsumer extends Fragment {
         commercial = view.findViewById(R.id.img_commercial);
 
         residental.setOnClickListener(v -> {
+            setConsumerType("Residental");
+
             FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
             Bundle bundle = new Bundle();
             bundle.putString("consumer", "residental");
@@ -56,6 +59,8 @@ public class FragmentConsumer extends Fragment {
         });
 
         commercial.setOnClickListener(v -> {
+            setConsumerType("Commercial");
+
             FragmentCalculationType fragmentCalculationType = new FragmentCalculationType();
             Bundle bundle = new Bundle();
             bundle.putString("consumer", "commercial");
@@ -64,5 +69,15 @@ public class FragmentConsumer extends Fragment {
                     .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
                     .commit();
         });
+    }
+
+    private String setConsumerType(String consumer) {
+//        Set user's consumer status about the solar energy.
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Consumer", 0); // Private Mode
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Consumer", consumer);
+        editor.apply();
+
+        return consumer;
     }
 }
