@@ -430,7 +430,7 @@ public class FragmentBatteryCalculation extends Fragment {
             layout_next.setVisibility(View.GONE);
             layout_main_page.setVisibility(View.VISIBLE);
 
-            if (paybackYear > 10)
+            if (grid.equals("Off-Grid") && paybackYear > 10)
                 showSnackbar(getResources().getString(R.string.long_payback_period));
         });
 

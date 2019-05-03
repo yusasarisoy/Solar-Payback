@@ -30,7 +30,7 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:fontFamily="@font/proxima_nova"
-        android:gravity="start"
+        android:gravity="center"
         android:textColor="@color/core_white"
         android:textSize="20sp"
         tools:ignore="UnusedAttribute"
