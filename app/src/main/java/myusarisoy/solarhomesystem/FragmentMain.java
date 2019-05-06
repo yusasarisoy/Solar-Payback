@@ -185,7 +185,7 @@ public class FragmentMain extends Fragment {
                     cityPostal.add(postalCode);
                     solarIrradianceList.add(irradianceData);
 
-                    if (cityPostal.get(i).equals(cityName)) {
+                    if (cityList.get(i).equals(cityName)) {
                         cityLocation = cityList.get(i);
                         irradianceLocation = solarIrradianceList.get(i);
                         showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
@@ -642,58 +642,6 @@ public class FragmentMain extends Fragment {
                 searchLocationDialog.getWindow().setAttributes(params1);
                 searchLocationDialog.show();
 
-//                        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-//
-//                        autocompleteFragment.setPlaceFields(Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG));
-//
-//                        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//                            @Override
-//                            public void onPlaceSelected(@NonNull com.google.android.libraries.places.api.model.Place place) {
-//                                cityName = place.getName();
-//                                Log.i("LOCATION", "Place: " + place.getName() + ", " + place.getId());
-//                            }
-//
-//                            @Override
-//                            public void onError(@NonNull Status status) {
-//                                Log.i("LOCATION", "An error occurred: " + status);
-//                            }
-//                        });
-
-//                        requestQueue = Volley.newRequestQueue(getContext());
-//
-//                        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
-//
-//                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
-//                            @Override
-//                            public void onResponse(JSONArray response) {
-//                                try {
-//                                    for (int i = 0; i < response.length(); i++) {
-//                                        JSONObject cityObject = response.getJSONObject(i);
-//                                        city = cityObject.getString("city");
-//                                        irradianceData = cityObject.getDouble("solar_irradiance");
-//                                        postalCode = cityObject.getString("postal_code");
-//                                        cityList.add(city);
-//                                        cityPostal.add(postalCode);
-//                                        solarIrradianceList.add(irradianceData);
-//
-//                                        if (cityPostal.get(i).equals(cityName)) {
-//                                            cityLocation = cityList.get(i);
-//                                            irradianceLocation = solarIrradianceList.get(i);
-//                                            showSnackbar("City: " + cityList.get(i) + ", Solar Irradiance Data: " + solarIrradianceList.get(i));
-//                                        }
-//                                    }
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }, new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                Log.i("VOLLEY_ERROR", "" + error);
-//                            }
-//                        });
-//                        requestQueue.add(jsonArrayRequest);
-
                 layout_location = searchLocationDialog.findViewById(R.id.layout_location);
                 locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
                 locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
@@ -812,7 +760,7 @@ public class FragmentMain extends Fragment {
                         cityPostal.add(postalCode);
                         solarIrradianceList.add(irradianceData);
 
-                        if (cityPostal.get(i).equals(cityName)) {
+                        if (cityList.get(i).equals(cityName)) {
                             cityLocation = cityList.get(i);
                             irradianceLocation = solarIrradianceList.get(i);
                             showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));

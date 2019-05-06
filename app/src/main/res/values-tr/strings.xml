@@ -98,8 +98,8 @@
     <string name="want_generator">Jeneratör Seçimi</string>
     <string name="look_generator">Jeneratörlere göz atmak ister misiniz?</string>
     <string name="generator_choice">Lütfen kullanmak istediğiniz bir jeneratörü seçiniz.</string>
-    <string name="generator_1">Aksa AD Doosan Motor Kabinli Otomatik Dizel Jeneratör\n(330 kVA)</string>
-    <string name="generator_2">Aksa APD Cummins Kabinli Otomatik Dizel Jeneratör\n(110 kVA)</string>
+    <string name="generator_1">Motor Kabinli Otomatik Dizel Jeneratör\n(330 kVA)</string>
+    <string name="generator_2">Kabinli Otomatik Dizel Jeneratör\n(110 kVA)</string>
     <string name="pricing_generator_1">121.895,75 ₺</string>
     <string name="pricing_generator_2">72.493,08 ₺</string>
     <string name="complete_parts_appliances">Lütfen cihaz(lar)daki eksik kısımları tamamlayınız.</string>

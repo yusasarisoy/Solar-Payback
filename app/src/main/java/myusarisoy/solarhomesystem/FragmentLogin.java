@@ -67,7 +67,7 @@ public class FragmentLogin extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         if (firebaseAuth.getCurrentUser() != null) {
-            FragmentExperience fragmentExperience= new FragmentExperience();
+            FragmentExperience fragmentExperience = new FragmentExperience();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
                     .addToBackStack(null)
@@ -166,7 +166,7 @@ public class FragmentLogin extends Fragment {
                     else
                         showSnackbar(getResources().getString(R.string.wrong_password));
                 } else {
-                    FragmentExperience fragmentExperience= new FragmentExperience();
+                    FragmentExperience fragmentExperience = new FragmentExperience();
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
                             .addToBackStack(null)
