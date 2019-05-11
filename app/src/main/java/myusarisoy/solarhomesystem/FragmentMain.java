@@ -534,7 +534,7 @@ public class FragmentMain extends Fragment {
                 super.onLocationResult(locationResult);
                 Location mCurrentLocation = locationResult.getLastLocation();
                 LatLng myCoordinates = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-                cityName = getCityName(myCoordinates);
+                final String postal = getCityName(myCoordinates);
 
                 requestQueue = Volley.newRequestQueue(getContext());
 
@@ -551,7 +551,7 @@ public class FragmentMain extends Fragment {
                             cityPostal.add(postalCode);
                             solarIrradianceList.add(irradianceData);
 
-                            if (cityList.get(i).equals(cityName)) {
+                            if (cityPostal.get(i).equals(postal)) {
                                 cityLocation = cityList.get(i);
                                 irradianceLocation = solarIrradianceList.get(i);
                                 showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
@@ -725,7 +725,7 @@ public class FragmentMain extends Fragment {
         try {
             List<Address> addresses = geocoder.getFromLocation(myCoordinates.latitude, myCoordinates.longitude, 1);
             String address = addresses.get(0).getAddressLine(0);
-            myCity = addresses.get(0).getAdminArea();
+            myCity = addresses.get(0).getPostalCode().substring(0, 2);
             Log.d("mylog", "Complete Address: " + addresses.toString());
             Log.d("mylog", "Address: " + address);
         } catch (IOException e) {
@@ -743,7 +743,7 @@ public class FragmentMain extends Fragment {
         Log.d("mylog", "In Requesting Location");
         if (location != null && (System.currentTimeMillis() - location.getTime()) <= 1000 * 2) {
             LatLng myCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-            final String cityName = getCityName(myCoordinates);
+            final String postal = getCityName(myCoordinates);
 
             requestQueue = Volley.newRequestQueue(getContext());
 
@@ -760,7 +760,7 @@ public class FragmentMain extends Fragment {
                         cityPostal.add(postalCode);
                         solarIrradianceList.add(irradianceData);
 
-                        if (cityList.get(i).equals(cityName)) {
+                        if (cityPostal.get(i).equals(postal)) {
                             cityLocation = cityList.get(i);
                             irradianceLocation = solarIrradianceList.get(i);
                             showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));

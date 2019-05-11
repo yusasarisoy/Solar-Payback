@@ -104,7 +104,7 @@ public class FragmentBatteryCalculation extends Fragment {
     private double liraPerDollar, paybackYear;
     private int totalPrice, lowerProduction;
     private String baseUSD, experience, grid;
-    private int panelPrice, totalPayment, heaterPrice = 1800, inverterPrice = 3595, batteryPrice = 12980, inspectionCost = 150, cleaningCost = 2500;
+    private int panelPrice, totalPayment, heaterPrice = 1800, inverterPrice = 3595, inverterPriceOnGrid = 499, batteryPrice = 12980, inspectionCost = 150, cleaningCost = 2500;
     View view;
 
     public static FragmentBatteryCalculation newInstance(Object... objects) {
@@ -265,7 +265,7 @@ public class FragmentBatteryCalculation extends Fragment {
                         totalPayment = getArguments().getInt("TotalPayment");
 
                         int finalHeater = (int) (heaterPrice * liraPerDollar);
-                        int finalInverter = (int) (inverterPrice * liraPerDollar);
+                        int finalInverter = (int) (inverterPriceOnGrid * liraPerDollar);
 
                         totalPrice = panelPrice + finalHeater + finalInverter;
                         paybackYear = totalPrice / totalPayment;
