@@ -95,6 +95,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putIntegerArrayList("integerArray2", integerArray2);
                 bundle.putString("City", cityLocation);
                 bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putString("choice", "appliance");
                 fragmentOverviewAppliances.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
@@ -125,6 +126,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putIntegerArrayList("integerArray2", integerArray2);
                 bundle.putString("City", cityLocation);
                 bundle.putDouble("CityIrradiance", irradianceLocation);
+                bundle.putString("choice", "appliance");
                 fragmentOverviewAppliances.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")

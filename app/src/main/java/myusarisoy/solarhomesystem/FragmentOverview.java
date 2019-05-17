@@ -307,6 +307,7 @@ public class FragmentOverview extends Fragment {
                 bundle.putInt("TotalConsumption", totalConsumption);
                 bundle.putString("Grid", grid);
                 bundle.putInt("AreaInfo", area_info);
+                bundle.putString("choice", "");
                 fragmentPanels.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
@@ -321,6 +322,7 @@ public class FragmentOverview extends Fragment {
                 bundle.putInt("TotalConsumption", totalConsumption);
                 bundle.putString("Grid", grid);
                 bundle.putInt("AreaInfo", 0);
+                bundle.putString("choice", "");
                 fragmentPanels.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")

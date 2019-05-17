@@ -59,6 +59,7 @@ public class FragmentPanels extends Fragment {
         args.putInt("TotalConsumption", (Integer) objects[4]);
         args.putString("Grid", (String) objects[5]);
         args.putInt("AreaInfo", (Integer) objects[6]);
+        args.putString("choice", (String) objects[7]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -143,6 +144,8 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("TotalConsumption", totalConsumption);
                 bundle.putString("Grid", grid);
                 bundle.putInt("AreaInfo", (int) (area_info / 1.685));
+                bundle.putString("choice", getArguments().getString("choice"));
+                bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
@@ -162,6 +165,8 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("TotalConsumption", totalConsumption);
                 bundle.putString("Grid", grid);
                 bundle.putInt("AreaInfo", (int) (area_info / 1.685));
+                bundle.putString("choice", getArguments().getString("choice"));
+                bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
@@ -181,6 +186,8 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("TotalConsumption", totalConsumption);
                 bundle.putString("Grid", grid);
                 bundle.putInt("AreaInfo", 0);
+                bundle.putString("choice", getArguments().getString("choice"));
+                bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")
@@ -200,6 +207,8 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("TotalConsumption", totalConsumption);
                 bundle.putString("Grid", grid);
                 bundle.putInt("AreaInfo", 0);
+                bundle.putString("choice", getArguments().getString("choice"));
+                bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentPanelCalculation, "FragmentPanelCalculation")

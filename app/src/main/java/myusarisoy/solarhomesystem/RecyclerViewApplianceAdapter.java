@@ -55,7 +55,7 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
                 int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
                 int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
                 int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
-                final int power_consumption = quantity * watts * hours;
+                final int power_consumption = (quantity * watts * hours) * 30 / 1000;
                 applianceList.add(selectedAppliance.getAppliance());
                 consumptionList.add(power_consumption);
             }

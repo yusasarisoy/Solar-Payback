@@ -60,6 +60,6 @@
         android:textColor="@color/core_white"
         android:textSize="20sp"
         tools:ignore="UnusedAttribute"
-        tools:text="216 kWh" />
+        tools:text="216 kW" />
 
 </LinearLayout>

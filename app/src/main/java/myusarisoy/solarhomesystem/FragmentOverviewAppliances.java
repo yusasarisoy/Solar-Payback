@@ -84,6 +84,7 @@ public class FragmentOverviewAppliances extends Fragment {
         args.putIntegerArrayList("integerArray2", (ArrayList<Integer>) objects[3]);
         args.putString("City", (String) objects[4]);
         args.putDouble("Irradiance", (Double) objects[5]);
+        args.putString("choice", (String) objects[6]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -170,9 +171,9 @@ public class FragmentOverviewAppliances extends Fragment {
         cancelBackArea = dialog_area.findViewById(R.id.cancel_back);
         confirmBackArea = dialog_area.findViewById(R.id.confirm_back);
 
-        cancel_back.setOnClickListener(v1 -> dialog_area.dismiss());
+        cancelBackArea.setOnClickListener(v1 -> dialog_area.dismiss());
 
-        confirm_back.setOnClickListener(v -> {
+        confirmBackArea.setOnClickListener(v -> {
             if (!area_place_info.getText().toString().equals("")) {
                 dialog_area.dismiss();
                 area_info = Integer.parseInt(area_place_info.getText().toString());
@@ -359,6 +360,7 @@ public class FragmentOverviewAppliances extends Fragment {
                                 bundle.putInt("TotalConsumption", totalConsumption);
                                 bundle.putString("Grid", grid);
                                 bundle.putInt("AreaInfo", area_info);
+                                bundle.putString("choice", getArguments().getString("choice"));
                                 fragmentPanels.setArguments(bundle);
                                 getActivity().getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
@@ -373,6 +375,7 @@ public class FragmentOverviewAppliances extends Fragment {
                                 bundle.putInt("TotalConsumption", totalConsumption);
                                 bundle.putString("Grid", grid);
                                 bundle.putInt("AreaInfo", 0);
+                                bundle.putString("choice", getArguments().getString("choice"));
                                 fragmentPanels.setArguments(bundle);
                                 getActivity().getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
@@ -395,46 +398,4 @@ public class FragmentOverviewAppliances extends Fragment {
         textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();
     }
-
-//    private void gotoMainPage() {
-//        main_page = view.findViewById(R.id.image_view_main_page);
-//        main_page.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
-//                reservationBuilder.setView(R.layout.layout_goto_main_page);
-//                dialog_main_page = reservationBuilder.create();
-//                WindowManager.LayoutParams params = dialog_main_page.getWindow().getAttributes();
-//                DisplayMetrics displayMetrics = new DisplayMetrics();
-//                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//                int width = displayMetrics.widthPixels;
-//                int height = displayMetrics.heightPixels;
-//                params.width = (int) (width * 0.9);
-//                params.height = (int) (height * 0.9);
-//                dialog_main_page.getWindow().setAttributes(params);
-//                dialog_main_page.show();
-//
-//                no_main_page = dialog_main_page.findViewById(R.id.no_main_page);
-//                yes_main_page = dialog_main_page.findViewById(R.id.yes_main_page);
-//
-//                no_main_page.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog_main_page.dismiss();
-//                    }
-//                });
-//
-//                yes_main_page.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog_main_page.dismiss();
-//
-//                        Intent intent = new Intent(getContext(), MainActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
-//                    }
-//                });
-//            }
-//        });
-//    }
 }

@@ -96,15 +96,17 @@ public class FragmentBatteryCalculation extends Fragment {
     @BindView(R.id.image_main_page)
     ImageView image_main_page;
 
-    AppCompatDialog dialog_main_page, infoDialog, masterBatteryDialog;
+    AppCompatDialog dialog_main_page, infoDialog, masterBatteryDialog, batteryOptionsDialog;
     Button no_main_page, yes_main_page, confirmBack, closeInfo;
     EditText heater, inverter, battery, inspection, cleaning;
+    ImageView battery1, battery2;
     LinearLayout master_battery_layout, master_inspection_layout, master_cleaning_layout;
+    TextView batteryPrice1, batteryPrice2;
     private RequestQueue requestQueueUSD;
     private double liraPerDollar, paybackYear;
-    private int totalPrice, lowerProduction;
+    private int totalPrice, lowerProduction, panels, finalBattery;
     private String baseUSD, experience, grid;
-    private int panelPrice, totalPayment, heaterPrice = 1800, inverterPrice = 3595, inverterPriceOnGrid = 499, batteryPrice = 12980, inspectionCost = 150, cleaningCost = 2500;
+    private int panelPrice, totalPayment, heaterPrice = 1800, inverterPrice = 150, batteryOption1 = 1000, batteryOption2 = 200, inspectionCost = 2, cleaningCost = 10;
     View view;
 
     public static FragmentBatteryCalculation newInstance(Object... objects) {
@@ -114,6 +116,7 @@ public class FragmentBatteryCalculation extends Fragment {
         args.putInt("TotalPayment", (Integer) objects[1]);
         args.putString("Grid", (String) objects[2]);
         args.putInt("lowerProduction", (Integer) objects[3]);
+        args.putInt("panels", (Integer) objects[4]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -130,6 +133,7 @@ public class FragmentBatteryCalculation extends Fragment {
 
         grid = getArguments().getString("Grid");
         lowerProduction = getArguments().getInt("lowerProduction");
+        panels = getArguments().getInt("panels");
 
 //        Get info about the app.
         getInfo();
@@ -265,7 +269,7 @@ public class FragmentBatteryCalculation extends Fragment {
                         totalPayment = getArguments().getInt("TotalPayment");
 
                         int finalHeater = (int) (heaterPrice * liraPerDollar);
-                        int finalInverter = (int) (inverterPriceOnGrid * liraPerDollar);
+                        int finalInverter = (int) (inverterPrice * liraPerDollar);
 
                         totalPrice = panelPrice + finalHeater + finalInverter;
                         paybackYear = totalPrice / totalPayment;
@@ -372,14 +376,53 @@ public class FragmentBatteryCalculation extends Fragment {
                         total_price = view.findViewById(R.id.total_price);
                         payback_period = view.findViewById(R.id.payback_period);
 
+                        android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                        reservationBuilder.setView(R.layout.pop_up_battery);
+                        batteryOptionsDialog = reservationBuilder.create();
+                        WindowManager.LayoutParams params = batteryOptionsDialog.getWindow().getAttributes();
+                        DisplayMetrics displayMetrics = new DisplayMetrics();
+                        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                        int width = displayMetrics.widthPixels;
+                        int height = displayMetrics.heightPixels;
+                        params.width = (int) (width * 0.9);
+                        params.height = (int) (height * 0.9);
+                        batteryOptionsDialog.getWindow().setAttributes(params);
+                        batteryOptionsDialog.setCancelable(false);
+                        batteryOptionsDialog.show();
+
+                        battery1 = batteryOptionsDialog.findViewById(R.id.img_battery_1);
+                        battery2 = batteryOptionsDialog.findViewById(R.id.img_battery_2);
+                        batteryPrice1 = batteryOptionsDialog.findViewById(R.id.pricing_battery_1);
+                        batteryPrice2 = batteryOptionsDialog.findViewById(R.id.pricing_battery_2);
+
+                        batteryPrice1.setText((int) (batteryOption1 * liraPerDollar) + " ₺");
+                        batteryPrice2.setText((int) (batteryOption2 * liraPerDollar) + " ₺");
+
+                        battery1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finalBattery = (int) (batteryOption1 * liraPerDollar);
+                                battery_price.setText(getResources().getString(R.string.battery_price) + finalBattery + " ₺");
+                                batteryOptionsDialog.dismiss();
+                            }
+                        });
+
+                        battery2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finalBattery = (int) (batteryOption2 * liraPerDollar);
+                                battery_price.setText(getResources().getString(R.string.battery_price) + finalBattery + " ₺");
+                                batteryOptionsDialog.dismiss();
+                            }
+                        });
+
                         panelPrice = getArguments().getInt("panelPrice");
                         totalPayment = getArguments().getInt("TotalPayment");
 
                         int finalHeater = (int) (heaterPrice * liraPerDollar);
                         int finalInverter = (int) (inverterPrice * liraPerDollar);
-                        int finalBattery = (int) (batteryPrice * liraPerDollar);
-                        int finalInspection = (int) (inspectionCost * liraPerDollar * 25);
-                        int finalCleaning = (int) (cleaningCost * liraPerDollar * 5);
+                        int finalInspection = (int) (panels * inspectionCost * liraPerDollar * 25);
+                        int finalCleaning = (int) (cleaningCost * panels * liraPerDollar * 5);
 
                         totalPrice = panelPrice + finalHeater + finalInverter + finalBattery + finalInspection + finalCleaning;
                         paybackYear = totalPrice / totalPayment;
@@ -387,7 +430,6 @@ public class FragmentBatteryCalculation extends Fragment {
                         panel_price.setText(getResources().getString(R.string.panel_price) + ((panelPrice)) + " ₺");
                         heater_price.setText(getResources().getString(R.string.heater_price) + finalHeater + " ₺");
                         inverter_price.setText(getResources().getString(R.string.inverter_price) + finalInverter + " ₺");
-                        battery_price.setText(getResources().getString(R.string.battery_price) + finalBattery + " ₺");
                         inspection_cost.setText(getResources().getString(R.string.inspection_cost) + finalInspection + " ₺");
                         cleaning_cost.setText(getResources().getString(R.string.cleaning_cost) + finalCleaning + " ₺");
                         electricity_cost.setText(getResources().getString(R.string.electricity_cost) + (totalPayment) + " ₺");

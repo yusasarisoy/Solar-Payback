@@ -135,11 +135,10 @@ public class FragmentBill extends Fragment {
     public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
     public ArrayList<Integer> monthPayment = new ArrayList<>();
     private ArrayList<String> cityList = new ArrayList<>();
-    public ArrayList<String> cityPostal = new ArrayList<>();
     private ArrayList<Double> solarIrradianceList = new ArrayList<>();
     int monthIncrementer = 0;
     double irradianceData, irradianceLocation;
-    String consumer, cityName = "", postalCode = "", city = "", cityLocation = "";
+    String consumer, cityName = "", city = "", cityLocation = "", finalApiUrl = "";
     private RequestQueue requestQueue;
     View view;
 
@@ -147,6 +146,7 @@ public class FragmentBill extends Fragment {
         FragmentBill fragment = new FragmentBill();
         Bundle args = new Bundle();
         args.putString("consumer", (String) objects[0]);
+        args.putString("api", (String) objects[1]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -189,9 +189,11 @@ public class FragmentBill extends Fragment {
         else if (consumer.equals("commercial"))
             icon.setImageResource(R.drawable.commercial);
 
-        requestQueue = Volley.newRequestQueue(getContext());
+        finalApiUrl = getArguments().getString("api");
 
-        String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+        String apiUrl = finalApiUrl;
+
+        requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
             @Override
@@ -201,9 +203,7 @@ public class FragmentBill extends Fragment {
                         JSONObject cityObject = response.getJSONObject(i);
                         city = cityObject.getString("city");
                         irradianceData = cityObject.getDouble("solar_irradiance");
-                        postalCode = cityObject.getString("postal_code");
                         cityList.add(city);
-                        cityPostal.add(postalCode);
                         solarIrradianceList.add(irradianceData);
 
                         if (cityList.get(i).equals(cityName)) {
@@ -483,11 +483,11 @@ public class FragmentBill extends Fragment {
                 super.onLocationResult(locationResult);
                 Location mCurrentLocation = locationResult.getLastLocation();
                 LatLng myCoordinates = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-                final String postal = getCityName(myCoordinates);
+                final String selectedCity = getCityName(myCoordinates);
 
                 requestQueue = Volley.newRequestQueue(getContext());
 
-                String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+                String apiUrl = finalApiUrl;
 
                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                     @Override
@@ -497,12 +497,10 @@ public class FragmentBill extends Fragment {
                                 JSONObject cityObject = response.getJSONObject(i);
                                 city = cityObject.getString("city");
                                 irradianceData = cityObject.getDouble("solar_irradiance");
-                                postalCode = cityObject.getString("postal_code");
                                 cityList.add(city);
-                                cityPostal.add(postalCode);
                                 solarIrradianceList.add(irradianceData);
 
-                                if (cityPostal.get(i).equals(postal)) {
+                                if (cityList.get(i).equals(selectedCity)) {
                                     cityLocation = cityList.get(i);
                                     irradianceLocation = solarIrradianceList.get(i);
                                     showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
@@ -623,7 +621,7 @@ public class FragmentBill extends Fragment {
 
                                 requestQueue = Volley.newRequestQueue(getContext());
 
-                                String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+                                String apiUrl = finalApiUrl;
 
                                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                                     @Override
@@ -633,9 +631,7 @@ public class FragmentBill extends Fragment {
                                                 JSONObject cityObject = response.getJSONObject(i);
                                                 city = cityObject.getString("city");
                                                 irradianceData = cityObject.getDouble("solar_irradiance");
-                                                postalCode = cityObject.getString("postal_code");
                                                 cityList.add(city);
-                                                cityPostal.add(postalCode);
                                                 solarIrradianceList.add(irradianceData);
 
                                                 if (cityList.get(i).equals(cityName)) {
@@ -692,7 +688,7 @@ public class FragmentBill extends Fragment {
         try {
             List<Address> addresses = geocoder.getFromLocation(myCoordinates.latitude, myCoordinates.longitude, 1);
             String address = addresses.get(0).getAddressLine(0);
-            myCity = addresses.get(0).getPostalCode().substring(0, 2);
+            myCity = addresses.get(0).getAdminArea();
             Log.i("mylog", "Complete Address: " + addresses.toString());
             Log.i("mylog", "Address: " + address);
         } catch (IOException e) {
@@ -710,11 +706,11 @@ public class FragmentBill extends Fragment {
         Log.d("mylog", "In Requesting Location");
         if (location != null && (System.currentTimeMillis() - location.getTime()) <= 1000 * 2) {
             LatLng myCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-            final String postal = getCityName(myCoordinates);
+            final String selectedCity = getCityName(myCoordinates);
 
             requestQueue = Volley.newRequestQueue(getContext());
 
-            String apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
+            String apiUrl = finalApiUrl;
 
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                 @Override
@@ -724,12 +720,10 @@ public class FragmentBill extends Fragment {
                             JSONObject cityObject = response.getJSONObject(i);
                             city = cityObject.getString("city");
                             irradianceData = cityObject.getDouble("solar_irradiance");
-                            postalCode = cityObject.getString("postal_code");
                             cityList.add(city);
-                            cityPostal.add(postalCode);
                             solarIrradianceList.add(irradianceData);
 
-                            if (cityPostal.get(i).equals(postal)) {
+                            if (cityList.get(i).equals(selectedCity)) {
                                 cityLocation = cityList.get(i);
                                 irradianceLocation = solarIrradianceList.get(i);
                                 showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));

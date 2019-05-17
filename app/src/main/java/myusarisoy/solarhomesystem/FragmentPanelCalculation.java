@@ -91,7 +91,7 @@ public class FragmentPanelCalculation extends Fragment {
     Button buttonNo, buttonYes;
     public String cityLocation, grid, baseUSD, consumer;
     public double liraPerEuro, irradianceLocation, panelArea, euroPerWatt = 0.441, liraPerDollar, liraForOverProduction = 0.13, liraForLowerProduction;
-    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment, totalConsumption, overProduction, lowerProduction;
+    public int panelEnergy, mostConsumption, producedEnergy, howManyPanels, requiredArea, totalPrice, totalPayment, totalConsumption, applianceTotalConsumption, overProduction, lowerProduction;
     View view;
 
     public static FragmentPanelCalculation newInstance(Object... objects) {
@@ -107,6 +107,8 @@ public class FragmentPanelCalculation extends Fragment {
         args.putInt("TotalConsumption", (Integer) objects[7]);
         args.putString("Grid", (String) objects[8]);
         args.putInt("AreaInfo", (Integer) objects[9]);
+        args.putString("choice", (String) objects[10]);
+        args.putInt("Area", (Integer) objects[11]);
         fragment.setArguments(args);
         return fragment;
     }
@@ -149,6 +151,8 @@ public class FragmentPanelCalculation extends Fragment {
 //        Get results.
         getResults();
 
+        Log.i("ENERGY", producedEnergy + "");
+
         return view;
     }
 
@@ -176,7 +180,11 @@ public class FragmentPanelCalculation extends Fragment {
         selected_panel_area.setText(getResources().getString(R.string.selected_panel_area) + panelArea + " m²");
         selected_city.setText(getResources().getString(R.string.selected_city) + cityLocation);
         selected_city_irradiance.setText(getResources().getString(R.string.selected_irradiance) + irradianceLocation);
-        most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + totalConsumption + " kWh/year");
+        if (getArguments().getString("choice").equals("appliance")) {
+            applianceTotalConsumption = (totalConsumption * 12);
+            most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + applianceTotalConsumption + " kWh/year");
+        } else
+            most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + totalConsumption + " kWh/year");
     }
 
     private void calculatePanels() {
@@ -194,12 +202,22 @@ public class FragmentPanelCalculation extends Fragment {
                 producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
             }
         } else if (getArguments().getString("Grid").equals("Off-Grid")) {
-            if (getArguments().getString("Panel").equals("panel1")) {
-                howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.245 * 30)) + 1;
-                producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
-            } else if (getArguments().getString("Panel").equals("panel2")) {
-                howManyPanels = (int) ((mostConsumption) / (irradianceLocation * 0.186 * 30)) + 1;
-                producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+            if (getArguments().getString("choice").equals("appliance")) {
+                if (getArguments().getString("Panel").equals("panel1")) {
+                    howManyPanels = (int) ((applianceTotalConsumption / 30) / (irradianceLocation * 0.245 * 360)) + 1;
+                    producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
+                } else if (getArguments().getString("Panel").equals("panel2")) {
+                    howManyPanels = (int) ((applianceTotalConsumption / 30) / (irradianceLocation * 0.186 * 360)) + 1;
+                    producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+                }
+            } else {
+                if (getArguments().getString("Panel").equals("panel1")) {
+                    howManyPanels = (int) ((totalConsumption / 30) / (irradianceLocation * 0.245 * 360)) + 1;
+                    producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
+                } else if (getArguments().getString("Panel").equals("panel2")) {
+                    howManyPanels = (int) ((totalConsumption / 30) / (irradianceLocation * 0.186 * 360)) + 1;
+                    producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+                }
             }
         }
 
@@ -229,11 +247,23 @@ public class FragmentPanelCalculation extends Fragment {
         if (grid.equals("On-Grid"))
             totalPayment += overProduction;
 
-        requiredArea = (int) ((howManyPanels * panelArea) + 1);
-        totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
-
-        required_panels.setText(getResources().getString(R.string.required_panels) + howManyPanels);
         produced_energy.setText(getResources().getString(R.string.produced_energy) + producedEnergy + " kWh/year");
+        if (getArguments().get("choice").equals("appliance")) {
+            if (grid.equals("On-Grid")) {
+                requiredArea = getArguments().getInt("Area");
+                totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
+                required_panels.setText(getResources().getString(R.string.required_panels) + getArguments().getInt("AreaInfo"));
+            } else {
+                requiredArea = (int) (((applianceTotalConsumption / producedEnergy) * panelArea) + 1);
+                totalPrice = (int) (panelEnergy * euroPerWatt * (applianceTotalConsumption / producedEnergy) * liraPerEuro);
+                required_panels.setText(getResources().getString(R.string.required_panels) + (applianceTotalConsumption / producedEnergy));
+            }
+        } else {
+            requiredArea = (int) ((howManyPanels * panelArea) + 1);
+            totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
+            required_panels.setText(getResources().getString(R.string.required_panels) + (applianceTotalConsumption / producedEnergy));
+        }
+
         required_area.setText(getResources().getString(R.string.required_area) + requiredArea + " m²");
         total_payment.setText(getResources().getString(R.string.total_panel_payment) + totalPrice + " ₺");
     }
@@ -290,6 +320,7 @@ public class FragmentPanelCalculation extends Fragment {
                 bundle.putInt("TotalPayment", totalPayment);
                 bundle.putString("Grid", grid);
                 bundle.putInt("lowerProduction", lowerProduction);
+                bundle.putInt("panels", howManyPanels);
                 fragmentBatteryCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
@@ -305,6 +336,7 @@ public class FragmentPanelCalculation extends Fragment {
                 bundle.putInt("TotalPayment", totalPayment);
                 bundle.putString("Grid", grid);
                 bundle.putInt("lowerProduction", lowerProduction);
+                bundle.putInt("panels", howManyPanels);
                 fragmentGeneratorChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_main, fragmentGeneratorChoice, "FragmentGeneratorChoice")
