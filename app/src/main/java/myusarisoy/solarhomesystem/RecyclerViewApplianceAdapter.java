@@ -28,6 +28,7 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
     private ArrayList<Integer> consumptionList = new ArrayList<>();
     private ArrayList<String> applianceList = new ArrayList<>();
     private Context context;
+    View view;
 
     public RecyclerViewApplianceAdapter(ArrayList<SelectedAppliance> selectedAppliances, Context context) {
         this.selectedAppliances = selectedAppliances;
@@ -51,13 +52,16 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
         viewHolder.textView.setText(selectedAppliance.getAppliance());
 
         viewHolder.appliance_hours.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (!viewHolder.appliance_quantity.getText().toString().isEmpty() && !viewHolder.appliance_watts.getText().toString().isEmpty() && !viewHolder.appliance_hours.getText().toString().isEmpty()) {
+            if (!viewHolder.appliance_quantity.getText().toString().equals("") && !viewHolder.appliance_watts.getText().toString().equals("") && !viewHolder.appliance_hours.getText().toString().equals("")) {
                 int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
                 int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
                 int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
-                final int power_consumption = (quantity * watts * hours) * 30 / 1000;
-                applianceList.add(selectedAppliance.getAppliance());
-                consumptionList.add(power_consumption);
+                if (hours > 0 && hours <= 24) {
+                    final int power_consumption = (quantity * watts * hours) * 30 / 1000;
+                    applianceList.add(selectedAppliance.getAppliance());
+                    consumptionList.add(power_consumption);
+                } else
+                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.check_hour), Toast.LENGTH_LONG).show();
             }
             return false;
         });
