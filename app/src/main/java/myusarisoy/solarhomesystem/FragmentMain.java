@@ -77,11 +77,8 @@ public class FragmentMain extends Fragment {
     @BindView(R.id.image_icon)
     ImageView icon;
 
-    @BindView(R.id.image_language_english)
-    ImageView languageEnglish;
-
-    @BindView(R.id.image_language_turkish)
-    ImageView languageTurkish;
+    @BindView(R.id.image_language)
+    ImageView language;
 
     @BindView(R.id.recycler_view_appliance)
     RecyclerView recycler_view_appliance;
@@ -111,12 +108,12 @@ public class FragmentMain extends Fragment {
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private Button cancel_back, confirm_back, cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances, exit_from_app, confirm_country;
-    private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog, exitDialog, countryDialog;
+    private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog, exitDialog, countryDialog, languageDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
     private EditText appliance_name;
     private LinearLayout layout_location;
-    private ImageView appliance_image, locationPicker, img_turkey, img_usa;
+    private ImageView appliance_image, locationPicker, img_english, img_german, img_turkish;
     private Spinner locationSpinner;
     private TextView sure_to_add_appliance, appliances_list;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
@@ -239,17 +236,55 @@ public class FragmentMain extends Fragment {
     }
 
     private void languageClick() {
-        languageEnglish = view.findViewById(R.id.image_language_english);
-        languageTurkish = view.findViewById(R.id.image_language_turkish);
+        language = view.findViewById(R.id.image_language);
 
-        languageEnglish.setOnClickListener(v -> {
-            setLocale("en");
-            getActivity().recreate();
-        });
+        language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.pop_up_language);
+                languageDialog = reservationBuilder.create();
+                WindowManager.LayoutParams params = languageDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                languageDialog.getWindow().setAttributes(params);
+                languageDialog.show();
 
-        languageTurkish.setOnClickListener(v -> {
-            setLocale("tr");
-            getActivity().recreate();
+                img_english = languageDialog.findViewById(R.id.img_english);
+                img_german = languageDialog.findViewById(R.id.img_german);
+                img_turkish = languageDialog.findViewById(R.id.img_turkish);
+
+                img_english.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        languageDialog.dismiss();
+                        setLocale("en");
+                        getActivity().recreate();
+                    }
+                });
+
+                img_german.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        languageDialog.dismiss();
+                        setLocale("de");
+                        getActivity().recreate();
+                    }
+                });
+
+                img_turkish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        languageDialog.dismiss();
+                        setLocale("tr");
+                        getActivity().recreate();
+                    }
+                });
+            }
         });
     }
 

@@ -5,7 +5,8 @@
     <string name="user_mail">myusarisoy@gmail.com</string>
     <string name="save">KAYDET</string>
     <string name="tr">TR</string>
-    <string name="eng">ENG</string>
+    <string name="en">EN</string>
+    <string name="de">DE</string>
     <string name="create_an_account">Solar Payback için bir hesap oluşturun.</string>
     <string name="create_account">Hesap oluştur</string>
     <string name="have_an_account">Hesabın mı var?</string>
@@ -187,4 +188,19 @@
     <string name="development">Kodlama ve Geliştirme</string>
     <string name="algorithm_members">Ahmed HAJJO RIFAI\nAhmet Orkun GENÇER\nMoumen ALHWANI\nOnur KARAOSMANGİL</string>
     <string name="development_members">Gökhan PEKER\nMuhammed Yuşa SARISOY</string>
+    <string name="check_hour">Saat değeriniz 24\'ten küçük olmalıdır.</string>
+    <string name="select_a_language">Bir dil seçin</string>
+    <string name="please_select_a_language">Lütfen bir dil seçin.</string>
+    <string name="january">Ocak</string>
+    <string name="february">Şubat</string>
+    <string name="march">Mart</string>
+    <string name="april">Nisan</string>
+    <string name="may">Mayıs</string>
+    <string name="june">Haziran</string>
+    <string name="july">Temmuz</string>
+    <string name="august">Ağustos</string>
+    <string name="september">Eylül</string>
+    <string name="october">Ekim</string>
+    <string name="november">Kasım</string>
+    <string name="december">Aralık</string>
 </resources>

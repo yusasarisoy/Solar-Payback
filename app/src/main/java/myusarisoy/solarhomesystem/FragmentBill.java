@@ -79,11 +79,8 @@ public class FragmentBill extends Fragment {
     @BindView(R.id.app_name)
     TextView app_name;
 
-    @BindView(R.id.image_language_english)
-    ImageView languageEnglish;
-
-    @BindView(R.id.image_language_turkish)
-    ImageView languageTurkish;
+    @BindView(R.id.image_language)
+    ImageView language;
 
     @BindView(R.id.bill_desc)
     TextView bill_desc;
@@ -126,10 +123,10 @@ public class FragmentBill extends Fragment {
     private CountDownTimer countDownTimer;
     private LocationCallback mLocationCallback;
     private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, exit_from_app;
-    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, exitDialog;
+    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, exitDialog, languageDialog;
     private FirebaseAuth firebaseAuth;
     private LinearLayout layout_location;
-    private ImageView locationPicker;
+    private ImageView locationPicker, img_english, img_german, img_turkish;
     private Spinner locationSpinner;
     public ArrayList<String> monthName = new ArrayList<>();
     public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
@@ -258,17 +255,55 @@ public class FragmentBill extends Fragment {
     }
 
     private void languageClick() {
-        languageEnglish = view.findViewById(R.id.image_language_english);
-        languageTurkish = view.findViewById(R.id.image_language_turkish);
+        language = view.findViewById(R.id.image_language);
 
-        languageEnglish.setOnClickListener(v -> {
-            setLocale("en");
-            getActivity().recreate();
-        });
+        language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.pop_up_language);
+                languageDialog = reservationBuilder.create();
+                WindowManager.LayoutParams params = languageDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                languageDialog.getWindow().setAttributes(params);
+                languageDialog.show();
 
-        languageTurkish.setOnClickListener(v -> {
-            setLocale("tr");
-            getActivity().recreate();
+                img_english = languageDialog.findViewById(R.id.img_english);
+                img_german = languageDialog.findViewById(R.id.img_german);
+                img_turkish = languageDialog.findViewById(R.id.img_turkish);
+
+                img_english.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        languageDialog.dismiss();
+                        setLocale("en");
+                        getActivity().recreate();
+                    }
+                });
+
+                img_german.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        languageDialog.dismiss();
+                        setLocale("de");
+                        getActivity().recreate();
+                    }
+                });
+
+                img_turkish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        languageDialog.dismiss();
+                        setLocale("tr");
+                        getActivity().recreate();
+                    }
+                });
+            }
         });
     }
 
@@ -291,18 +326,18 @@ public class FragmentBill extends Fragment {
     }
 
     private void addMonths() {
-        monthName.add("January");
-        monthName.add("February");
-        monthName.add("March");
-        monthName.add("April");
-        monthName.add("May");
-        monthName.add("June");
-        monthName.add("July");
-        monthName.add("August");
-        monthName.add("September");
-        monthName.add("October");
-        monthName.add("November");
-        monthName.add("December");
+        monthName.add(getResources().getString(R.string.january));
+        monthName.add(getResources().getString(R.string.february));
+        monthName.add(getResources().getString(R.string.march));
+        monthName.add(getResources().getString(R.string.april));
+        monthName.add(getResources().getString(R.string.may));
+        monthName.add(getResources().getString(R.string.june));
+        monthName.add(getResources().getString(R.string.july));
+        monthName.add(getResources().getString(R.string.august));
+        monthName.add(getResources().getString(R.string.september));
+        monthName.add(getResources().getString(R.string.october));
+        monthName.add(getResources().getString(R.string.november));
+        monthName.add(getResources().getString(R.string.december));
     }
 
     private void checkMonths() {
