@@ -4,7 +4,7 @@
     android:id="@+id/layout_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/core_white"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".FragmentLogin">
@@ -22,14 +22,13 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="start"
-            android:src="@drawable/go_back" />
+            android:src="@drawable/go_back"
+            android:visibility="gone" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
             android:layout_weight="1"
             android:src="@drawable/solar_energy" />
 
@@ -44,7 +43,7 @@
         android:fontFamily="@font/proxima_nova"
         android:padding="10dp"
         android:text="@string/login_to"
-        android:textColor="@color/core_black"
+        android:textColor="?attr/textColor"
         android:textSize="25sp"
         tools:ignore="UnusedAttribute" />
 
@@ -56,71 +55,83 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/layout_login_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:background="?attr/cardBackgroundColor"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_login_mail"
+            <LinearLayout
+                android:id="@+id/layout_login_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/proxima_nova"
-                android:hint="@string/mail"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textColor="@color/core_black"
-                android:textSize="23sp"
-                tools:ignore="UnusedAttribute" />
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/et_login_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova"
+                    android:hint="@string/mail"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/textColor"
+                    android:textSize="23sp"
+                    tools:ignore="UnusedAttribute" />
 
-        <LinearLayout
-            android:id="@+id/layout_login_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/et_login_password"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/layout_login_password"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/et_login_password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/proxima_nova"
+                    android:hint="@string/password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/textColor"
+                    android:textSize="23sp"
+                    tools:ignore="UnusedAttribute" />
+
+                <ImageView
+                    android:id="@+id/show_login_password"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/eye_active"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/proxima_nova"
-                android:hint="@string/password"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@color/core_black"
-                android:textSize="23sp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/forgot_password"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
-            <ImageView
-                android:id="@+id/show_login_password"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/eye_active" />
-
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/proxima_nova"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/forgot_password"
-            android:textColor="@color/colorAccent"
-            android:textSize="20sp"
-            tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
 
@@ -149,7 +160,7 @@
             android:padding="10dp"
             android:text="@string/login"
             android:textAllCaps="false"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/backgroundColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

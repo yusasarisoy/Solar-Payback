@@ -4,9 +4,9 @@
     android:id="@+id/layout_panel_calculation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
-    android:padding="30dp"
+    android:padding="20dp"
     tools:context=".FragmentPanelCalculation">
 
     <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:text="@string/app_name"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
 
@@ -47,7 +47,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="?attr/textColor" />
 
     <LinearLayout
         android:id="@+id/layout_decisions"
@@ -62,10 +62,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Generated Energy by Panel: 330 W" />
@@ -105,10 +105,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -130,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Selected Panel Area: 1.685 m²" />
@@ -148,10 +148,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Selected City: Istanbul" />
@@ -191,10 +191,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -216,7 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Minimum City Irradiance: 2.96" />
@@ -234,10 +234,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -259,7 +259,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Energy Consumption: 234 kWh/year" />
@@ -282,10 +282,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -307,7 +307,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Produced Energy: 54800 Wh" />
@@ -325,10 +325,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -350,7 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Required Panels: 167" />
@@ -368,10 +368,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -393,7 +393,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Required Area: 281.395 m²" />
@@ -411,10 +411,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -436,7 +436,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Total Panel Payment: 153.127 ₺" />
@@ -455,10 +455,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
             android:orientation="horizontal"
+            android:padding="10dp"
             android:visibility="gone">
 
             <ImageView
@@ -481,7 +481,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Extra Cost: 10000 ₺" />

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -31,7 +31,7 @@
             android:textStyle="bold"
             tools:ignore="UnusedAttribute"
             tools:text="Water Heater"
-            tools:textColor="@color/dark_slate_gray" />
+            android:textColor="?attr/textColor" />
 
     </LinearLayout>
 
@@ -51,7 +51,7 @@
             android:textStyle="bold"
             tools:ignore="UnusedAttribute"
             tools:text="@string/water_heater_consumption_text"
-            tools:textColor="@color/dark_slate_gray" />
+            android:textColor="?attr/textColor" />
 
     </LinearLayout>
 

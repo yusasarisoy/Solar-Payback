@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/winter"
     android:orientation="vertical"
-    android:padding="30dp"
+    android:padding="20dp"
     tools:context=".FragmentBill">
 
     <LinearLayout
@@ -55,6 +55,14 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:src="@drawable/language" />
+
+            <ImageView
+                android:id="@+id/image_theme"
+                android:layout_width="26dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:src="@drawable/light" />
 
         </LinearLayout>
 

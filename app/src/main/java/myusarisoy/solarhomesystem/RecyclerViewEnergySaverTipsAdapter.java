@@ -82,7 +82,7 @@ public class RecyclerViewEnergySaverTipsAdapter extends RecyclerView.Adapter<Rec
     private void showSnackbar(View view, String text) {
         Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getContext().getResources().getColor(R.color.dark_slate_gray));
+        snackbarView.setBackgroundColor(getContext().getResources().getColor(R.color.cardBackgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
         snackbar.show();

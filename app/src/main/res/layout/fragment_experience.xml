@@ -4,9 +4,9 @@
     android:id="@+id/layout_experience"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
-    android:padding="30dp"
+    android:padding="20dp"
     tools:context=".FragmentExperience">
 
     <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:text="@string/app_name"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
 
@@ -47,7 +47,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="?attr/textColor" />
 
     <TextView
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
         android:text="@string/experience"
-        android:textColor="@color/core_white"
+        android:textColor="?attr/textColor"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
 
@@ -65,7 +65,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="?attr/textColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,13 +78,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/smooth_corners_no_border"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/img_beginner"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:src="@drawable/beginner" />
 
             <TextView
@@ -95,7 +97,7 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/beginner"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="22sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -104,10 +106,10 @@
         <View
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:background="@color/transparent" />
 
         <LinearLayout
@@ -115,13 +117,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/smooth_corners_no_border"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/img_expert"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:src="@drawable/expert" />
 
             <TextView
@@ -132,7 +136,7 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/expert"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="22sp"
                 tools:ignore="UnusedAttribute" />
 

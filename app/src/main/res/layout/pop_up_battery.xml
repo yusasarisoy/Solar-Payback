@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/core_white"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -50,14 +50,14 @@
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
         android:text="@string/select_a_battery"
-        android:textColor="@color/core_black"
+        android:textColor="?attr/textColor"
         android:textSize="17sp"
         tools:ignore="UnusedAttribute" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -82,8 +82,8 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/battery_1"
-                android:textColor="@color/core_black"
-                android:textSize="15sp"
+                android:textColor="?attr/textColor"
+                android:textSize="17sp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -94,8 +94,8 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:textColor="@color/core_black"
-                android:textSize="15sp"
+                android:textColor="?attr/textColor"
+                android:textSize="17sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="15.000 ₺" />
 
@@ -123,8 +123,8 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/battery_2"
-                android:textColor="@color/core_black"
-                android:textSize="15sp"
+                android:textColor="?attr/textColor"
+                android:textSize="17sp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -135,8 +135,8 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:textColor="@color/core_black"
-                android:textSize="15sp"
+                android:textColor="?attr/textColor"
+                android:textSize="17sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="3.000 ₺" />
 

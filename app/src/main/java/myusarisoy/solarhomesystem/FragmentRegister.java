@@ -174,7 +174,7 @@ public class FragmentRegister extends Fragment {
 
         Snackbar snackbar = Snackbar.make(layout_register, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.cardBackgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();

@@ -40,10 +40,8 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -51,8 +49,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -61,7 +57,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,6 +76,9 @@ public class FragmentBill extends Fragment {
 
     @BindView(R.id.image_language)
     ImageView language;
+
+    @BindView(R.id.image_theme)
+    ImageView image_theme;
 
     @BindView(R.id.bill_desc)
     TextView bill_desc;
@@ -123,10 +121,10 @@ public class FragmentBill extends Fragment {
     private CountDownTimer countDownTimer;
     private LocationCallback mLocationCallback;
     private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, exit_from_app;
-    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, exitDialog, languageDialog;
+    private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, exitDialog, languageDialog, themeDialog;
     private FirebaseAuth firebaseAuth;
     private LinearLayout layout_location;
-    private ImageView locationPicker, img_english, img_german, img_turkish;
+    private ImageView locationPicker, img_english, img_german, img_turkish, img_light, img_dark;
     private Spinner locationSpinner;
     public ArrayList<String> monthName = new ArrayList<>();
     public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
@@ -136,6 +134,7 @@ public class FragmentBill extends Fragment {
     int monthIncrementer = 0;
     double irradianceData, irradianceLocation;
     String consumer, cityName = "", city = "", cityLocation = "", finalApiUrl = "";
+    SharedPreferencesTheme sharedPreferencesTheme;
     private RequestQueue requestQueue;
     View view;
 
@@ -156,6 +155,13 @@ public class FragmentBill extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bill, container, false);
+
+        sharedPreferencesTheme = new SharedPreferencesTheme(getContext());
+
+        if (sharedPreferencesTheme.loadNightModeState())
+            getActivity().setTheme(R.style.DarkTheme);
+        else if(sharedPreferencesTheme.loadLightModeState())
+            getActivity().setTheme(R.style.AppTheme);
 
         context = container.getContext();
 
@@ -220,6 +226,9 @@ public class FragmentBill extends Fragment {
         });
         requestQueue.add(jsonArrayRequest);
 
+//        Change theme.
+        changeTheme();
+
 //        Change language.
         loadLocale();
         languageClick();
@@ -254,6 +263,50 @@ public class FragmentBill extends Fragment {
         return view;
     }
 
+    private void changeTheme() {
+        image_theme = view.findViewById(R.id.image_theme);
+        image_theme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.dialog_theme);
+                themeDialog = reservationBuilder.create();
+                WindowManager.LayoutParams params = themeDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                themeDialog.getWindow().setAttributes(params);
+                themeDialog.show();
+
+                img_light = themeDialog.findViewById(R.id.img_light);
+                img_dark = themeDialog.findViewById(R.id.img_dark);
+
+                img_light.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        themeDialog.dismiss();
+                        sharedPreferencesTheme.setLightModeState(true);
+                        sharedPreferencesTheme.setNightModeState(false);
+                        getActivity().recreate();
+                    }
+                });
+
+                img_dark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        themeDialog.dismiss();
+                        sharedPreferencesTheme.setLightModeState(false);
+                        sharedPreferencesTheme.setNightModeState(true);
+                        getActivity().recreate();
+                    }
+                });
+            }
+        });
+    }
+
     private void languageClick() {
         language = view.findViewById(R.id.image_language);
 
@@ -274,7 +327,7 @@ public class FragmentBill extends Fragment {
                 languageDialog.show();
 
                 img_english = languageDialog.findViewById(R.id.img_english);
-                img_german = languageDialog.findViewById(R.id.img_german);
+//                img_german = languageDialog.findViewById(R.id.img_german);
                 img_turkish = languageDialog.findViewById(R.id.img_turkish);
 
                 img_english.setOnClickListener(new View.OnClickListener() {
@@ -286,14 +339,14 @@ public class FragmentBill extends Fragment {
                     }
                 });
 
-                img_german.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        languageDialog.dismiss();
-                        setLocale("de");
-                        getActivity().recreate();
-                    }
-                });
+//                img_german.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        languageDialog.dismiss();
+//                        setLocale("de");
+//                        getActivity().recreate();
+//                    }
+//                });
 
                 img_turkish.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -359,16 +412,16 @@ public class FragmentBill extends Fragment {
                 bill_power_consumption.getText().clear();
                 bill_payment.requestFocus();
 
-                if (monthName.get(monthIncrementer).equals("March")) {
+                if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.march))) {
                     layout_bill.setBackgroundResource(R.drawable.spring);
                     makeTextBlack();
-                } else if (monthName.get(monthIncrementer).equals("June")) {
+                } else if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.june))) {
                     layout_bill.setBackgroundResource(R.drawable.summer);
                     makeTextWhite();
-                } else if (monthName.get(monthIncrementer).equals("September")) {
+                } else if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.september))) {
                     layout_bill.setBackgroundResource(R.drawable.autumn);
                     makeTextWhite();
-                } else if (monthName.get(monthIncrementer).equals("December")) {
+                } else if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.december))) {
                     layout_bill.setBackgroundResource(R.drawable.winter);
                     makeTextBlack();
                     button_next.setVisibility(View.GONE);
@@ -823,7 +876,7 @@ public class FragmentBill extends Fragment {
 
         Snackbar snackbar = Snackbar.make(layout_bill, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.cardBackgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();

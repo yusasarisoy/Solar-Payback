@@ -1,18 +1,23 @@
 package myusarisoy.solarhomesystem;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.app.AppCompatDialog;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -181,7 +186,7 @@ public class FragmentLogin extends Fragment {
 
         Snackbar snackbar = Snackbar.make(layout_login, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.cardBackgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();

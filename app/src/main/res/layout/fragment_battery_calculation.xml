@@ -4,9 +4,9 @@
     android:id="@+id/layout_battery_calculation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
-    android:padding="30dp"
+    android:padding="20dp"
     tools:context=".FragmentBatteryCalculation">
 
     <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:text="@string/app_name"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
 
@@ -62,7 +62,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="?attr/textColor" />
 
     <LinearLayout
         android:id="@+id/layout_prices"
@@ -77,10 +77,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Panel Price: 200000 ₺" />
@@ -120,10 +120,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -145,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Heater Price: 15000 ₺" />
@@ -163,10 +163,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -188,7 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Inverter Price: 20000 ₺" />
@@ -207,10 +207,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -232,7 +232,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Battery Price: 75000 ₺" />
@@ -256,10 +256,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -281,7 +281,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Inspection Cost: 20000 ₺" />
@@ -300,10 +300,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -325,7 +325,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Cleaning Cost: 70000 ₺" />
@@ -343,10 +343,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -368,7 +368,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="1 Year Electricity Cost: 50000 ₺" />
@@ -386,10 +386,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -411,7 +411,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Total Price: 400000 ₺" />
@@ -429,10 +429,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/smooth_corners_dark"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -454,7 +454,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="22sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="Payback Period: 7.5 years" />

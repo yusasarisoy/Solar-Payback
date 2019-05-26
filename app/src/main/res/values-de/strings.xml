@@ -105,8 +105,8 @@
     <string name="generator_choice">Bitte wählen Sie einen Generator aus, den Sie verwenden möchten.</string>
     <string name="generator_1">Automatischer Dieselgenerator Mit Motorgehäuse\n(15 kVA)</string>
     <string name="generator_2">Automatischer Dieselgenerator mit Kabinett\n(110 kVA)</string>
-    <string name="battery_1">Lithium-Ion (LFeLi-12200M)</string>
-    <string name="battery_2">Bleisäure (6-GFM(G)-200)</string>
+    <string name="battery_1">Lithium-Ion\n(LFeLi-12200M)</string>
+    <string name="battery_2">Bleisäure\n(6-GFM(G)-200)</string>
     <string name="pricing_generator_1">15.000 ₺</string>
     <string name="pricing_generator_2">75.000 ₺</string>
     <string name="complete_parts_appliances">Bitte ergänzen Sie den fehlenden Teil der Geräte.</string>
@@ -203,4 +203,7 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">Dezember</string>
+    <string name="night_mode">Nacht-Modus</string>
+    <string name="select_a_theme">Wähle ein Thema</string>
+    <string name="please_select_a_theme">Bitte wählen Sie ein Thema.</string>
 </resources>

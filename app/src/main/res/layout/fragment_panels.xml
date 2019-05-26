@@ -4,7 +4,7 @@
     android:id="@+id/layout_panels"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="20dp"
     tools:context=".FragmentPanels">
@@ -37,7 +37,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:text="@string/app_name"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
 
@@ -57,7 +57,7 @@
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
         android:text="@string/panel_choice"
-        android:textColor="@color/core_white"
+        android:textColor="?attr/textColor"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
 
@@ -79,13 +79,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/smooth_corners_no_border"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/img_panel_1"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:src="@drawable/solar_panel_1" />
 
             <TextView
@@ -96,7 +98,7 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/panel_1"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -107,7 +109,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="145.53 €" />
@@ -128,13 +130,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/smooth_corners_no_border"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/img_panel_2"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:src="@drawable/solar_panel_2" />
 
             <TextView
@@ -145,7 +149,7 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/panel_2"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -156,7 +160,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="110.25 €" />

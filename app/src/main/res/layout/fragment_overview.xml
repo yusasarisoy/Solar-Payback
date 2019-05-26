@@ -4,9 +4,9 @@
     android:id="@+id/layout_overview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
-    android:padding="30dp"
+    android:padding="20dp"
     tools:context=".FragmentOverview">
 
     <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:text="@string/app_name"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
 
@@ -47,7 +47,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="?attr/textColor" />
 
     <LinearLayout
         android:id="@+id/layout_monthly_overview"
@@ -63,7 +63,7 @@
             android:gravity="center"
             android:text="@string/monthly_overview"
             android:textAllCaps="true"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="30sp"
             tools:ignore="UnusedAttribute" />
 
@@ -71,9 +71,9 @@
             android:id="@+id/recycler_view_overview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="20sp"
             android:layout_weight="1"
-            android:background="@drawable/dark_shape"
+            android:background="@drawable/smooth_corners_dark"
             android:padding="10dp" />
 
         <LinearLayout

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute"
             tools:text="Fridge" />
@@ -67,7 +67,7 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/quantity"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -109,7 +109,7 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/watts"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -126,7 +126,7 @@
                 android:textColor="@color/core_black"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute"
-                tools:text="50" />
+                tools:text="1000" />
 
         </LinearLayout>
 
@@ -151,7 +151,7 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:text="@string/hours"
-                android:textColor="@color/core_white"
+                android:textColor="?attr/textColor"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />
 

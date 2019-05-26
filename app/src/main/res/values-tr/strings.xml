@@ -105,8 +105,8 @@
     <string name="generator_choice">Lütfen kullanmak istediğiniz bir jeneratörü seçiniz.</string>
     <string name="generator_1">Motor Kabinli Otomatik Dizel Jeneratör\n(15 kVA)</string>
     <string name="generator_2">Kabinli Otomatik Dizel Jeneratör\n(110 kVA)</string>
-    <string name="battery_1">Lityum-İyon (LFeLi-12200M)</string>
-    <string name="battery_2">Kurşun Asit (6-GFM(G)-200)</string>
+    <string name="battery_1">Lityum-İyon\n(LFeLi-12200M)</string>
+    <string name="battery_2">Kurşun Asit\n(6-GFM(G)-200)</string>
     <string name="pricing_generator_1">15.000 ₺</string>
     <string name="pricing_generator_2">75.000 ₺</string>
     <string name="complete_parts_appliances">Lütfen cihaz(lar)daki eksik kısımları tamamlayınız.</string>
@@ -203,4 +203,7 @@
     <string name="october">Ekim</string>
     <string name="november">Kasım</string>
     <string name="december">Aralık</string>
+    <string name="night_mode">Gece Modu</string>
+    <string name="select_a_theme">Bir tema seçin</string>
+    <string name="please_select_a_theme">Lütfen bir tema seçin.</string>
 </resources>

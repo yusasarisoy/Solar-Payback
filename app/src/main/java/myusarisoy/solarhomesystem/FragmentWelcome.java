@@ -23,14 +23,18 @@ public class FragmentWelcome extends Fragment {
     @BindView(R.id.image_language)
     ImageView language;
 
+    @BindView(R.id.image_theme)
+    ImageView image_theme;
+
     @BindView(R.id.button_create_account)
     Button button_create_account;
 
     @BindView(R.id.tv_login)
     TextView tv_login;
 
-    AppCompatDialog languageDialog;
-    private ImageView img_english, img_german, img_turkish;
+    AppCompatDialog languageDialog, themeDialog;
+    private ImageView img_english, img_german, img_turkish, img_light, img_dark;
+    SharedPreferencesTheme sharedPreferencesTheme;
     View view;
 
     public static FragmentWelcome newInstance(Object... objects) {
@@ -49,6 +53,16 @@ public class FragmentWelcome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
+        sharedPreferencesTheme = new SharedPreferencesTheme(getContext());
+
+        if (sharedPreferencesTheme.loadNightModeState())
+            getActivity().setTheme(R.style.DarkTheme);
+        else if (sharedPreferencesTheme.loadLightModeState())
+            getActivity().setTheme(R.style.AppTheme);
+
+//        Change theme.
+        changeTheme();
+
 //        Change language.
         loadLocale();
         languageClick();
@@ -60,6 +74,50 @@ public class FragmentWelcome extends Fragment {
         login();
 
         return view;
+    }
+
+    private void changeTheme() {
+        image_theme = view.findViewById(R.id.image_theme);
+        image_theme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.dialog_theme);
+                themeDialog = reservationBuilder.create();
+                WindowManager.LayoutParams params = themeDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                themeDialog.getWindow().setAttributes(params);
+                themeDialog.show();
+
+                img_light = themeDialog.findViewById(R.id.img_light);
+                img_dark = themeDialog.findViewById(R.id.img_dark);
+
+                img_light.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        themeDialog.dismiss();
+                        sharedPreferencesTheme.setLightModeState(true);
+                        sharedPreferencesTheme.setNightModeState(false);
+                        getActivity().recreate();
+                    }
+                });
+
+                img_dark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        themeDialog.dismiss();
+                        sharedPreferencesTheme.setLightModeState(false);
+                        sharedPreferencesTheme.setNightModeState(true);
+                        getActivity().recreate();
+                    }
+                });
+            }
+        });
     }
 
     private void languageClick() {
@@ -82,7 +140,7 @@ public class FragmentWelcome extends Fragment {
                 languageDialog.show();
 
                 img_english = languageDialog.findViewById(R.id.img_english);
-                img_german = languageDialog.findViewById(R.id.img_german);
+//                img_german = languageDialog.findViewById(R.id.img_german);
                 img_turkish = languageDialog.findViewById(R.id.img_turkish);
 
                 img_english.setOnClickListener(new View.OnClickListener() {
@@ -94,14 +152,14 @@ public class FragmentWelcome extends Fragment {
                     }
                 });
 
-                img_german.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        languageDialog.dismiss();
-                        setLocale("de");
-                        getActivity().recreate();
-                    }
-                });
+//                img_german.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        languageDialog.dismiss();
+//                        setLocale("de");
+//                        getActivity().recreate();
+//                    }
+//                });
 
                 img_turkish.setOnClickListener(new View.OnClickListener() {
                     @Override

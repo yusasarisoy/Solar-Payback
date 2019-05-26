@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/core_white"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -50,7 +50,7 @@
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
         android:text="@string/please_select_a_language"
-        android:textColor="@color/core_black"
+        android:textColor="?attr/textColor"
         android:textSize="17sp"
         tools:ignore="UnusedAttribute" />
 
@@ -73,6 +73,7 @@
             android:layout_width="1dp"
             android:layout_height="1dp"
             android:layout_marginStart="20dp"
+            android:visibility="gone"
             android:layout_marginLeft="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
@@ -82,6 +83,7 @@
             android:id="@+id/img_german"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:visibility="gone"
             android:layout_gravity="center"
             android:src="@drawable/german" />
 

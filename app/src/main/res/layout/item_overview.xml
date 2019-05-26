@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/proxima_nova"
         android:gravity="start"
-        android:textColor="@color/core_white"
+        android:textColor="?attr/textColor"
         android:textSize="20sp"
         tools:ignore="UnusedAttribute"
         tools:text="January" />
@@ -36,7 +36,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/proxima_nova"
         android:gravity="start"
-        android:textColor="@color/core_white"
+        android:textColor="?attr/textColor"
         android:textSize="20sp"
         tools:ignore="UnusedAttribute"
         tools:text="50 ₺" />
@@ -57,7 +57,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/proxima_nova"
         android:gravity="start"
-        android:textColor="@color/core_white"
+        android:textColor="?attr/textColor"
         android:textSize="20sp"
         tools:ignore="UnusedAttribute"
         tools:text="216 kW" />

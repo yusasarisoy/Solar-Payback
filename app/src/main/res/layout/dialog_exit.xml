@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/core_white"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -55,7 +55,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/restart"
-            android:textColor="@color/core_black"
+            android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 
@@ -78,7 +78,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/exit"
-            android:textColor="@color/core_white"
+            android:textColor="@color/light_white"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

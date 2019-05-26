@@ -19,7 +19,9 @@
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            android:buttonTint="?attr/textColor"
+            tools:ignore="UnusedAttribute" />
 
         <View
             android:layout_width="1dp"
@@ -51,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova"
-            android:textColor="@color/core_white"
+            android:textColor="?attr/textColor"
             android:textSize="17sp"
             tools:ignore="UnusedAttribute"
             tools:text="Fridge" />

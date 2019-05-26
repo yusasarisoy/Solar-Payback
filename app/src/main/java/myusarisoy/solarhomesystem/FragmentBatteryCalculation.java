@@ -495,12 +495,15 @@ public class FragmentBatteryCalculation extends Fragment {
 
             no_main_page.setOnClickListener(v1 -> dialog_main_page.dismiss());
 
-            yes_main_page.setOnClickListener(v12 -> {
-                dialog_main_page.dismiss();
+            yes_main_page.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog_main_page.dismiss();
 
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
             });
         });
     }
@@ -510,7 +513,7 @@ public class FragmentBatteryCalculation extends Fragment {
 
         Snackbar snackbar = Snackbar.make(layout_battery_calculation, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.cardBackgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();

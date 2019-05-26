@@ -80,6 +80,9 @@ public class FragmentMain extends Fragment {
     @BindView(R.id.image_language)
     ImageView language;
 
+    @BindView(R.id.image_theme)
+    ImageView image_theme;
+
     @BindView(R.id.recycler_view_appliance)
     RecyclerView recycler_view_appliance;
 
@@ -108,12 +111,12 @@ public class FragmentMain extends Fragment {
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private Button cancel_back, confirm_back, cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances, exit_from_app, confirm_country;
-    private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog, exitDialog, countryDialog, languageDialog;
+    private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog, exitDialog, countryDialog, languageDialog, themeDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
     private EditText appliance_name;
     private LinearLayout layout_location;
-    private ImageView appliance_image, locationPicker, img_english, img_german, img_turkish;
+    private ImageView appliance_image, locationPicker, img_english, img_german, img_turkish, img_light, img_dark;
     private Spinner locationSpinner;
     private TextView sure_to_add_appliance, appliances_list;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
@@ -121,6 +124,7 @@ public class FragmentMain extends Fragment {
     public ArrayList<Integer> appliancesImage = new ArrayList<>();
     private ArrayList<String> cityList = new ArrayList<>();
     private ArrayList<Double> solarIrradianceList = new ArrayList<>();
+    SharedPreferencesTheme sharedPreferencesTheme;
     double irradianceData, irradianceLocation;
     String consumer, cityName = "", city = "", cityLocation = "", finalApiUrl = "";
     private RequestQueue requestQueue;
@@ -143,6 +147,13 @@ public class FragmentMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        sharedPreferencesTheme = new SharedPreferencesTheme(getContext());
+
+        if (sharedPreferencesTheme.loadNightModeState())
+            getActivity().setTheme(R.style.DarkTheme);
+        else if (sharedPreferencesTheme.loadLightModeState())
+            getActivity().setTheme(R.style.AppTheme);
 
         context = container.getContext();
 
@@ -204,6 +215,9 @@ public class FragmentMain extends Fragment {
         });
         requestQueue.add(jsonArrayRequest);
 
+//        Change theme.
+        changeTheme();
+
 //        Change language.
         loadLocale();
         languageClick();
@@ -235,6 +249,50 @@ public class FragmentMain extends Fragment {
         return view;
     }
 
+    private void changeTheme() {
+        image_theme = view.findViewById(R.id.image_theme);
+        image_theme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                reservationBuilder.setView(R.layout.dialog_theme);
+                themeDialog = reservationBuilder.create();
+                WindowManager.LayoutParams params = themeDialog.getWindow().getAttributes();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                params.width = (int) (width * 0.8);
+                params.height = (int) (height * 0.8);
+                themeDialog.getWindow().setAttributes(params);
+                themeDialog.show();
+
+                img_light = themeDialog.findViewById(R.id.img_light);
+                img_dark = themeDialog.findViewById(R.id.img_dark);
+
+                img_light.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        themeDialog.dismiss();
+                        sharedPreferencesTheme.setLightModeState(true);
+                        sharedPreferencesTheme.setNightModeState(false);
+                        getActivity().recreate();
+                    }
+                });
+
+                img_dark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        themeDialog.dismiss();
+                        sharedPreferencesTheme.setLightModeState(false);
+                        sharedPreferencesTheme.setNightModeState(true);
+                        getActivity().recreate();
+                    }
+                });
+            }
+        });
+    }
+
     private void languageClick() {
         language = view.findViewById(R.id.image_language);
 
@@ -255,7 +313,7 @@ public class FragmentMain extends Fragment {
                 languageDialog.show();
 
                 img_english = languageDialog.findViewById(R.id.img_english);
-                img_german = languageDialog.findViewById(R.id.img_german);
+//                img_german = languageDialog.findViewById(R.id.img_german);
                 img_turkish = languageDialog.findViewById(R.id.img_turkish);
 
                 img_english.setOnClickListener(new View.OnClickListener() {
@@ -267,14 +325,14 @@ public class FragmentMain extends Fragment {
                     }
                 });
 
-                img_german.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        languageDialog.dismiss();
-                        setLocale("de");
-                        getActivity().recreate();
-                    }
-                });
+//                img_german.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        languageDialog.dismiss();
+//                        setLocale("de");
+//                        getActivity().recreate();
+//                    }
+//                });
 
                 img_turkish.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -830,7 +888,7 @@ public class FragmentMain extends Fragment {
 
         Snackbar snackbar = Snackbar.make(layout_main, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getResources().getColor(R.color.dark_slate_gray));
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.cardBackgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();

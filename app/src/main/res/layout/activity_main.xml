@@ -4,7 +4,7 @@
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/core_white"
+    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
