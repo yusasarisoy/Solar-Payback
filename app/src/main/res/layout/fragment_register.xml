@@ -7,7 +7,7 @@
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".FragmentRegister">
+    tools:context=".Fragment.FragmentRegister">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="@drawable/smooth_corners"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -89,13 +90,14 @@
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
                 android:fontFamily="@font/proxima_nova"
                 android:hint="@string/full_name"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
                 android:maxLines="1"
                 android:textColor="?attr/textColor"
-                android:textColorHint="?attr/textColor"
+                android:textColorHint="@color/gray"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -106,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="@drawable/smooth_corners"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -113,13 +116,14 @@
                 android:id="@+id/et_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
                 android:fontFamily="@font/proxima_nova"
                 android:hint="@string/mail"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textColor="?attr/textColor"
-                android:textColorHint="?attr/textColor"
+                android:textColorHint="@color/gray"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -130,6 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="@drawable/smooth_corners"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -138,13 +143,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/transparent"
                 android:fontFamily="@font/proxima_nova"
                 android:hint="@string/password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="?attr/textColor"
-                android:textColorHint="?attr/textColor"
+                android:textColorHint="@color/gray"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />
 
@@ -185,7 +191,7 @@
             android:padding="10dp"
             android:text="@string/sign_up"
             android:textAllCaps="false"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/core_white"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

@@ -206,4 +206,5 @@
     <string name="night_mode">Gece Modu</string>
     <string name="select_a_theme">Bir tema seçin</string>
     <string name="please_select_a_theme">Lütfen bir tema seçin.</string>
+    <string name="added">&#160;eklendi.</string>
 </resources>

@@ -7,7 +7,7 @@
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".FragmentSplash">
+    tools:context=".Fragment.FragmentSplash">
 
     <ImageView
         android:id="@+id/icon"

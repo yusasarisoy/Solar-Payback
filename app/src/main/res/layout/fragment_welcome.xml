@@ -6,7 +6,7 @@
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".FragmentWelcome">
+    tools:context=".Fragment.FragmentWelcome">
 
     <ImageView
         android:layout_width="30dp"

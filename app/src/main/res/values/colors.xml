@@ -16,8 +16,8 @@
     <color name="violet">#7F00FF</color>
     <color name="light_gray">#95a5a6</color>
     <color name="gray">#DCDCDC</color>
-    <color name="backgroundColor">#121212</color>
-    <color name="cardBackgroundColor">#1E1E1E</color>
+    <color name="backgroundColor">#292929</color>
+    <color name="cardBackgroundColor">#4a4a4a</color>
     <color name="textColor">#E1E1E1</color>
     <color name="transparent">#00FFFFFF</color>
 </resources>

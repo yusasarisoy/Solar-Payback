@@ -7,7 +7,7 @@
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".FragmentGeneratorChoice">
+    tools:context=".Fragment.FragmentGeneratorChoice">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,6 +74,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/generator_1_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -127,6 +128,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
+            android:id="@+id/generator_2_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

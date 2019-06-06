@@ -7,7 +7,7 @@
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".FragmentOverviewAppliances">
+    tools:context=".Fragment.FragmentOverviewAppliances">
 
     <LinearLayout
         android:layout_width="match_parent"

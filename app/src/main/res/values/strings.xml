@@ -205,4 +205,5 @@
     <string name="night_mode">Night Mode</string>
     <string name="select_a_theme">Select a theme</string>
     <string name="please_select_a_theme">Please select a theme.</string>
+    <string name="added">&#160;added.</string>
 </resources>

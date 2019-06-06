@@ -58,6 +58,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -76,13 +77,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="@drawable/white_background"
+                android:background="@drawable/smooth_corners"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:textColor="@color/core_black"
-                android:textSize="23sp"
+                android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="3" />
 
@@ -100,6 +101,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -118,13 +120,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="@drawable/white_background"
+                android:background="@drawable/smooth_corners"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:imeOptions="actionNext"
                 android:inputType="numberDecimal"
                 android:textColor="@color/core_black"
-                android:textSize="23sp"
+                android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="1000" />
 
@@ -142,6 +144,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -152,7 +155,7 @@
                 android:gravity="center"
                 android:text="@string/hours"
                 android:textColor="?attr/textColor"
-                android:textSize="23sp"
+                android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -160,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="@drawable/white_background"
+                android:background="@drawable/smooth_corners"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:imeOptions="actionDone"
