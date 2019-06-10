@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import myusarisoy.solarhomesystem.R;
-import myusarisoy.solarhomesystem.Data.SelectedAppliance;
+import myusarisoy.solarhomesystem.Model.SelectedAppliance;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -51,55 +51,55 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
         viewHolder.imageView.setBackgroundResource(selectedAppliance.getImageResource());
         viewHolder.textView.setText(selectedAppliance.getAppliance());
 
-        viewHolder.appliance_quantity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        viewHolder.applianceQuantity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (!viewHolder.appliance_quantity.getText().toString().equals("") && !viewHolder.appliance_watts.getText().toString().equals("") && !viewHolder.appliance_hours.getText().toString().equals("")) {
-                    int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
-                    int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
-                    int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
+                if (!viewHolder.applianceQuantity.getText().toString().equals("") && !viewHolder.applianceWatts.getText().toString().equals("") && !viewHolder.applianceHours.getText().toString().equals("")) {
+                    int quantity = Integer.parseInt(viewHolder.applianceQuantity.getText().toString());
+                    int watts = Integer.parseInt(viewHolder.applianceWatts.getText().toString());
+                    int hours = Integer.parseInt(viewHolder.applianceHours.getText().toString());
                     if (hours > 0 && hours <= 24) {
                         final int power_consumption = (quantity * watts * hours) * 30 / 1000;
                         applianceList.add(selectedAppliance.getAppliance());
                         consumptionList.add(power_consumption);
                     } else
-                        Toast.makeText(getContext(), getContext().getResources().getString(R.string.check_hour), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getContext().getResources().getString(R.string.checkHour), Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
         });
 
-        viewHolder.appliance_watts.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        viewHolder.applianceWatts.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (!viewHolder.appliance_quantity.getText().toString().equals("") && !viewHolder.appliance_watts.getText().toString().equals("") && !viewHolder.appliance_hours.getText().toString().equals("")) {
-                    int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
-                    int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
-                    int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
+                if (!viewHolder.applianceQuantity.getText().toString().equals("") && !viewHolder.applianceWatts.getText().toString().equals("") && !viewHolder.applianceHours.getText().toString().equals("")) {
+                    int quantity = Integer.parseInt(viewHolder.applianceQuantity.getText().toString());
+                    int watts = Integer.parseInt(viewHolder.applianceWatts.getText().toString());
+                    int hours = Integer.parseInt(viewHolder.applianceHours.getText().toString());
                     if (hours > 0 && hours <= 24) {
                         final int power_consumption = (quantity * watts * hours) * 30 / 1000;
                         applianceList.add(selectedAppliance.getAppliance());
                         consumptionList.add(power_consumption);
                     } else
-                        Toast.makeText(getContext(), getContext().getResources().getString(R.string.check_hour), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getContext().getResources().getString(R.string.checkHour), Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
         });
 
-        viewHolder.appliance_hours.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        viewHolder.applianceHours.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (!viewHolder.appliance_quantity.getText().toString().equals("") && !viewHolder.appliance_watts.getText().toString().equals("") && !viewHolder.appliance_hours.getText().toString().equals("")) {
-                    int quantity = Integer.parseInt(viewHolder.appliance_quantity.getText().toString());
-                    int watts = Integer.parseInt(viewHolder.appliance_watts.getText().toString());
-                    int hours = Integer.parseInt(viewHolder.appliance_hours.getText().toString());
+                if (!viewHolder.applianceQuantity.getText().toString().equals("") && !viewHolder.applianceWatts.getText().toString().equals("") && !viewHolder.applianceHours.getText().toString().equals("")) {
+                    int quantity = Integer.parseInt(viewHolder.applianceQuantity.getText().toString());
+                    int watts = Integer.parseInt(viewHolder.applianceWatts.getText().toString());
+                    int hours = Integer.parseInt(viewHolder.applianceHours.getText().toString());
                     if (hours > 0 && hours <= 24) {
                         final int power_consumption = (quantity * watts * hours) * 30 / 1000;
                         applianceList.add(selectedAppliance.getAppliance());
                         consumptionList.add(power_consumption);
                     } else
-                        Toast.makeText(getContext(), getContext().getResources().getString(R.string.check_hour), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getContext().getResources().getString(R.string.checkHour), Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
@@ -129,17 +129,17 @@ public class RecyclerViewApplianceAdapter extends RecyclerView.Adapter<RecyclerV
         private LinearLayout linearLayout;
         private ImageView imageView;
         private TextView textView;
-        private EditText appliance_watts, appliance_quantity, appliance_hours;
+        private EditText applianceWatts, applianceQuantity, applianceHours;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            linearLayout = itemView.findViewById(R.id.layout_item_appliance_calculation);
-            imageView = itemView.findViewById(R.id.image_view_appliance);
-            textView = itemView.findViewById(R.id.item_appliance);
-            appliance_quantity = itemView.findViewById(R.id.appliance_quantity);
-            appliance_watts = itemView.findViewById(R.id.appliance_watts);
-            appliance_hours = itemView.findViewById(R.id.appliance_hours);
+            linearLayout = itemView.findViewById(R.id.layoutItemApplianceCalculation);
+            imageView = itemView.findViewById(R.id.imageViewAppliance);
+            textView = itemView.findViewById(R.id.itemAppliance);
+            applianceQuantity = itemView.findViewById(R.id.applianceQuantity);
+            applianceWatts = itemView.findViewById(R.id.applianceWatts);
+            applianceHours = itemView.findViewById(R.id.applianceHours);
         }
     }
 

@@ -20,17 +20,17 @@ import myusarisoy.solarhomesystem.Adapter.InstructionsAdapter;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentInstructions extends Fragment {
-    @BindView(R.id.view_pager)
+    @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    @BindView(R.id.pager_indicator)
-    LinearLayout pager_indicator;
+    @BindView(R.id.pagerIndicator)
+    LinearLayout pagerIndicator;
 
     @BindView(R.id.button)
-    Button button_back;
+    Button buttonBack;
 
-    @BindView(R.id.button_next)
-    Button button_next;
+    @BindView(R.id.buttonNext)
+    Button buttonNext;
 
     FirebaseAuth firebaseAuth;
     private int currentPage;
@@ -59,47 +59,47 @@ public class FragmentInstructions extends Fragment {
         if (firebaseAuth.getCurrentUser() != null) {
             FragmentExperience fragmentExperience = new FragmentExperience();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
+                    .replace(R.id.layoutMain, fragmentExperience, "FragmentExperience")
                     .addToBackStack(null)
                     .commit();
         }
 
         adapter = new InstructionsAdapter(getContext());
 
-        viewPager = view.findViewById(R.id.view_pager);
+        viewPager = view.findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
         dotsIndicator(0);
 
         viewPager.addOnPageChangeListener(listener);
 
-        button_back = view.findViewById(R.id.button);
-        button_next = view.findViewById(R.id.button_next);
+        buttonBack = view.findViewById(R.id.button);
+        buttonNext = view.findViewById(R.id.buttonNext);
 
-        button_back.setEnabled(false);
-        button_back.setVisibility(View.GONE);
-        button_next.setEnabled(true);
-        button_next.setText(R.string.next);
+        buttonBack.setEnabled(false);
+        buttonBack.setVisibility(View.GONE);
+        buttonNext.setEnabled(true);
+        buttonNext.setText(R.string.next);
 
-        button_next.setOnClickListener(v -> {
-            if (button_next.getText().toString().equals(getResources().getString(R.string.finish))) {
+        buttonNext.setOnClickListener(v -> {
+            if (buttonNext.getText().toString().equals(getResources().getString(R.string.finish))) {
                 FragmentWelcome fragmentWelcome = new FragmentWelcome();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                        .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
             } else
                 viewPager.setCurrentItem(currentPage + 1);
         });
 
-        button_back.setOnClickListener(v -> viewPager.setCurrentItem(currentPage - 1));
+        buttonBack.setOnClickListener(v -> viewPager.setCurrentItem(currentPage - 1));
 
         return view;
     }
 
     public void dotsIndicator(int position) {
-        pager_indicator = view.findViewById(R.id.pager_indicator);
-        pager_indicator.removeAllViews();
+        pagerIndicator = view.findViewById(R.id.pagerIndicator);
+        pagerIndicator.removeAllViews();
 
         dots = new TextView[3];
 
@@ -109,7 +109,7 @@ public class FragmentInstructions extends Fragment {
             dots[i].setTextSize(35);
             dots[i].setTextColor(getResources().getColor(R.color.light_gray));
 
-            pager_indicator.addView(dots[i]);
+            pagerIndicator.addView(dots[i]);
         }
         if (dots.length > 0)
             dots[position].setTextColor(getResources().getColor(R.color.colorAccent));
@@ -123,31 +123,31 @@ public class FragmentInstructions extends Fragment {
 
         @Override
         public void onPageSelected(int i) {
-            button_back = view.findViewById(R.id.button);
-            button_next = view.findViewById(R.id.button_next);
+            buttonBack = view.findViewById(R.id.button);
+            buttonNext = view.findViewById(R.id.buttonNext);
 
             dotsIndicator(i);
 
             currentPage = i;
 
             if (i == 0) {
-                button_back.setEnabled(false);
-                button_back.setVisibility(View.GONE);
-                button_next.setEnabled(true);
-                button_next.setText(R.string.next);
+                buttonBack.setEnabled(false);
+                buttonBack.setVisibility(View.GONE);
+                buttonNext.setEnabled(true);
+                buttonNext.setText(R.string.next);
             } else if (i == dots.length - 1) {
-                button_back.setEnabled(true);
-                button_back.setVisibility(View.VISIBLE);
-                button_back.setText(R.string.back);
-                button_next.setEnabled(true);
-                button_next.setText(R.string.finish);
+                buttonBack.setEnabled(true);
+                buttonBack.setVisibility(View.VISIBLE);
+                buttonBack.setText(R.string.back);
+                buttonNext.setEnabled(true);
+                buttonNext.setText(R.string.finish);
 
             } else {
-                button_back.setEnabled(true);
-                button_back.setVisibility(View.VISIBLE);
-                button_back.setText(R.string.back);
-                button_next.setEnabled(true);
-                button_next.setText(R.string.next);
+                buttonBack.setEnabled(true);
+                buttonBack.setVisibility(View.VISIBLE);
+                buttonBack.setText(R.string.back);
+                buttonNext.setEnabled(true);
+                buttonNext.setText(R.string.next);
             }
         }
 

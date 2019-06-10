@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import myusarisoy.solarhomesystem.Data.AppliancePowerConsumption;
+import myusarisoy.solarhomesystem.Model.AppliancePowerConsumption;
 import myusarisoy.solarhomesystem.R;
 
 @EqualsAndHashCode(callSuper = false)
@@ -74,7 +74,7 @@ public class RecyclerViewPowerConsumptionAdapter extends RecyclerView.Adapter<Re
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.image_view);
+            imageView = itemView.findViewById(R.id.imageView);
             textViewTitle = itemView.findViewById(R.id.title);
             textViewText = itemView.findViewById(R.id.text);
         }

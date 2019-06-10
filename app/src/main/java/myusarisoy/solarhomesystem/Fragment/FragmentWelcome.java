@@ -22,20 +22,20 @@ import myusarisoy.solarhomesystem.R;
 import myusarisoy.solarhomesystem.ThemeSelector.SharedPreferencesTheme;
 
 public class FragmentWelcome extends Fragment {
-    @BindView(R.id.image_language)
+    @BindView(R.id.imageLanguage)
     ImageView language;
 
-    @BindView(R.id.image_theme)
-    ImageView image_theme;
+    @BindView(R.id.imageTheme)
+    ImageView imageTheme;
 
-    @BindView(R.id.button_create_account)
-    Button button_create_account;
+    @BindView(R.id.buttonCreateAccount)
+    Button buttonCreateAccount;
 
-    @BindView(R.id.tv_login)
-    TextView tv_login;
+    @BindView(R.id.tvLogin)
+    TextView tvLogin;
 
     AppCompatDialog languageDialog, themeDialog;
-    private ImageView img_english, img_german, img_turkish, img_light, img_dark;
+    private ImageView imgEnglish, imgGerman, imgTurkish, imgLight, imgDark;
     SharedPreferencesTheme sharedPreferencesTheme;
     View view;
 
@@ -79,8 +79,8 @@ public class FragmentWelcome extends Fragment {
     }
 
     private void changeTheme() {
-        image_theme = view.findViewById(R.id.image_theme);
-        image_theme.setOnClickListener(new View.OnClickListener() {
+        imageTheme = view.findViewById(R.id.imageTheme);
+        imageTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -96,10 +96,10 @@ public class FragmentWelcome extends Fragment {
                 themeDialog.getWindow().setAttributes(params);
                 themeDialog.show();
 
-                img_light = themeDialog.findViewById(R.id.img_light);
-                img_dark = themeDialog.findViewById(R.id.img_dark);
+                imgLight = themeDialog.findViewById(R.id.imgLight);
+                imgDark = themeDialog.findViewById(R.id.imgDark);
 
-                img_light.setOnClickListener(new View.OnClickListener() {
+                imgLight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         themeDialog.dismiss();
@@ -109,7 +109,7 @@ public class FragmentWelcome extends Fragment {
                     }
                 });
 
-                img_dark.setOnClickListener(new View.OnClickListener() {
+                imgDark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         themeDialog.dismiss();
@@ -123,7 +123,7 @@ public class FragmentWelcome extends Fragment {
     }
 
     private void languageClick() {
-        language = view.findViewById(R.id.image_language);
+        language = view.findViewById(R.id.imageLanguage);
 
         language.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,11 +141,11 @@ public class FragmentWelcome extends Fragment {
                 languageDialog.getWindow().setAttributes(params);
                 languageDialog.show();
 
-                img_english = languageDialog.findViewById(R.id.img_english);
-//                img_german = languageDialog.findViewById(R.id.img_german);
-                img_turkish = languageDialog.findViewById(R.id.img_turkish);
+                imgEnglish = languageDialog.findViewById(R.id.imgEnglish);
+//                imgGerman = languageDialog.findViewById(R.id.imgGerman);
+                imgTurkish = languageDialog.findViewById(R.id.imgTurkish);
 
-                img_english.setOnClickListener(new View.OnClickListener() {
+                imgEnglish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         languageDialog.dismiss();
@@ -154,7 +154,7 @@ public class FragmentWelcome extends Fragment {
                     }
                 });
 
-//                img_german.setOnClickListener(new View.OnClickListener() {
+//                imgGerman.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
 //                        languageDialog.dismiss();
@@ -163,7 +163,7 @@ public class FragmentWelcome extends Fragment {
 //                    }
 //                });
 
-                img_turkish.setOnClickListener(new View.OnClickListener() {
+                imgTurkish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         languageDialog.dismiss();
@@ -194,23 +194,23 @@ public class FragmentWelcome extends Fragment {
     }
 
     public void createAccount() {
-        button_create_account = view.findViewById(R.id.button_create_account);
-        button_create_account.setOnClickListener(v -> {
+        buttonCreateAccount = view.findViewById(R.id.buttonCreateAccount);
+        buttonCreateAccount.setOnClickListener(v -> {
             FragmentRegister fragmentRegister = new FragmentRegister();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentRegister, "FragmentRegister")
+                    .replace(R.id.layoutMain, fragmentRegister, "FragmentRegister")
                     .addToBackStack(null)
                     .commit();
         });
     }
 
     public void login() {
-        tv_login = view.findViewById(R.id.tv_login);
+        tvLogin = view.findViewById(R.id.tvLogin);
 
-        tv_login.setOnClickListener(v -> {
+        tvLogin.setOnClickListener(v -> {
             FragmentLogin fragmentLogin = new FragmentLogin();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentLogin, "FragmentLogin")
+                    .replace(R.id.layoutMain, fragmentLogin, "FragmentLogin")
                     .addToBackStack(null)
                     .commit();
         });

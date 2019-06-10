@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/select_a_theme"
+            android:text="@string/selectATheme"
             android:textColor="@color/orange"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -42,14 +42,13 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/text_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/please_select_a_theme"
+        android:text="@string/pleaseSelectATheme"
         android:textColor="?attr/textColor"
         android:textSize="17sp"
         tools:ignore="UnusedAttribute" />
@@ -63,7 +62,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/img_light"
+            android:id="@+id/imgLight"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
@@ -79,7 +78,7 @@
             android:background="@color/transparent"/>
 
         <ImageView
-            android:id="@+id/img_dark"
+            android:id="@+id/imgDark"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"

@@ -11,8 +11,8 @@ import myusarisoy.solarhomesystem.Fragment.FragmentSplash;
 import myusarisoy.solarhomesystem.R;
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.layout_main)
-    LinearLayout layout_main;
+    @BindView(R.id.layoutMain)
+    LinearLayout layoutMain;
 
     Context context;
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.layout_main, new FragmentSplash());
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.layoutMain, new FragmentSplash());
         fragmentTransaction.commit();
     }
 }

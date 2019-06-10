@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/location_type"
+            android:text="@string/locationType"
             android:textColor="@color/orange"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -48,7 +48,7 @@
         android:layout_margin="10dp"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/select_or_detect"
+        android:text="@string/selectOrDetect"
         android:textColor="?attr/textColor"
         android:textSize="17sp"
         tools:ignore="UnusedAttribute" />
@@ -60,7 +60,7 @@
         android:padding="10dp">
 
         <LinearLayout
-            android:id="@+id/layout_detect"
+            android:id="@+id/layoutDetect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -74,7 +74,7 @@
                 android:src="@drawable/detect_location" />
 
             <Button
-                android:id="@+id/cancel_location"
+                android:id="@+id/cancelLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -90,7 +90,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_search"
+            android:id="@+id/layoutSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -104,7 +104,7 @@
                 android:src="@drawable/search_location" />
 
             <Button
-                android:id="@+id/confirm_location"
+                android:id="@+id/confirmLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"

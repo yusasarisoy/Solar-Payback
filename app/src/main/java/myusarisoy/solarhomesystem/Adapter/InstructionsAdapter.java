@@ -39,8 +39,8 @@ public class InstructionsAdapter extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.page_instructions, container, false);
 
-        ImageView imageView = view.findViewById(R.id.image_view);
-        TextView textView = view.findViewById(R.id.text_view);
+        ImageView imageView = view.findViewById(R.id.imageView);
+        TextView textView = view.findViewById(R.id.textView);
 
         imageView.setImageResource(images[position]);
         textView.setText(texts[position]);

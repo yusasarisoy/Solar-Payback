@@ -23,26 +23,26 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentLogin extends Fragment {
-    @BindView(R.id.layout_login)
-    LinearLayout layout_login;
+    @BindView(R.id.layoutLogin)
+    LinearLayout layoutLogin;
 
-    @BindView(R.id.img_go_back)
-    ImageView go_back;
+    @BindView(R.id.imgGoBack)
+    ImageView goBack;
 
-    @BindView(R.id.et_login_mail)
-    EditText login_mail;
+    @BindView(R.id.etLoginMail)
+    EditText loginMail;
 
-    @BindView(R.id.et_login_password)
-    EditText login_password;
+    @BindView(R.id.etLoginPassword)
+    EditText loginPassword;
 
-    @BindView(R.id.show_login_password)
-    ImageView show_password;
+    @BindView(R.id.showLoginPassword)
+    ImageView showPassword;
 
-    @BindView(R.id.tv_forgot_password)
-    TextView forgot_password;
+    @BindView(R.id.tvForgotPassword)
+    TextView forgotPassword;
 
-    @BindView(R.id.button_login)
-    Button button_login;
+    @BindView(R.id.buttonLogin)
+    Button buttonLogin;
 
     boolean isLoginPasswordVisible = false;
     FirebaseAuth firebaseAuth;
@@ -70,7 +70,7 @@ public class FragmentLogin extends Fragment {
         if (firebaseAuth.getCurrentUser() != null) {
             FragmentExperience fragmentExperience = new FragmentExperience();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
+                    .replace(R.id.layoutMain, fragmentExperience, "FragmentExperience")
                     .addToBackStack(null)
                     .commit();
         }
@@ -91,66 +91,66 @@ public class FragmentLogin extends Fragment {
     }
 
     private void goBack() {
-        go_back = view.findViewById(R.id.img_go_back);
-        go_back.setOnClickListener(v -> getFragmentManager().popBackStackImmediate());
+        goBack = view.findViewById(R.id.imgGoBack);
+        goBack.setOnClickListener(v -> getFragmentManager().popBackStackImmediate());
     }
 
     private void showLoginPassword() {
-        login_password = view.findViewById(R.id.et_login_password);
-        show_password = view.findViewById(R.id.show_login_password);
+        loginPassword = view.findViewById(R.id.etLoginPassword);
+        showPassword = view.findViewById(R.id.showLoginPassword);
 
-        show_password.setOnClickListener(v -> {
+        showPassword.setOnClickListener(v -> {
             if (!isLoginPasswordVisible) {
                 isLoginPasswordVisible = true;
-                show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye));
-                login_password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                login_password.setSelection(login_password.length());
+                showPassword.setImageDrawable(getResources().getDrawable(R.drawable.eye));
+                loginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                loginPassword.setSelection(loginPassword.length());
             } else {
                 isLoginPasswordVisible = false;
-                show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye_active));
-                login_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                login_password.setSelection(login_password.length());
+                showPassword.setImageDrawable(getResources().getDrawable(R.drawable.eye_active));
+                loginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                loginPassword.setSelection(loginPassword.length());
             }
 
         });
     }
 
     private void forgotPassword() {
-        forgot_password = view.findViewById(R.id.tv_forgot_password);
+        forgotPassword = view.findViewById(R.id.tvForgotPassword);
 
-        forgot_password.setOnClickListener(v -> {
+        forgotPassword.setOnClickListener(v -> {
             FragmentForgotPassword fragmentForgotPassword = new FragmentForgotPassword();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentForgotPassword, "FragmentForgotPassword")
+                    .replace(R.id.layoutMain, fragmentForgotPassword, "FragmentForgotPassword")
                     .addToBackStack(null)
                     .commit();
         });
     }
 
     private void login() {
-        login_mail = view.findViewById(R.id.et_login_mail);
-        login_password = view.findViewById(R.id.et_login_password);
-        button_login = view.findViewById(R.id.button_login);
+        loginMail = view.findViewById(R.id.etLoginMail);
+        loginPassword = view.findViewById(R.id.etLoginPassword);
+        buttonLogin = view.findViewById(R.id.buttonLogin);
 
-        button_login.setOnClickListener(v -> {
+        buttonLogin.setOnClickListener(v -> {
             final ProgressDialog progressDialog = ProgressDialog.show(getContext(),
-                    getResources().getString(R.string.login), getResources().getString(R.string.please_wait), true, true);
+                    getResources().getString(R.string.login), getResources().getString(R.string.pleaseWait), true, true);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(false);
             progressDialog.setCanceledOnTouchOutside(false);
 
-            mail = login_mail.getText().toString();
-            password = login_password.getText().toString();
+            mail = loginMail.getText().toString();
+            password = loginPassword.getText().toString();
 
             if (TextUtils.isEmpty(mail)) {
                 progressDialog.dismiss();
-                showSnackbar(getResources().getString(R.string.enter_email));
+                showSnackbar(getResources().getString(R.string.enterEmail));
                 return;
             }
 
             if (TextUtils.isEmpty(password)) {
                 progressDialog.dismiss();
-                showSnackbar(getResources().getString(R.string.enter_password));
+                showSnackbar(getResources().getString(R.string.enterPassword));
                 return;
             }
 
@@ -163,13 +163,13 @@ public class FragmentLogin extends Fragment {
                 if (!task.isSuccessful()) {
                     // there was an error
                     if (password.length() < 6)
-                        showSnackbar(getResources().getString(R.string.six_digits));
+                        showSnackbar(getResources().getString(R.string.sixDigits));
                     else
-                        showSnackbar(getResources().getString(R.string.wrong_password));
+                        showSnackbar(getResources().getString(R.string.wrongPassword));
                 } else {
                     FragmentExperience fragmentExperience = new FragmentExperience();
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
+                            .replace(R.id.layoutMain, fragmentExperience, "FragmentExperience")
                             .addToBackStack(null)
                             .commit();
                 }
@@ -178,9 +178,9 @@ public class FragmentLogin extends Fragment {
     }
 
     public void showSnackbar(String text) {
-        layout_login = view.findViewById(R.id.layout_login);
+        layoutLogin = view.findViewById(R.id.layoutLogin);
 
-        Snackbar snackbar = Snackbar.make(layout_login, text, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(layoutLogin, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.backgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);

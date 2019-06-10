@@ -3,10 +3,10 @@
     <color name="colorPrimary">#ffcd56</color>
     <color name="colorPrimaryDark">#4f3b1b</color>
     <color name="colorAccent">#ffcd56</color>
-    <color name="core_white">#FFF</color>
-    <color name="core_black">#000</color>
-    <color name="light_white">#ECECEC</color>
-    <color name="dark_slate_gray">#414141</color>
+    <color name="coreWhite">#FFF</color>
+    <color name="coreBlack">#000</color>
+    <color name="lightWhite">#ECECEC</color>
+    <color name="darkSlateGray">#414141</color>
     <color name="red">#ff0000</color>
     <color name="orange">#ffa64d</color>
     <color name="yellow">#ffff00</color>

@@ -5,9 +5,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundColor">@color/light_white</item>
+        <item name="backgroundColor">@color/lightWhite</item>
         <item name="cardBackgroundColor">@color/transparent</item>
-        <item name="textColor">@color/core_black</item>
+        <item name="textColor">@color/coreBlack</item>
     </style>
 
     <!-- Dark theme. -->

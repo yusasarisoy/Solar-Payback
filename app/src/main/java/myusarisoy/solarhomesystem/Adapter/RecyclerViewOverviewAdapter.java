@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import myusarisoy.solarhomesystem.Data.ApplianceOverview;
+import myusarisoy.solarhomesystem.Model.ApplianceOverview;
 import myusarisoy.solarhomesystem.R;
 
 @EqualsAndHashCode(callSuper = false)
@@ -69,9 +69,9 @@ public class RecyclerViewOverviewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewMonth = itemView.findViewById(R.id.item_month);
-            textViewPayment = itemView.findViewById(R.id.item_payment);
-            textViewPowerConsumption = itemView.findViewById(R.id.item_power_consumption);
+            textViewMonth = itemView.findViewById(R.id.itemMonth);
+            textViewPayment = itemView.findViewById(R.id.itemPayment);
+            textViewPowerConsumption = itemView.findViewById(R.id.itemPowerConsumption);
         }
     }
 

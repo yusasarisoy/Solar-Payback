@@ -25,45 +25,45 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.Adapter.RecyclerViewEnergySaverTipsAdapter;
 import myusarisoy.solarhomesystem.Adapter.RecyclerViewOverviewAppliancesAdapter;
 import myusarisoy.solarhomesystem.Adapter.RecyclerViewPowerConsumptionAdapter;
-import myusarisoy.solarhomesystem.Data.ApplianceEnergySaverTips;
-import myusarisoy.solarhomesystem.Data.ApplianceOverviewItem;
-import myusarisoy.solarhomesystem.Data.AppliancePowerConsumption;
+import myusarisoy.solarhomesystem.Model.ApplianceEnergySaverTips;
+import myusarisoy.solarhomesystem.Model.ApplianceOverviewItem;
+import myusarisoy.solarhomesystem.Model.AppliancePowerConsumption;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentOverviewAppliances extends Fragment {
-    @BindView(R.id.layout_overview_appliances)
+    @BindView(R.id.layoutOverviewAppliances)
     LinearLayout linearLayout;
 
-    @BindView(R.id.layout_appliance_overview)
+    @BindView(R.id.layoutApplianceOverview)
     LinearLayout layout_appliance_overview;
 
-    @BindView(R.id.recycler_view_overview)
+    @BindView(R.id.recyclerViewOverview)
     RecyclerView recyclerView;
 
-    @BindView(R.id.image_view_consumption)
+    @BindView(R.id.imageViewConsumption)
     ImageView consumption;
 
-    @BindView(R.id.recycler_view_power_consumption)
+    @BindView(R.id.recyclerViewPowerConsumption)
     RecyclerView recyclerViewPowerConsumption;
 
-    @BindView(R.id.image_view_tips)
+    @BindView(R.id.imageViewTips)
     ImageView tips;
 
-    @BindView(R.id.recycler_view_energy_saver_tips)
+    @BindView(R.id.recyclerViewEnergySaverTips)
     RecyclerView recyclerViewEnergySaverTips;
 
-    @BindView(R.id.button_next)
-    Button button_next;
+    @BindView(R.id.buttonNext)
+    Button buttonNext;
 
-    @BindView(R.id.layout_on_going)
-    LinearLayout layout_on_going;
+    @BindView(R.id.layoutOnGoing)
+    LinearLayout layoutOnGoing;
 
-    @BindView(R.id.image_main_page)
-    ImageView image_main_page;
+    @BindView(R.id.imageMainPage)
+    ImageView imageMainPage;
 
-    AppCompatDialog dialog_power_consumption, dialog_energy_saver_tips, dialog_main_page, annualBillingDialog, dialog_area;
-    Button ok_power_consumption, ok_energy_saver_tips, no_main_page, yes_main_page, cancel_back, confirm_back, cancelBackArea, confirmBackArea;
-    EditText area_place_info;
+    AppCompatDialog dialogPowerConsumption, dialogEnergySaverTips, dialogMainPage, annualBillingDialog, dialogArea;
+    Button okPowerConsumption, okEnergySaverTips, noMainPage, yesMainPage, cancelBack, confirmBack, cancelBackArea, confirmBackArea;
+    EditText areaPlaceInfo;
     private RecyclerViewOverviewAppliancesAdapter adapter;
     private RecyclerViewPowerConsumptionAdapter adapterPowerConsumption;
     private RecyclerViewEnergySaverTipsAdapter adapterEnergySaverTips;
@@ -73,10 +73,10 @@ public class FragmentOverviewAppliances extends Fragment {
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
     public ArrayList<Integer> integerArray2 = new ArrayList<>();
-    public EditText appliance_annual_billing;
+    public EditText applianceAnnualBilling;
     public String cityLocation, grid;
     public double irradianceLocation;
-    int totalConsumption, mostConsumption = 0, annualBilling, area_info;
+    int totalConsumption, mostConsumption = 0, annualBilling, areaInfo;
     View view;
 
     public static FragmentOverviewAppliances newInstance(Object... objects) {
@@ -129,7 +129,7 @@ public class FragmentOverviewAppliances extends Fragment {
     }
 
     public void initRecyclerView() {
-        recyclerView = view.findViewById(R.id.recycler_view_overview);
+        recyclerView = view.findViewById(R.id.recyclerViewOverview);
 
         for (int i = 0; i < integerArray.size(); i++) {
             ApplianceOverviewItem item = new ApplianceOverviewItem(integerArray.get(i), stringArray.get(i), integerArray2.get(i));
@@ -144,7 +144,7 @@ public class FragmentOverviewAppliances extends Fragment {
     }
 
     private void setAdapter() {
-        recyclerView = view.findViewById(R.id.recycler_view_overview);
+        recyclerView = view.findViewById(R.id.recyclerViewOverview);
 
         adapter = new RecyclerViewOverviewAppliancesAdapter(applianceOverview, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -160,51 +160,51 @@ public class FragmentOverviewAppliances extends Fragment {
     private void enterTheAreaOfYourPlace() {
         android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
         reservationBuilder.setView(R.layout.dialog_area);
-        dialog_area = reservationBuilder.create();
-        WindowManager.LayoutParams params = dialog_area.getWindow().getAttributes();
+        dialogArea = reservationBuilder.create();
+        WindowManager.LayoutParams params = dialogArea.getWindow().getAttributes();
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
         params.width = (int) (width * 0.9);
         params.height = (int) (height * 0.9);
-        dialog_area.getWindow().setAttributes(params);
-        dialog_area.show();
+        dialogArea.getWindow().setAttributes(params);
+        dialogArea.show();
 
-        area_place_info = dialog_area.findViewById(R.id.area_place_info);
-        cancelBackArea = dialog_area.findViewById(R.id.cancel_back);
-        confirmBackArea = dialog_area.findViewById(R.id.confirm_back);
+        areaPlaceInfo = dialogArea.findViewById(R.id.areaPlaceInfo);
+        cancelBackArea = dialogArea.findViewById(R.id.cancelBack);
+        confirmBackArea = dialogArea.findViewById(R.id.confirmBack);
 
-        cancelBackArea.setOnClickListener(v1 -> dialog_area.dismiss());
+        cancelBackArea.setOnClickListener(v1 -> dialogArea.dismiss());
 
         confirmBackArea.setOnClickListener(v -> {
-            if (!area_place_info.getText().toString().equals("")) {
-                dialog_area.dismiss();
-                area_info = Integer.parseInt(area_place_info.getText().toString());
+            if (!areaPlaceInfo.getText().toString().equals("")) {
+                dialogArea.dismiss();
+                areaInfo = Integer.parseInt(areaPlaceInfo.getText().toString());
             }
         });
     }
 
     public void initRecyclerViewPowerConsumption() {
-        recyclerViewPowerConsumption = dialog_power_consumption.findViewById(R.id.recycler_view_power_consumption);
+        recyclerViewPowerConsumption = dialogPowerConsumption.findViewById(R.id.recyclerViewPowerConsumption);
 
-        AppliancePowerConsumption airConditioner = new AppliancePowerConsumption(R.drawable.air_conditioner, "Air Conditioner", getResources().getString(R.string.air_conditioner_consumption_text), getResources().getColor(R.color.blue));
+        AppliancePowerConsumption airConditioner = new AppliancePowerConsumption(R.drawable.air_conditioner, "Air Conditioner", getResources().getString(R.string.airConditionerConsumptionText), getResources().getColor(R.color.blue));
         appliancePowerConsumptions.add(airConditioner);
 
-        AppliancePowerConsumption waterHeater = new AppliancePowerConsumption(R.drawable.water_heater, "Water Heater", getResources().getString(R.string.water_heater_consumption_text), getResources().getColor(R.color.dark_slate_gray));
+        AppliancePowerConsumption waterHeater = new AppliancePowerConsumption(R.drawable.water_heater, "Water Heater", getResources().getString(R.string.waterHeaterConsumptionText), getResources().getColor(R.color.darkSlateGray));
         appliancePowerConsumptions.add(waterHeater);
 
-        AppliancePowerConsumption fridge = new AppliancePowerConsumption(R.drawable.fridge, "Fridge", getResources().getString(R.string.fridge_consumption_text), getResources().getColor(R.color.green));
+        AppliancePowerConsumption fridge = new AppliancePowerConsumption(R.drawable.fridge, "Fridge", getResources().getString(R.string.fridgeConsumptionText), getResources().getColor(R.color.green));
         appliancePowerConsumptions.add(fridge);
 
-        AppliancePowerConsumption lights = new AppliancePowerConsumption(R.drawable.lights, "Lights", getResources().getString(R.string.lights_consumption_text), getResources().getColor(R.color.orange));
+        AppliancePowerConsumption lights = new AppliancePowerConsumption(R.drawable.lights, "Lights", getResources().getString(R.string.lightsConsumptionText), getResources().getColor(R.color.orange));
         appliancePowerConsumptions.add(lights);
 
         adapterPowerConsumption.notifyDataSetChanged();
     }
 
     private void setAdapterPowerConsumption() {
-        recyclerViewPowerConsumption = dialog_power_consumption.findViewById(R.id.recycler_view_power_consumption);
+        recyclerViewPowerConsumption = dialogPowerConsumption.findViewById(R.id.recyclerViewPowerConsumption);
 
         adapterPowerConsumption = new RecyclerViewPowerConsumptionAdapter(appliancePowerConsumptions, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -218,25 +218,25 @@ public class FragmentOverviewAppliances extends Fragment {
     }
 
     public void initRecyclerViewEnergySaverTips() {
-        recyclerViewEnergySaverTips = dialog_energy_saver_tips.findViewById(R.id.recycler_view_energy_saver_tips);
+        recyclerViewEnergySaverTips = dialogEnergySaverTips.findViewById(R.id.recyclerViewEnergySaverTips);
 
-        ApplianceEnergySaverTips airConditioner = new ApplianceEnergySaverTips(R.drawable.air_conditioner, "Air Conditioner", getResources().getString(R.string.air_conditioner_saver_text), getResources().getColor(R.color.blue));
+        ApplianceEnergySaverTips airConditioner = new ApplianceEnergySaverTips(R.drawable.air_conditioner, "Air Conditioner", getResources().getString(R.string.airConditionerSaverText), getResources().getColor(R.color.blue));
         applianceEnergySaverTips.add(airConditioner);
 
-        ApplianceEnergySaverTips waterHeater = new ApplianceEnergySaverTips(R.drawable.water_heater, "Water Heater", getResources().getString(R.string.water_heater_saver_text), getResources().getColor(R.color.dark_slate_gray));
+        ApplianceEnergySaverTips waterHeater = new ApplianceEnergySaverTips(R.drawable.water_heater, "Water Heater", getResources().getString(R.string.waterHeaterSaverText), getResources().getColor(R.color.darkSlateGray));
         applianceEnergySaverTips.add(waterHeater);
 
-        ApplianceEnergySaverTips fridge = new ApplianceEnergySaverTips(R.drawable.fridge, "Fridge", getResources().getString(R.string.fridge_saver_text), getResources().getColor(R.color.green));
+        ApplianceEnergySaverTips fridge = new ApplianceEnergySaverTips(R.drawable.fridge, "Fridge", getResources().getString(R.string.fridgeSaverText), getResources().getColor(R.color.green));
         applianceEnergySaverTips.add(fridge);
 
-        ApplianceEnergySaverTips lights = new ApplianceEnergySaverTips(R.drawable.lights, "Lights", getResources().getString(R.string.lights_saver_text), getResources().getColor(R.color.orange));
+        ApplianceEnergySaverTips lights = new ApplianceEnergySaverTips(R.drawable.lights, "Lights", getResources().getString(R.string.lightsSaverText), getResources().getColor(R.color.orange));
         applianceEnergySaverTips.add(lights);
 
         adapterEnergySaverTips.notifyDataSetChanged();
     }
 
     private void setAdapterEnergySaverTips() {
-        recyclerViewEnergySaverTips = dialog_energy_saver_tips.findViewById(R.id.recycler_view_energy_saver_tips);
+        recyclerViewEnergySaverTips = dialogEnergySaverTips.findViewById(R.id.recyclerViewEnergySaverTips);
 
         adapterEnergySaverTips = new RecyclerViewEnergySaverTipsAdapter(applianceEnergySaverTips, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -250,32 +250,32 @@ public class FragmentOverviewAppliances extends Fragment {
     }
 
     private void showConsumption() {
-        consumption = view.findViewById(R.id.image_view_consumption);
+        consumption = view.findViewById(R.id.imageViewConsumption);
         consumption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
                 reservationBuilder.setView(R.layout.layout_top_power_consumption);
-                dialog_power_consumption = reservationBuilder.create();
-                WindowManager.LayoutParams params = dialog_power_consumption.getWindow().getAttributes();
+                dialogPowerConsumption = reservationBuilder.create();
+                WindowManager.LayoutParams params = dialogPowerConsumption.getWindow().getAttributes();
                 DisplayMetrics displayMetrics = new DisplayMetrics();
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
                 int width = displayMetrics.widthPixels;
                 int height = displayMetrics.heightPixels;
                 params.width = (int) (width * 0.9);
                 params.height = (int) (height * 0.9);
-                dialog_power_consumption.getWindow().setAttributes(params);
-                dialog_power_consumption.show();
+                dialogPowerConsumption.getWindow().setAttributes(params);
+                dialogPowerConsumption.show();
 
                 setAdapterPowerConsumption();
                 initRecyclerViewPowerConsumption();
 
-                ok_power_consumption = dialog_power_consumption.findViewById(R.id.ok_power_consumption);
+                okPowerConsumption = dialogPowerConsumption.findViewById(R.id.okPowerConsumption);
 
-                ok_power_consumption.setOnClickListener(new View.OnClickListener() {
+                okPowerConsumption.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog_power_consumption.dismiss();
+                        dialogPowerConsumption.dismiss();
                     }
                 });
             }
@@ -283,32 +283,32 @@ public class FragmentOverviewAppliances extends Fragment {
     }
 
     private void showTips() {
-        tips = view.findViewById(R.id.image_view_tips);
+        tips = view.findViewById(R.id.imageViewTips);
         tips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
                 reservationBuilder.setView(R.layout.layout_energy_saver_tips);
-                dialog_energy_saver_tips = reservationBuilder.create();
-                WindowManager.LayoutParams params = dialog_energy_saver_tips.getWindow().getAttributes();
+                dialogEnergySaverTips = reservationBuilder.create();
+                WindowManager.LayoutParams params = dialogEnergySaverTips.getWindow().getAttributes();
                 DisplayMetrics displayMetrics = new DisplayMetrics();
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
                 int width = displayMetrics.widthPixels;
                 int height = displayMetrics.heightPixels;
                 params.width = (int) (width * 0.9);
                 params.height = (int) (height * 0.9);
-                dialog_energy_saver_tips.getWindow().setAttributes(params);
-                dialog_energy_saver_tips.show();
+                dialogEnergySaverTips.getWindow().setAttributes(params);
+                dialogEnergySaverTips.show();
 
                 setAdapterEnergySaverTips();
                 initRecyclerViewEnergySaverTips();
 
-                ok_energy_saver_tips = dialog_energy_saver_tips.findViewById(R.id.ok_energy_saver_tips);
+                okEnergySaverTips = dialogEnergySaverTips.findViewById(R.id.ok_energy_saver_tips);
 
-                ok_energy_saver_tips.setOnClickListener(new View.OnClickListener() {
+                okEnergySaverTips.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog_energy_saver_tips.dismiss();
+                        dialogEnergySaverTips.dismiss();
                     }
                 });
             }
@@ -316,8 +316,8 @@ public class FragmentOverviewAppliances extends Fragment {
     }
 
     private void gotoPanels() {
-        button_next = view.findViewById(R.id.button_next);
-        button_next.setOnClickListener(new View.OnClickListener() {
+        buttonNext = view.findViewById(R.id.buttonNext);
+        buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -333,26 +333,26 @@ public class FragmentOverviewAppliances extends Fragment {
                 annualBillingDialog.getWindow().setAttributes(params);
                 annualBillingDialog.show();
 
-                appliance_annual_billing = annualBillingDialog.findViewById(R.id.appliance_annual_billing);
-                cancel_back = annualBillingDialog.findViewById(R.id.cancel_back);
-                confirm_back = annualBillingDialog.findViewById(R.id.confirm_back);
+                applianceAnnualBilling = annualBillingDialog.findViewById(R.id.applianceAnnualBilling);
+                cancelBack = annualBillingDialog.findViewById(R.id.cancelBack);
+                confirmBack = annualBillingDialog.findViewById(R.id.confirmBack);
 
-                cancel_back.setOnClickListener(new View.OnClickListener() {
+                cancelBack.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         annualBillingDialog.dismiss();
                     }
                 });
 
-                confirm_back.setOnClickListener(new View.OnClickListener() {
+                confirmBack.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (appliance_annual_billing.getText().toString().isEmpty() || appliance_annual_billing.getText().toString().equals("0"))
-                            showSnackbar(getResources().getString(R.string.valid_amount));
+                        if (applianceAnnualBilling.getText().toString().isEmpty() || applianceAnnualBilling.getText().toString().equals("0"))
+                            showSnackbar(getResources().getString(R.string.validAmount));
                         else {
                             annualBillingDialog.dismiss();
 
-                            annualBilling = Integer.parseInt(appliance_annual_billing.getText().toString());
+                            annualBilling = Integer.parseInt(applianceAnnualBilling.getText().toString());
 
                             if (getArguments().getString("Grid").equals("On-Grid")) {
                                 FragmentPanels fragmentPanels = new FragmentPanels();
@@ -363,11 +363,11 @@ public class FragmentOverviewAppliances extends Fragment {
                                 bundle.putInt("TotalPayment", annualBilling);
                                 bundle.putInt("TotalConsumption", totalConsumption);
                                 bundle.putString("Grid", grid);
-                                bundle.putInt("AreaInfo", area_info);
+                                bundle.putInt("AreaInfo", areaInfo);
                                 bundle.putString("choice", getArguments().getString("choice"));
                                 fragmentPanels.setArguments(bundle);
                                 getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
+                                        .replace(R.id.layoutMain, fragmentPanels, "FragmentPanels")
                                         .commit();
                             } else if (getArguments().getString("Grid").equals("Off-Grid")) {
                                 FragmentPanels fragmentPanels = new FragmentPanels();
@@ -382,7 +382,7 @@ public class FragmentOverviewAppliances extends Fragment {
                                 bundle.putString("choice", getArguments().getString("choice"));
                                 fragmentPanels.setArguments(bundle);
                                 getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.layout_main, fragmentPanels, "FragmentPanels")
+                                        .replace(R.id.layoutMain, fragmentPanels, "FragmentPanels")
                                         .commit();
                             }
                         }
@@ -393,7 +393,7 @@ public class FragmentOverviewAppliances extends Fragment {
     }
 
     private void showSnackbar(String text) {
-        linearLayout = view.findViewById(R.id.layout_overview_appliances);
+        linearLayout = view.findViewById(R.id.layoutOverviewAppliances);
 
         Snackbar snackbar = Snackbar.make(linearLayout, text, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();

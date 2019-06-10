@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
+            android:text="@string/appName"
             android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -55,7 +55,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/grid_choice"
+        android:text="@string/gridChoice"
         android:textColor="?attr/textColor"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
@@ -83,7 +83,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_on_grid"
+                android:id="@+id/imgOnGrid"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/on_grid" />
@@ -95,7 +95,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/on_grid"
+                android:text="@string/onGrid"
                 android:textColor="?attr/textColor"
                 android:textSize="25sp"
                 tools:ignore="UnusedAttribute" />
@@ -121,7 +121,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_off_grid"
+                android:id="@+id/imgOffGrid"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/off_grid" />
@@ -133,7 +133,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/off_grid"
+                android:text="@string/offGrid"
                 android:textColor="?attr/textColor"
                 android:textSize="25sp"
                 tools:ignore="UnusedAttribute" />

@@ -10,7 +10,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/solar_energy"
-        android:label="@string/app_name"
+        android:label="@string/appName"
         android:largeHeap="true"
         android:roundIcon="@drawable/solar_energy"
         android:supportsRtl="true"

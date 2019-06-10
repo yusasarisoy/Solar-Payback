@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import myusarisoy.solarhomesystem.Data.ApplianceEnergySaverTips;
+import myusarisoy.solarhomesystem.Model.ApplianceEnergySaverTips;
 import myusarisoy.solarhomesystem.R;
 
 @EqualsAndHashCode(callSuper = false)
@@ -74,7 +74,7 @@ public class RecyclerViewEnergySaverTipsAdapter extends RecyclerView.Adapter<Rec
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.image_view);
+            imageView = itemView.findViewById(R.id.imageView);
             textViewTitle = itemView.findViewById(R.id.title);
             textViewText = itemView.findViewById(R.id.text);
         }

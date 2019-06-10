@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/sign_out"
+            android:text="@string/signOut"
             android:textColor="@color/red"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
-            android:text="@string/sure_to_sign_out"
+            android:text="@string/sureToSignOut"
             android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
@@ -68,7 +68,7 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/cancel_sign_out"
+            android:id="@+id/cancelSignOut"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -77,12 +77,12 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/no"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 
         <Button
-            android:id="@+id/confirm_sign_out"
+            android:id="@+id/confirmSignOut"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -91,7 +91,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/yes"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

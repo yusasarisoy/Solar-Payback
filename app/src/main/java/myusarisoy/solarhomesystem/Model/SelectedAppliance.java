@@ -1,14 +1,13 @@
-package myusarisoy.solarhomesystem.Data;
+package myusarisoy.solarhomesystem.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Data
-public class Appliance {
-    private boolean check;
+public class SelectedAppliance {
     private int imageResource;
     private String appliance;
 }

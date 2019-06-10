@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_add_appliance"
+    android:id="@+id/itemAddAppliance"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
@@ -35,7 +35,7 @@
             android:background="@color/transparent" />
 
         <ImageView
-            android:id="@+id/image_view_appliance"
+            android:id="@+id/imageViewAppliance"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -51,7 +51,7 @@
             android:background="@color/transparent" />
 
         <TextView
-            android:id="@+id/item_appliance"
+            android:id="@+id/itemAppliance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova"

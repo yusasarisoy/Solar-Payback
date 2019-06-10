@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/proxima_nova"
-                    android:text="@string/component_prices"
+                    android:text="@string/componentPrices"
                     android:textColor="@color/colorAccent"
                     android:textSize="25sp"
                     tools:ignore="UnusedAttribute" />
@@ -57,7 +57,7 @@
                 android:layout_margin="5dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/enter_prices"
+                android:text="@string/enterPrices"
                 android:textColor="?attr/textColor"
                 android:textSize="17sp"
                 tools:ignore="UnusedAttribute" />
@@ -87,7 +87,7 @@
                         tools:ignore="UnusedAttribute" />
 
                     <EditText
-                        android:id="@+id/heater_price"
+                        android:id="@+id/heaterPrice"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -97,7 +97,7 @@
                         android:gravity="center"
                         android:imeOptions="actionNext"
                         android:inputType="number"
-                        android:textColor="@color/core_black"
+                        android:textColor="@color/coreBlack"
                         android:textSize="23sp"
                         tools:ignore="UnusedAttribute"
                         tools:text="34244" />
@@ -124,7 +124,7 @@
                         tools:ignore="UnusedAttribute" />
 
                     <EditText
-                        android:id="@+id/inverter_price"
+                        android:id="@+id/inverterPrice"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -134,7 +134,7 @@
                         android:gravity="center"
                         android:imeOptions="actionNext"
                         android:inputType="number"
-                        android:textColor="@color/core_black"
+                        android:textColor="@color/coreBlack"
                         android:textSize="23sp"
                         tools:ignore="UnusedAttribute"
                         tools:text="34244" />
@@ -162,7 +162,7 @@
                         tools:ignore="UnusedAttribute" />
 
                     <EditText
-                        android:id="@+id/battery_price"
+                        android:id="@+id/batteryPrice"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -172,7 +172,7 @@
                         android:gravity="center"
                         android:imeOptions="actionNext"
                         android:inputType="number"
-                        android:textColor="@color/core_black"
+                        android:textColor="@color/coreBlack"
                         android:textSize="23sp"
                         tools:ignore="UnusedAttribute"
                         tools:text="34244" />
@@ -200,7 +200,7 @@
                         tools:ignore="UnusedAttribute" />
 
                     <EditText
-                        android:id="@+id/inspection_cost"
+                        android:id="@+id/inspectionCost"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -210,7 +210,7 @@
                         android:gravity="center"
                         android:imeOptions="actionNext"
                         android:inputType="number"
-                        android:textColor="@color/core_black"
+                        android:textColor="@color/coreBlack"
                         android:textSize="23sp"
                         tools:ignore="UnusedAttribute"
                         tools:text="34244" />
@@ -238,7 +238,7 @@
                         tools:ignore="UnusedAttribute" />
 
                     <EditText
-                        android:id="@+id/cleaning_cost"
+                        android:id="@+id/cleaningCost"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -248,7 +248,7 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="number"
-                        android:textColor="@color/core_black"
+                        android:textColor="@color/coreBlack"
                         android:textSize="23sp"
                         tools:ignore="UnusedAttribute"
                         tools:text="34244" />
@@ -272,7 +272,7 @@
                         android:fontFamily="@font/proxima_nova"
                         android:gravity="center"
                         android:text="@string/confirm"
-                        android:textColor="@color/light_white"
+                        android:textColor="@color/lightWhite"
                         android:textSize="20sp"
                         tools:ignore="UnusedAttribute" />
 

@@ -9,15 +9,15 @@
     tools:context=".Fragment.FragmentInstructions">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:id="@+id/pager_indicator"
+        android:id="@+id/pagerIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/view_pager"
+        android:layout_alignBottom="@id/viewPager"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:gravity="center"
@@ -43,7 +43,7 @@
         tools:text="@string/back" />
 
     <Button
-        android:id="@+id/button_next"
+        android:id="@+id/buttonNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

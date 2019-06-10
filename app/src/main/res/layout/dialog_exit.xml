@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/check_your_connection"
+            android:text="@string/checkYourConnection"
             android:textColor="@color/red"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -68,7 +68,7 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/exit_from_app"
+            android:id="@+id/exitFromApp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -78,7 +78,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/exit"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

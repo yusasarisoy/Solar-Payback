@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
+            android:text="@string/appName"
             android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -74,7 +74,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/beginner_layout"
+            android:id="@+id/beginnerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -85,7 +85,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_beginner"
+                android:id="@+id/imgBeginner"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/beginner" />
@@ -114,7 +114,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
-            android:id="@+id/expert_layout"
+            android:id="@+id/expertLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -125,7 +125,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_expert"
+                android:id="@+id/imgExpert"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/expert" />

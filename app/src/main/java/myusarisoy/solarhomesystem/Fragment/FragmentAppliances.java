@@ -1,10 +1,8 @@
 package myusarisoy.solarhomesystem.Fragment;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,23 +19,21 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import myusarisoy.solarhomesystem.Adapter.RecyclerViewApplianceAdapter;
 import myusarisoy.solarhomesystem.R;
-import myusarisoy.solarhomesystem.Data.SelectedAppliance;
+import myusarisoy.solarhomesystem.Model.SelectedAppliance;
 
 public class FragmentAppliances extends Fragment {
-    @BindView(R.id.layout_appliances)
-    LinearLayout layout_appliances;
-    @BindView(R.id.recycler_view_appliance)
+    @BindView(R.id.layoutAppliances)
+    LinearLayout layoutAppliances;
+
+    @BindView(R.id.recyclerViewAppliance)
     RecyclerView recyclerView;
 
-    @BindView(R.id.button_back)
-    Button button_back;
+    @BindView(R.id.buttonBack)
+    Button buttonBack;
 
-    @BindView(R.id.button_continue)
-    Button button_continue;
+    @BindView(R.id.buttonContinue)
+    Button buttonContinue;
 
-    private Button cancel_back, confirm_back;
-    private AppCompatDialog backDialog;
-    private CountDownTimer countDownTimer;
     private RecyclerViewApplianceAdapter adapter;
     private ArrayList<SelectedAppliance> selectedAppliancesList = new ArrayList<>();
     private ArrayList<Integer> consumptionList = new ArrayList<>();
@@ -88,7 +84,7 @@ public class FragmentAppliances extends Fragment {
     }
 
     private void setAdapter() {
-        recyclerView = view.findViewById(R.id.recycler_view_appliance);
+        recyclerView = view.findViewById(R.id.recyclerViewAppliance);
 
         adapter = new RecyclerViewApplianceAdapter(selectedAppliancesList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -102,7 +98,7 @@ public class FragmentAppliances extends Fragment {
     }
 
     public void initSelectedAppliances() {
-        recyclerView = view.findViewById(R.id.recycler_view_appliance);
+        recyclerView = view.findViewById(R.id.recyclerViewAppliance);
 
         for (int i = 0; i < arrayListName.size(); i++) {
             SelectedAppliance selectedAppliance = new SelectedAppliance(arrayListImage.get(i), arrayListName.get(i));
@@ -113,13 +109,13 @@ public class FragmentAppliances extends Fragment {
     }
 
     private void gotoGridChoice() {
-        button_continue = view.findViewById(R.id.button_continue);
+        buttonContinue = view.findViewById(R.id.buttonContinue);
 
         consumptionList = adapter.getData();
 
-        button_continue.setOnClickListener(v -> {
+        buttonContinue.setOnClickListener(v -> {
             if (consumptionList.size() != arrayListName.size())
-                showSnackbar(getResources().getString(R.string.complete_parts_appliances));
+                showSnackbar(getResources().getString(R.string.completePartsAppliances));
             else {
                 FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
                 Bundle bundle = new Bundle();
@@ -131,16 +127,16 @@ public class FragmentAppliances extends Fragment {
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentGridChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
+                        .replace(R.id.layoutMain, fragmentGridChoice, "FragmentGridChoice")
                         .commit();
             }
         });
     }
 
     public void showSnackbar(String text) {
-        layout_appliances = view.findViewById(R.id.layout_appliances);
+        layoutAppliances = view.findViewById(R.id.layoutAppliances);
 
-        Snackbar snackbar = Snackbar.make(layout_appliances, text, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(layoutAppliances, text, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.backgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);

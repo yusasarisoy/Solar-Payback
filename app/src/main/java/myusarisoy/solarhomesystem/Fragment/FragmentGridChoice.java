@@ -13,11 +13,11 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentGridChoice extends Fragment {
-    @BindView(R.id.img_on_grid)
-    ImageView on_grid;
+    @BindView(R.id.imgOnGrid)
+    ImageView onGrid;
 
-    @BindView(R.id.img_off_grid)
-    ImageView off_grid;
+    @BindView(R.id.imgOffGrid)
+    ImageView offGrid;
 
     public ArrayList<String> stringArray = new ArrayList<>();
     public ArrayList<Integer> integerArray = new ArrayList<>();
@@ -68,10 +68,10 @@ public class FragmentGridChoice extends Fragment {
     }
 
     private void gridChoice() {
-        on_grid = view.findViewById(R.id.img_on_grid);
-        off_grid = view.findViewById(R.id.img_off_grid);
+        onGrid = view.findViewById(R.id.imgOnGrid);
+        offGrid = view.findViewById(R.id.imgOffGrid);
 
-        on_grid.setOnClickListener(v -> {
+        onGrid.setOnClickListener(v -> {
             if (getArguments().getString("choice").equals("bill")) {
                 FragmentOverview fragmentOverview = new FragmentOverview();
                 Bundle bundle = new Bundle();
@@ -83,7 +83,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentOverview.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
+                        .replace(R.id.layoutMain, fragmentOverview, "FragmentOverview")
                         .commit();
             } else if (getArguments().getString("choice").equals("appliance")) {
                 FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
@@ -97,12 +97,12 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putString("choice", "appliance");
                 fragmentOverviewAppliances.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
+                        .replace(R.id.layoutMain, fragmentOverviewAppliances, "FragmentOverviewAppliances")
                         .commit();
             }
         });
 
-        off_grid.setOnClickListener(v -> {
+        offGrid.setOnClickListener(v -> {
             if (getArguments().getString("choice").equals("bill")) {
                 FragmentOverview fragmentOverview = new FragmentOverview();
                 Bundle bundle = new Bundle();
@@ -114,7 +114,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentOverview.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentOverview, "FragmentOverview")
+                        .replace(R.id.layoutMain, fragmentOverview, "FragmentOverview")
                         .commit();
             } else if (getArguments().getString("choice").equals("appliance")) {
                 FragmentOverviewAppliances fragmentOverviewAppliances = new FragmentOverviewAppliances();
@@ -128,7 +128,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putString("choice", "appliance");
                 fragmentOverviewAppliances.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentOverviewAppliances, "FragmentOverviewAppliances")
+                        .replace(R.id.layoutMain, fragmentOverviewAppliances, "FragmentOverviewAppliances")
                         .commit();
             }
         });

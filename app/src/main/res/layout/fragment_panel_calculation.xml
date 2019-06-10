@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_panel_calculation"
+    android:id="@+id/layoutPanelCalculation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
+            android:text="@string/appName"
             android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -50,7 +50,7 @@
         android:background="?attr/textColor" />
 
     <LinearLayout
-        android:id="@+id/layout_decisions"
+        android:id="@+id/layoutDecisions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -83,7 +83,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/selected_panel_energy"
+                android:id="@+id/selectedPanelEnergy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -126,7 +126,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/selected_panel_area"
+                android:id="@+id/selectedPanelArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -169,7 +169,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/selected_city"
+                android:id="@+id/selectedCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -212,7 +212,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/selected_city_irradiance"
+                android:id="@+id/selectedCityIrradiance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -255,7 +255,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/most_power_consumption"
+                android:id="@+id/mostPowerConsumption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -269,7 +269,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_results"
+        android:id="@+id/layoutResults"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -303,7 +303,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/produced_energy"
+                android:id="@+id/producedEnergy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -346,7 +346,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/required_panels"
+                android:id="@+id/requiredPanels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -389,7 +389,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/required_area"
+                android:id="@+id/requiredArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -432,7 +432,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/total_payment"
+                android:id="@+id/totalPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -451,7 +451,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
-            android:id="@+id/layout_extra_cost"
+            android:id="@+id/layoutExtraCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -477,7 +477,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/extra_cost"
+                android:id="@+id/extraCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -498,7 +498,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/layout_back"
+            android:id="@+id/layoutBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -508,7 +508,7 @@
             android:visibility="gone">
 
             <Button
-                android:id="@+id/button_back"
+                android:id="@+id/buttonBack"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="start"
@@ -525,7 +525,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_next"
+            android:id="@+id/layoutNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -534,7 +534,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_next"
+                android:id="@+id/buttonNext"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
@@ -551,7 +551,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_continue"
+            android:id="@+id/layoutContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -561,7 +561,7 @@
             android:visibility="gone">
 
             <Button
-                android:id="@+id/button_continue"
+                android:id="@+id/buttonContinue"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"

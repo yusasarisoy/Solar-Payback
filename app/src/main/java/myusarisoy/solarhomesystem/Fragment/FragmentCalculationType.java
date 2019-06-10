@@ -16,16 +16,16 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentCalculationType extends Fragment {
-    @BindView(R.id.bill_layout)
+    @BindView(R.id.billLayout)
     LinearLayout bill;
 
-    @BindView(R.id.appliances_layout)
+    @BindView(R.id.appliancesLayout)
     LinearLayout appliances;
 
     AppCompatDialog countryDialog;
     boolean turkey = false, usa = false;
-    Button confirm_country;
-    ImageView img_turkey, img_usa;
+    Button confirmCountry;
+    ImageView imgTurkey, imgUsa;
     String consumer, apiUrl;
     View view;
 
@@ -72,55 +72,55 @@ public class FragmentCalculationType extends Fragment {
         countryDialog.show();
         countryDialog.setCancelable(false);
 
-        img_turkey = countryDialog.findViewById(R.id.img_turkey);
-        img_usa = countryDialog.findViewById(R.id.img_usa);
-        confirm_country = countryDialog.findViewById(R.id.confirm_country);
+        imgTurkey = countryDialog.findViewById(R.id.imgTurkey);
+        imgUsa = countryDialog.findViewById(R.id.imgUsa);
+        confirmCountry = countryDialog.findViewById(R.id.confirmCountry);
 
-        img_turkey.setOnClickListener(new View.OnClickListener() {
+        imgTurkey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!turkey) {
                     turkey = true;
                     usa = false;
-                    confirm_country.setClickable(true);
-                    confirm_country.setFocusable(true);
-                    confirm_country.setBackgroundResource(R.color.green);
-                    img_turkey.setBackgroundResource(R.drawable.dark_shape_selected);
-                    img_usa.setBackgroundResource(R.color.transparent);
+                    confirmCountry.setClickable(true);
+                    confirmCountry.setFocusable(true);
+                    confirmCountry.setBackgroundResource(R.color.green);
+                    imgTurkey.setBackgroundResource(R.drawable.dark_shape_selected);
+                    imgUsa.setBackgroundResource(R.color.transparent);
                     apiUrl = "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions";
                 } else {
                     turkey = false;
-                    confirm_country.setClickable(false);
-                    confirm_country.setFocusable(false);
-                    confirm_country.setBackgroundResource(R.color.gray);
-                    img_turkey.setBackgroundResource(R.color.transparent);
+                    confirmCountry.setClickable(false);
+                    confirmCountry.setFocusable(false);
+                    confirmCountry.setBackgroundResource(R.color.gray);
+                    imgTurkey.setBackgroundResource(R.color.transparent);
                 }
             }
         });
 
-        img_usa.setOnClickListener(new View.OnClickListener() {
+        imgUsa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!usa) {
                     usa = true;
                     turkey = false;
-                    confirm_country.setClickable(true);
-                    confirm_country.setFocusable(true);
-                    confirm_country.setBackgroundResource(R.color.green);
-                    img_turkey.setBackgroundResource(R.color.transparent);
-                    img_usa.setBackgroundResource(R.drawable.dark_shape_selected);
+                    confirmCountry.setClickable(true);
+                    confirmCountry.setFocusable(true);
+                    confirmCountry.setBackgroundResource(R.color.green);
+                    imgTurkey.setBackgroundResource(R.color.transparent);
+                    imgUsa.setBackgroundResource(R.drawable.dark_shape_selected);
                     apiUrl = "https://private-5ec0c4-apiforsolarpaybackusa.apiary-mock.com/questions";
                 } else {
                     usa = false;
-                    confirm_country.setClickable(false);
-                    confirm_country.setFocusable(false);
-                    confirm_country.setBackgroundResource(R.color.gray);
-                    img_usa.setBackgroundResource(R.color.transparent);
+                    confirmCountry.setClickable(false);
+                    confirmCountry.setFocusable(false);
+                    confirmCountry.setBackgroundResource(R.color.gray);
+                    imgUsa.setBackgroundResource(R.color.transparent);
                 }
             }
         });
 
-        confirm_country.setOnClickListener(new View.OnClickListener() {
+        confirmCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 countryDialog.dismiss();
@@ -129,8 +129,8 @@ public class FragmentCalculationType extends Fragment {
     }
 
     private void calculationType() {
-        bill = view.findViewById(R.id.bill_layout);
-        appliances = view.findViewById(R.id.appliances_layout);
+        bill = view.findViewById(R.id.billLayout);
+        appliances = view.findViewById(R.id.appliancesLayout);
 
         bill.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +141,7 @@ public class FragmentCalculationType extends Fragment {
                 bundle.putString("api", "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions");
                 fragmentBill.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentBill, "FragmentBill")
+                        .replace(R.id.layoutMain, fragmentBill, "FragmentBill")
                         .commit();
             }
         });
@@ -155,7 +155,7 @@ public class FragmentCalculationType extends Fragment {
                 bundle.putString("api", "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions");
                 fragmentMain.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentMain, "FragmentMain")
+                        .replace(R.id.layoutMain, fragmentMain, "FragmentMain")
                         .addToBackStack(null)
                         .commit();
             }

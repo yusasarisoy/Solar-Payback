@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_item_appliance_calculation"
+    android:id="@+id/layoutItemApplianceCalculation"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_appliance"
+            android:id="@+id/itemAppliance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -38,7 +38,7 @@
             android:background="@color/transparent" />
 
         <ImageView
-            android:id="@+id/image_view_appliance"
+            android:id="@+id/imageViewAppliance"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="center"
@@ -73,7 +73,7 @@
                 tools:ignore="UnusedAttribute" />
 
             <EditText
-                android:id="@+id/appliance_quantity"
+                android:id="@+id/applianceQuantity"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -82,7 +82,7 @@
                 android:gravity="center"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:textColor="@color/core_black"
+                android:textColor="@color/coreBlack"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="3" />
@@ -116,7 +116,7 @@
                 tools:ignore="UnusedAttribute" />
 
             <EditText
-                android:id="@+id/appliance_watts"
+                android:id="@+id/applianceWatts"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -125,7 +125,7 @@
                 android:gravity="center"
                 android:imeOptions="actionNext"
                 android:inputType="numberDecimal"
-                android:textColor="@color/core_black"
+                android:textColor="@color/coreBlack"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="1000" />
@@ -159,7 +159,7 @@
                 tools:ignore="UnusedAttribute" />
 
             <EditText
-                android:id="@+id/appliance_hours"
+                android:id="@+id/applianceHours"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -168,7 +168,7 @@
                 android:gravity="center"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
-                android:textColor="@color/core_black"
+                android:textColor="@color/coreBlack"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="5" />

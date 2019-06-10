@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/about_us"
+            android:text="@string/aboutUs"
             android:textColor="@color/green"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -63,7 +63,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/proxima_nova"
             android:gravity="start"
-            android:text="@string/algorithm_members"
+            android:text="@string/algorithmMembers"
             android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
@@ -92,7 +92,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/proxima_nova"
             android:gravity="start"
-            android:text="@string/development_members"
+            android:text="@string/developmentMembers"
             android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
@@ -125,7 +125,7 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/close_info"
+            android:id="@+id/closeInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -134,7 +134,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/ok"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

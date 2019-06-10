@@ -27,65 +27,65 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentPanelCalculation extends Fragment {
-    @BindView(R.id.layout_panel_calculation)
+    @BindView(R.id.layoutPanelCalculation)
     LinearLayout linearLayout;
 
-    @BindView(R.id.layout_decisions)
+    @BindView(R.id.layoutDecisions)
     LinearLayout layoutDecisions;
 
-    @BindView(R.id.selected_panel_energy)
-    TextView selected_panel_energy;
+    @BindView(R.id.selectedPanelEnergy)
+    TextView selectedPanelEnergy;
 
-    @BindView(R.id.selected_panel_area)
-    TextView selected_panel_area;
+    @BindView(R.id.selectedPanelArea)
+    TextView selectedPanelArea;
 
-    @BindView(R.id.selected_city)
-    TextView selected_city;
+    @BindView(R.id.selectedCity)
+    TextView selectedCity;
 
-    @BindView(R.id.selected_city_irradiance)
-    TextView selected_city_irradiance;
+    @BindView(R.id.selectedCityIrradiance)
+    TextView selectedCityIrradiance;
 
-    @BindView(R.id.most_power_consumption)
-    TextView most_power_consumption;
+    @BindView(R.id.mostPowerConsumption)
+    TextView mostPowerConsumption;
 
-    @BindView(R.id.layout_results)
+    @BindView(R.id.layoutResults)
     LinearLayout layoutResults;
 
-    @BindView(R.id.produced_energy)
-    TextView produced_energy;
+    @BindView(R.id.producedEnergy)
+    TextView tvProducedEnergy;
 
-    @BindView(R.id.required_panels)
-    TextView required_panels;
+    @BindView(R.id.requiredPanels)
+    TextView tvRequiredPanels;
 
-    @BindView(R.id.required_area)
-    TextView required_area;
+    @BindView(R.id.requiredArea)
+    TextView tvRequiredArea;
 
-    @BindView(R.id.layout_extra_cost)
-    LinearLayout layout_extra_cost;
+    @BindView(R.id.layoutExtraCost)
+    LinearLayout layoutExtraCost;
 
-    @BindView(R.id.extra_cost)
-    TextView extra_cost;
+    @BindView(R.id.extraCost)
+    TextView tvExtraCost;
 
-    @BindView(R.id.total_payment)
-    TextView total_payment;
+    @BindView(R.id.totalPayment)
+    TextView tvTotalPayment;
 
-    @BindView(R.id.layout_back)
-    LinearLayout layout_back;
+    @BindView(R.id.layoutBack)
+    LinearLayout layoutBack;
 
-    @BindView(R.id.layout_next)
-    LinearLayout layout_next;
+    @BindView(R.id.layoutNext)
+    LinearLayout layoutNext;
 
-    @BindView(R.id.layout_continue)
-    LinearLayout layout_continue;
+    @BindView(R.id.layoutContinue)
+    LinearLayout layoutContinue;
 
-    @BindView(R.id.button_back)
-    Button button_back;
+    @BindView(R.id.buttonBack)
+    Button buttonBack;
 
-    @BindView(R.id.button_next)
-    Button button_next;
+    @BindView(R.id.buttonNext)
+    Button buttonNext;
 
-    @BindView(R.id.button_continue)
-    Button button_continue;
+    @BindView(R.id.buttonContinue)
+    Button buttonContinue;
 
     RequestQueue requestQueueUSD;
     AppCompatDialog generatorDialog;
@@ -152,22 +152,22 @@ public class FragmentPanelCalculation extends Fragment {
 //        Get results.
         getResults();
 
-        Log.i("ENERGY", producedEnergy + "");
-
         return view;
     }
 
     private void getArgument() {
-        selected_panel_energy = view.findViewById(R.id.selected_panel_energy);
-        selected_panel_area = view.findViewById(R.id.selected_panel_area);
-        selected_city = view.findViewById(R.id.selected_city);
-        selected_city_irradiance = view.findViewById(R.id.selected_city_irradiance);
-        most_power_consumption = view.findViewById(R.id.most_power_consumption);
+        selectedPanelEnergy = view.findViewById(R.id.selectedPanelEnergy);
+        selectedPanelArea = view.findViewById(R.id.selectedPanelArea);
+        selectedCity = view.findViewById(R.id.selectedCity);
+        selectedCityIrradiance = view.findViewById(R.id.selectedCityIrradiance);
+        mostPowerConsumption = view.findViewById(R.id.mostPowerConsumption);
 
         if (getArguments().getString("Panel").equals("panel1"))
             panelEnergy = 330;
         else if (getArguments().getString("Panel").equals("panel2"))
             panelEnergy = 245;
+        else if (getArguments().getString("Panel").equals("panel3"))
+            panelEnergy = 300;
 
         panelArea = getArguments().getDouble("PanelArea");
         liraPerEuro = getArguments().getDouble("LiraPerEuro");
@@ -177,47 +177,56 @@ public class FragmentPanelCalculation extends Fragment {
         totalPayment = getArguments().getInt("TotalPayment");
         totalConsumption = getArguments().getInt("TotalConsumption");
 
-        selected_panel_energy.setText(getResources().getString(R.string.selected_panel_energy) + panelEnergy + " W");
-        selected_panel_area.setText(getResources().getString(R.string.selected_panel_area) + panelArea + " m²");
-        selected_city.setText(getResources().getString(R.string.selected_city) + cityLocation);
-        selected_city_irradiance.setText(getResources().getString(R.string.selected_irradiance) + irradianceLocation);
+        selectedPanelEnergy.setText(getResources().getString(R.string.selectedPanelEnergy) + panelEnergy + " W");
+        selectedPanelArea.setText(getResources().getString(R.string.selectedPanelArea) + panelArea + " m²");
+        selectedCity.setText(getResources().getString(R.string.selectedCity) + cityLocation);
+        selectedCityIrradiance.setText(getResources().getString(R.string.selectedIrradiance) + irradianceLocation);
         if (getArguments().getString("choice").equals("appliance")) {
             applianceTotalConsumption = (totalConsumption * 12);
-            most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + applianceTotalConsumption + " kWh/year");
+            mostPowerConsumption.setText(getResources().getString(R.string.selectedConsumption) + applianceTotalConsumption + " kWh/year");
         } else
-            most_power_consumption.setText(getResources().getString(R.string.selected_consumption) + totalConsumption + " kWh/year");
+            mostPowerConsumption.setText(getResources().getString(R.string.selectedConsumption) + totalConsumption + " kWh/year");
     }
 
     private void calculatePanels() {
-        produced_energy = view.findViewById(R.id.produced_energy);
-        required_panels = view.findViewById(R.id.required_panels);
-        required_area = view.findViewById(R.id.required_area);
-        total_payment = view.findViewById(R.id.total_payment);
+        tvProducedEnergy = view.findViewById(R.id.producedEnergy);
+        tvRequiredPanels = view.findViewById(R.id.requiredPanels);
+        tvRequiredArea = view.findViewById(R.id.requiredArea);
+        tvTotalPayment = view.findViewById(R.id.totalPayment);
 
         if (getArguments().getString("Grid").equals("On-Grid")) {
             if (getArguments().getString("Panel").equals("panel1")) {
                 howManyPanels = getArguments().getInt("AreaInfo");
-                producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
+                producedEnergy = (int) (360 * 0.264 * irradianceLocation * howManyPanels);
             } else if (getArguments().getString("Panel").equals("panel2")) {
                 howManyPanels = getArguments().getInt("AreaInfo");
-                producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+                producedEnergy = (int) (360 * 0.207 * irradianceLocation * howManyPanels);
+            } else if (getArguments().getString("Panel").equals("panel3")) {
+                howManyPanels = getArguments().getInt("AreaInfo");
+                producedEnergy = (int) (360 * 0.226 * irradianceLocation * howManyPanels);
             }
         } else if (getArguments().getString("Grid").equals("Off-Grid")) {
             if (getArguments().getString("choice").equals("appliance")) {
                 if (getArguments().getString("Panel").equals("panel1")) {
                     howManyPanels = (int) ((applianceTotalConsumption / 30) / (irradianceLocation * 0.245 * 360)) + 1;
-                    producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
+                    producedEnergy = (int) (360 * 0.264 * irradianceLocation * howManyPanels);
                 } else if (getArguments().getString("Panel").equals("panel2")) {
                     howManyPanels = (int) ((applianceTotalConsumption / 30) / (irradianceLocation * 0.186 * 360)) + 1;
-                    producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+                    producedEnergy = (int) (360 * 0.207 * irradianceLocation * howManyPanels);
+                } else if (getArguments().getString("Panel").equals("panel3")) {
+                    howManyPanels = (int) ((applianceTotalConsumption / 30) / (irradianceLocation * 0.226 * 360)) + 1;
+                    producedEnergy = (int) (360 * 0.226 * irradianceLocation * howManyPanels);
                 }
             } else {
                 if (getArguments().getString("Panel").equals("panel1")) {
                     howManyPanels = (int) ((totalConsumption / 30) / (irradianceLocation * 0.245 * 360)) + 1;
-                    producedEnergy = (int) (360 * 0.245 * irradianceLocation * howManyPanels);
+                    producedEnergy = (int) (360 * 0.264 * irradianceLocation * howManyPanels);
                 } else if (getArguments().getString("Panel").equals("panel2")) {
                     howManyPanels = (int) ((totalConsumption / 30) / (irradianceLocation * 0.186 * 360)) + 1;
-                    producedEnergy = (int) (360 * 0.186 * irradianceLocation * howManyPanels);
+                    producedEnergy = (int) (360 * 0.207 * irradianceLocation * howManyPanels);
+                } else if (getArguments().getString("Panel").equals("panel3")) {
+                    howManyPanels = (int) ((totalConsumption / 30) / (irradianceLocation * 0.226 * 360)) + 1;
+                    producedEnergy = (int) (360 * 0.226 * irradianceLocation * howManyPanels);
                 }
             }
         }
@@ -230,8 +239,8 @@ public class FragmentPanelCalculation extends Fragment {
             overProduction = (int) (overProduction * liraForOverProduction);
             lowerProduction = 0;
         } else if (lowerProduction > 0) {
-            layout_extra_cost = view.findViewById(R.id.layout_extra_cost);
-            extra_cost = view.findViewById(R.id.extra_cost);
+            layoutExtraCost = view.findViewById(R.id.layoutExtraCost);
+            tvExtraCost = view.findViewById(R.id.extraCost);
 
 //            Get user's consumer status about the solar energy.
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Consumer", 0);
@@ -242,60 +251,60 @@ public class FragmentPanelCalculation extends Fragment {
             else if (consumer.equals("Residental"))
                 lowerProduction = (int) (lowerProduction * liraForLowerProduction * 0.69);
 
-            extra_cost.setText(getResources().getString(R.string.extra_cost) + lowerProduction + " ₺");
+            tvExtraCost.setText(getResources().getString(R.string.extraCost) + lowerProduction + " ₺");
         }
 
         if (grid.equals("On-Grid"))
             totalPayment += overProduction;
 
-        produced_energy.setText(getResources().getString(R.string.produced_energy) + producedEnergy + " kWh/year");
+        tvProducedEnergy.setText(getResources().getString(R.string.producedEnergy) + producedEnergy + " kWh/year");
         if (getArguments().get("choice").equals("appliance")) {
             if (grid.equals("On-Grid")) {
                 requiredArea = getArguments().getInt("Area");
                 totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
-                required_panels.setText(getResources().getString(R.string.required_panels) + getArguments().getInt("AreaInfo"));
+                tvRequiredPanels.setText(getResources().getString(R.string.requiredPanels) + getArguments().getInt("AreaInfo"));
             } else {
                 requiredArea = (int) (((applianceTotalConsumption / producedEnergy) * panelArea) + 1);
                 totalPrice = (int) (panelEnergy * euroPerWatt * (applianceTotalConsumption / producedEnergy) * liraPerEuro);
-                required_panels.setText(getResources().getString(R.string.required_panels) + (applianceTotalConsumption / producedEnergy));
+                tvRequiredPanels.setText(getResources().getString(R.string.requiredPanels) + ((applianceTotalConsumption / producedEnergy) + 1));
             }
         } else {
             requiredArea = (int) ((howManyPanels * panelArea) + 1);
             totalPrice = (int) (panelEnergy * euroPerWatt * howManyPanels * liraPerEuro);
-            required_panels.setText(getResources().getString(R.string.required_panels) + (applianceTotalConsumption / producedEnergy));
+            tvRequiredPanels.setText(getResources().getString(R.string.requiredPanels) + ((applianceTotalConsumption / producedEnergy) + 1));
         }
 
-        required_area.setText(getResources().getString(R.string.required_area) + requiredArea + " m²");
-        total_payment.setText(getResources().getString(R.string.total_panel_payment) + totalPrice + " ₺");
+        tvRequiredArea.setText(getResources().getString(R.string.requiredArea) + (requiredArea + 2) + " m²");
+        tvTotalPayment.setText(getResources().getString(R.string.totalPanelPayment) + totalPrice + " ₺");
     }
 
     private void getResults() {
-        layoutDecisions = view.findViewById(R.id.layout_decisions);
-        layoutResults = view.findViewById(R.id.layout_results);
-        layout_back = view.findViewById(R.id.layout_back);
-        layout_next = view.findViewById(R.id.layout_next);
-        layout_continue = view.findViewById(R.id.layout_continue);
-        button_back = view.findViewById(R.id.button_back);
-        button_next = view.findViewById(R.id.button_next);
-        button_continue = view.findViewById(R.id.button_continue);
+        layoutDecisions = view.findViewById(R.id.layoutDecisions);
+        layoutResults = view.findViewById(R.id.layoutResults);
+        layoutBack = view.findViewById(R.id.layoutBack);
+        layoutNext = view.findViewById(R.id.layoutNext);
+        layoutContinue = view.findViewById(R.id.layoutContinue);
+        buttonBack = view.findViewById(R.id.buttonBack);
+        buttonNext = view.findViewById(R.id.buttonNext);
+        buttonContinue = view.findViewById(R.id.buttonContinue);
 
-        button_back.setOnClickListener(v -> {
+        buttonBack.setOnClickListener(v -> {
             layoutDecisions.setVisibility(View.VISIBLE);
             layoutResults.setVisibility(View.GONE);
-            layout_back.setVisibility(View.GONE);
-            layout_next.setVisibility(View.VISIBLE);
-            layout_continue.setVisibility(View.GONE);
+            layoutBack.setVisibility(View.GONE);
+            layoutNext.setVisibility(View.VISIBLE);
+            layoutContinue.setVisibility(View.GONE);
         });
 
-        button_next.setOnClickListener(v -> {
+        buttonNext.setOnClickListener(v -> {
             layoutDecisions.setVisibility(View.GONE);
             layoutResults.setVisibility(View.VISIBLE);
-            layout_back.setVisibility(View.VISIBLE);
-            layout_next.setVisibility(View.GONE);
-            layout_continue.setVisibility(View.VISIBLE);
+            layoutBack.setVisibility(View.VISIBLE);
+            layoutNext.setVisibility(View.GONE);
+            layoutContinue.setVisibility(View.VISIBLE);
         });
 
-        button_continue.setOnClickListener(v -> {
+        buttonContinue.setOnClickListener(v -> {
             android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
             reservationBuilder.setView(R.layout.dialog_generator);
             generatorDialog = reservationBuilder.create();
@@ -309,22 +318,22 @@ public class FragmentPanelCalculation extends Fragment {
             generatorDialog.getWindow().setAttributes(params);
             generatorDialog.show();
 
-            buttonNo = generatorDialog.findViewById(R.id.button_no);
-            buttonYes = generatorDialog.findViewById(R.id.button_yes);
+            buttonNo = generatorDialog.findViewById(R.id.buttonNo);
+            buttonYes = generatorDialog.findViewById(R.id.buttonYes);
 
             buttonNo.setOnClickListener(v1 -> {
                 generatorDialog.dismiss();
 
                 FragmentBatteryCalculation fragmentBatteryCalculation = new FragmentBatteryCalculation();
                 Bundle bundle = new Bundle();
-                bundle.putInt("panelPrice", totalPrice);
+                bundle.putInt("priceOfPanel", totalPrice);
                 bundle.putInt("TotalPayment", totalPayment);
                 bundle.putString("Grid", grid);
                 bundle.putInt("lowerProduction", lowerProduction);
                 bundle.putInt("panels", howManyPanels);
                 fragmentBatteryCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentBatteryCalculation, "FragmentBatteryCalculation")
+                        .replace(R.id.layoutMain, fragmentBatteryCalculation, "FragmentBatteryCalculation")
                         .commit();
             });
 
@@ -333,14 +342,14 @@ public class FragmentPanelCalculation extends Fragment {
 
                 FragmentGeneratorChoice fragmentGeneratorChoice = new FragmentGeneratorChoice();
                 Bundle bundle = new Bundle();
-                bundle.putInt("panelPrice", totalPrice);
+                bundle.putInt("priceOfPanel", totalPrice);
                 bundle.putInt("TotalPayment", totalPayment);
                 bundle.putString("Grid", grid);
                 bundle.putInt("lowerProduction", lowerProduction);
                 bundle.putInt("panels", howManyPanels);
                 fragmentGeneratorChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentGeneratorChoice, "FragmentGeneratorChoice")
+                        .replace(R.id.layoutMain, fragmentGeneratorChoice, "FragmentGeneratorChoice")
                         .commit();
             });
         });

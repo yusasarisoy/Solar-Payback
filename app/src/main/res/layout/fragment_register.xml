@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_register"
+    android:id="@+id/layoutRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
@@ -18,7 +18,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/img_go_back"
+            android:id="@+id/imgGoBack"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="start"
@@ -35,14 +35,14 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_welcome"
+        android:id="@+id/tvWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/proxima_nova"
         android:padding="10dp"
-        android:text="@string/create_account"
+        android:text="@string/createAccount"
         android:textColor="?attr/textColor"
         android:textSize="25sp"
         tools:ignore="UnusedAttribute" />
@@ -54,31 +54,8 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <!--<LinearLayout
-            android:id="@+id/layout_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <EditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/proxima_nova"
-                android:hint="@string/name"
-                android:imeOptions="actionNext"
-                android:inputType="textCapWords"
-                android:maxLines="1"
-                android:textColor="@color/core_black"
-                android:textSize="23sp"
-                tools:ignore="UnusedAttribute" />
-
-        </LinearLayout>-->
-
         <LinearLayout
-            android:id="@+id/layout_name"
+            android:id="@+id/layoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -87,12 +64,12 @@
             android:padding="10dp">
 
             <EditText
-                android:id="@+id/et_name"
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
                 android:fontFamily="@font/proxima_nova"
-                android:hint="@string/full_name"
+                android:hint="@string/fullName"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
                 android:maxLines="1"
@@ -104,7 +81,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_mail"
+            android:id="@+id/layoutMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -113,7 +90,7 @@
             android:padding="10dp">
 
             <EditText
-                android:id="@+id/et_mail"
+                android:id="@+id/etMail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
@@ -130,7 +107,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_password"
+            android:id="@+id/layoutPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -139,7 +116,7 @@
             android:padding="10dp">
 
             <EditText
-                android:id="@+id/et_password"
+                android:id="@+id/etPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -155,7 +132,7 @@
                 tools:ignore="UnusedAttribute" />
 
             <ImageView
-                android:id="@+id/show_password"
+                android:id="@+id/showPassword"
                 android:layout_width="30dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center"
@@ -171,7 +148,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="@color/darkSlateGray" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -181,7 +158,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button_continue"
+            android:id="@+id/buttonContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
@@ -189,9 +166,9 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/sign_up"
+            android:text="@string/signUp"
             android:textAllCaps="false"
-            android:textColor="@color/core_white"
+            android:textColor="@color/coreWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

@@ -9,7 +9,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/item_image"
+        android:id="@+id/itemImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         tools:src="@drawable/coffee_machine" />
@@ -24,7 +24,7 @@
         android:background="@color/transparent" />
 
     <TextView
-        android:id="@+id/item_name"
+        android:id="@+id/itemName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -47,7 +47,7 @@
 
 
     <TextView
-        android:id="@+id/item_power_consumption"
+        android:id="@+id/itemPowerConsumption"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"

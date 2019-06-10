@@ -12,10 +12,10 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentConsumer extends Fragment {
-    @BindView(R.id.residential_layout)
+    @BindView(R.id.residentialLayout)
     LinearLayout residental;
 
-    @BindView(R.id.commercial_layout)
+    @BindView(R.id.commercialLayout)
     LinearLayout commercial;
 
     View view;
@@ -43,8 +43,8 @@ public class FragmentConsumer extends Fragment {
     }
 
     private void consumerType() {
-        residental = view.findViewById(R.id.residential_layout);
-        commercial = view.findViewById(R.id.commercial_layout);
+        residental = view.findViewById(R.id.residentialLayout);
+        commercial = view.findViewById(R.id.commercialLayout);
 
         residental.setOnClickListener(v -> {
             setConsumerType("Residental");
@@ -54,7 +54,7 @@ public class FragmentConsumer extends Fragment {
             bundle.putString("consumer", "residental");
             fragmentCalculationType.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
+                    .replace(R.id.layoutMain, fragmentCalculationType, "FragmentCalculationType")
                     .commit();
         });
 
@@ -66,7 +66,7 @@ public class FragmentConsumer extends Fragment {
             bundle.putString("consumer", "commercial");
             fragmentCalculationType.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentCalculationType, "FragmentCalculationType")
+                    .replace(R.id.layoutMain, fragmentCalculationType, "FragmentCalculationType")
                     .commit();
         });
     }

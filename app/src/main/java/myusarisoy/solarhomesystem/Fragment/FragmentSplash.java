@@ -38,7 +38,7 @@ public class FragmentSplash extends Fragment {
         new Handler().postDelayed(() -> {
             FragmentInstructions fragmentInstructions = new FragmentInstructions();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentInstructions, "FragmentInstructions")
+                    .replace(R.id.layoutMain, fragmentInstructions, "FragmentInstructions")
                     .addToBackStack(null)
                     .commit();
         }, 250);

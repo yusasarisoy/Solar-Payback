@@ -68,45 +68,45 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import myusarisoy.solarhomesystem.Adapter.RecyclerViewAdapter;
-import myusarisoy.solarhomesystem.Data.Appliance;
+import myusarisoy.solarhomesystem.Model.Appliance;
 import myusarisoy.solarhomesystem.R;
 import myusarisoy.solarhomesystem.ThemeSelector.SharedPreferencesTheme;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 public class FragmentMain extends Fragment {
-    @BindView(R.id.layout_main)
-    LinearLayout layout_main;
+    @BindView(R.id.layoutMain)
+    LinearLayout layoutMain;
 
-    @BindView(R.id.image_icon)
+    @BindView(R.id.imageIcon)
     ImageView icon;
 
-    @BindView(R.id.image_language)
+    @BindView(R.id.imageLanguage)
     ImageView language;
 
-    @BindView(R.id.image_theme)
-    ImageView image_theme;
+    @BindView(R.id.imageTheme)
+    ImageView imageTheme;
 
-    @BindView(R.id.recycler_view_appliance)
-    RecyclerView recycler_view_appliance;
+    @BindView(R.id.recyclerViewAppliance)
+    RecyclerView recyclerViewAppliance;
 
-    @BindView(R.id.button_add)
-    FloatingActionButton button_add;
+    @BindView(R.id.buttonAdd)
+    FloatingActionButton buttonAdd;
 
-    @BindView(R.id.button_sign_out)
-    Button button_sign_out;
+    @BindView(R.id.buttonSignOut)
+    Button buttonSignOut;
 
-    @BindView(R.id.button_location)
-    Button button_location;
+    @BindView(R.id.buttonLocation)
+    Button buttonLocation;
 
-    @BindView(R.id.layout_detect)
-    LinearLayout layout_detect;
+    @BindView(R.id.layoutDetect)
+    LinearLayout layoutDetect;
 
-    @BindView(R.id.layout_search)
-    LinearLayout layout_search;
+    @BindView(R.id.layoutSearch)
+    LinearLayout layoutSearch;
 
-    @BindView(R.id.button_continue)
-    Button button_continue;
+    @BindView(R.id.buttonContinue)
+    Button buttonContinue;
 
     Context context;
     private boolean turkey, usa;
@@ -114,15 +114,15 @@ public class FragmentMain extends Fragment {
     private CountDownTimer countDownTimer;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
-    private Button cancel_back, confirm_back, cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, cancel_appliances, confirm_appliances, exit_from_app, confirm_country;
+    private Button cancelBack, confirmBack, cancelSignOut, confirmSignOut, cancelLocation, confirmLocation, cancelAppliances, confirmAppliances, exitFromApp, confirmCountry;
     private AppCompatDialog signOutDialog, addApplianceDialog, locationDialog, searchLocationDialog, appliancesDialog, exitDialog, countryDialog, languageDialog, themeDialog;
     private FirebaseAuth firebaseAuth;
     private RecyclerViewAdapter adapter;
-    private EditText appliance_name;
-    private LinearLayout layout_location;
-    private ImageView appliance_image, locationPicker, img_english, img_german, img_turkish, img_light, img_dark;
+    private EditText applianceName;
+    private LinearLayout layoutLocation;
+    private ImageView applianceImage, locationPicker, imgEnglish, imgGerman, imgTurkish, imgLight, imgDark;
     private Spinner locationSpinner;
-    private TextView sure_to_add_appliance, appliances_list;
+    private TextView sureToAddAppliance, appliancesList;
     private ArrayList<Appliance> applianceList = new ArrayList<>();
     public ArrayList<String> appliancesName = new ArrayList<>();
     public ArrayList<Integer> appliancesImage = new ArrayList<>();
@@ -171,16 +171,13 @@ public class FragmentMain extends Fragment {
             if (user1 == null) {
                 FragmentWelcome fragmentWelcome = new FragmentWelcome();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                        .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
             }
         };
 
-        if (!Places.isInitialized())
-            Places.initialize(getContext(), "AIzaSyDNymBWXFV6aueL7rJacOpwxHXvMALidJI");
-
-        icon = view.findViewById(R.id.image_icon);
+        icon = view.findViewById(R.id.imageIcon);
         consumer = getArguments().getString("consumer");
 
         if (consumer.equals("residental"))
@@ -208,7 +205,7 @@ public class FragmentMain extends Fragment {
                         if (cityList.get(i).equals(cityName)) {
                             cityLocation = cityList.get(i);
                             irradianceLocation = solarIrradianceList.get(i);
-                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                         }
                     }
                 } catch (Exception e) {
@@ -217,7 +214,7 @@ public class FragmentMain extends Fragment {
             }
         }, error -> {
             Log.i("VOLLEY_ERROR", "" + error);
-            showSnackbar(getResources().getString(R.string.internet_connection));
+            showSnackbar(getResources().getString(R.string.internetConnection));
             exitFromApplication();
         });
         requestQueue.add(jsonArrayRequest);
@@ -257,8 +254,8 @@ public class FragmentMain extends Fragment {
     }
 
     private void changeTheme() {
-        image_theme = view.findViewById(R.id.image_theme);
-        image_theme.setOnClickListener(new View.OnClickListener() {
+        imageTheme = view.findViewById(R.id.imageTheme);
+        imageTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -274,10 +271,10 @@ public class FragmentMain extends Fragment {
                 themeDialog.getWindow().setAttributes(params);
                 themeDialog.show();
 
-                img_light = themeDialog.findViewById(R.id.img_light);
-                img_dark = themeDialog.findViewById(R.id.img_dark);
+                imgLight = themeDialog.findViewById(R.id.imgLight);
+                imgDark = themeDialog.findViewById(R.id.imgDark);
 
-                img_light.setOnClickListener(new View.OnClickListener() {
+                imgLight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         themeDialog.dismiss();
@@ -287,7 +284,7 @@ public class FragmentMain extends Fragment {
                     }
                 });
 
-                img_dark.setOnClickListener(new View.OnClickListener() {
+                imgDark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         themeDialog.dismiss();
@@ -301,7 +298,7 @@ public class FragmentMain extends Fragment {
     }
 
     private void languageClick() {
-        language = view.findViewById(R.id.image_language);
+        language = view.findViewById(R.id.imageLanguage);
 
         language.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,11 +316,11 @@ public class FragmentMain extends Fragment {
                 languageDialog.getWindow().setAttributes(params);
                 languageDialog.show();
 
-                img_english = languageDialog.findViewById(R.id.img_english);
-//                img_german = languageDialog.findViewById(R.id.img_german);
-                img_turkish = languageDialog.findViewById(R.id.img_turkish);
+                imgEnglish = languageDialog.findViewById(R.id.imgEnglish);
+//                imgGerman = languageDialog.findViewById(R.id.img_german);
+                imgTurkish = languageDialog.findViewById(R.id.imgTurkish);
 
-                img_english.setOnClickListener(new View.OnClickListener() {
+                imgEnglish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         languageDialog.dismiss();
@@ -332,7 +329,7 @@ public class FragmentMain extends Fragment {
                     }
                 });
 
-//                img_german.setOnClickListener(new View.OnClickListener() {
+//                imgGerman.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
 //                        languageDialog.dismiss();
@@ -341,7 +338,7 @@ public class FragmentMain extends Fragment {
 //                    }
 //                });
 
-                img_turkish.setOnClickListener(new View.OnClickListener() {
+                imgTurkish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         languageDialog.dismiss();
@@ -380,15 +377,15 @@ public class FragmentMain extends Fragment {
         if (user == null) {
             FragmentWelcome fragmentWelcome = new FragmentWelcome();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                    .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                     .addToBackStack(null)
                     .commit();
         }
     };
 
     public void clickToSignOut() {
-        button_sign_out = view.findViewById(R.id.button_sign_out);
-        button_sign_out.setOnClickListener(v -> {
+        buttonSignOut = view.findViewById(R.id.buttonSignOut);
+        buttonSignOut.setOnClickListener(v -> {
             android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
             reservationBuilder.setView(R.layout.dialog_sign_out);
             signOutDialog = reservationBuilder.create();
@@ -402,15 +399,15 @@ public class FragmentMain extends Fragment {
             signOutDialog.getWindow().setAttributes(params);
             signOutDialog.show();
 
-            cancel_sign_out = signOutDialog.findViewById(R.id.cancel_sign_out);
-            confirm_sign_out = signOutDialog.findViewById(R.id.confirm_sign_out);
+            cancelSignOut = signOutDialog.findViewById(R.id.cancelSignOut);
+            confirmSignOut = signOutDialog.findViewById(R.id.confirmSignOut);
 
-            cancel_sign_out.setOnClickListener(v12 -> signOutDialog.dismiss());
+            cancelSignOut.setOnClickListener(v12 -> signOutDialog.dismiss());
 
-            confirm_sign_out.setOnClickListener(v1 -> {
+            confirmSignOut.setOnClickListener(v1 -> {
                 signOutDialog.dismiss();
 
-                final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getResources().getString(R.string.logout), getResources().getString(R.string.please_wait), true, true);
+                final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getResources().getString(R.string.logout), getResources().getString(R.string.pleaseWait), true, true);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.setIndeterminate(true);
                 progressDialog.setCanceledOnTouchOutside(false);
@@ -431,7 +428,7 @@ public class FragmentMain extends Fragment {
             if (user == null) {
                 FragmentWelcome fragmentWelcome = new FragmentWelcome();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                        .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
             }
@@ -458,15 +455,15 @@ public class FragmentMain extends Fragment {
     }
 
     public void initAppliances() {
-        recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
+        recyclerViewAppliance = view.findViewById(R.id.recyclerViewAppliance);
 
-        Appliance airConditioner = new Appliance(false, R.drawable.air_conditioner, getContext().getResources().getString(R.string.air_conditioner));
+        Appliance airConditioner = new Appliance(false, R.drawable.air_conditioner, getContext().getResources().getString(R.string.airConditioner));
         applianceList.add(airConditioner);
 
         Appliance bakery = new Appliance(false, R.drawable.bakery, getContext().getResources().getString(R.string.bakery));
         applianceList.add(bakery);
 
-        Appliance coffeeMachine = new Appliance(false, R.drawable.coffee_machine, getContext().getResources().getString(R.string.coffee_machine));
+        Appliance coffeeMachine = new Appliance(false, R.drawable.coffee_machine, getContext().getResources().getString(R.string.coffeeMachine));
         applianceList.add(coffeeMachine);
 
         Appliance computer = new Appliance(false, R.drawable.computer, getContext().getResources().getString(R.string.computer));
@@ -475,7 +472,7 @@ public class FragmentMain extends Fragment {
         Appliance fridge = new Appliance(false, R.drawable.fridge, getContext().getResources().getString(R.string.fridge));
         applianceList.add(fridge);
 
-        Appliance hairDryer = new Appliance(false, R.drawable.hair_dryer, getContext().getResources().getString(R.string.hair_dryer));
+        Appliance hairDryer = new Appliance(false, R.drawable.hair_dryer, getContext().getResources().getString(R.string.hairDryer));
         applianceList.add(hairDryer);
 
         Appliance iron = new Appliance(false, R.drawable.iron, getContext().getResources().getString(R.string.iron));
@@ -493,38 +490,38 @@ public class FragmentMain extends Fragment {
         Appliance television = new Appliance(false, R.drawable.television, getContext().getResources().getString(R.string.television));
         applianceList.add(television);
 
-        Appliance vacuumCleaner = new Appliance(false, R.drawable.vacuum_cleaner, getContext().getResources().getString(R.string.vacuum_cleaner));
+        Appliance vacuumCleaner = new Appliance(false, R.drawable.vacuum_cleaner, getContext().getResources().getString(R.string.vacuumCleaner));
         applianceList.add(vacuumCleaner);
 
-        Appliance washingMachine = new Appliance(false, R.drawable.washing_machine, getContext().getResources().getString(R.string.washing_machine));
+        Appliance washingMachine = new Appliance(false, R.drawable.washing_machine, getContext().getResources().getString(R.string.washingMachine));
         applianceList.add(washingMachine);
 
-        Appliance waterHeater = new Appliance(false, R.drawable.water_heater, getContext().getResources().getString(R.string.water_heater));
+        Appliance waterHeater = new Appliance(false, R.drawable.water_heater, getContext().getResources().getString(R.string.waterHeater));
         applianceList.add(waterHeater);
 
         adapter.notifyDataSetChanged();
     }
 
     private void setAdapter() {
-        recycler_view_appliance = view.findViewById(R.id.recycler_view_appliance);
-        recycler_view_appliance.setHasFixedSize(true);
+        recyclerViewAppliance = view.findViewById(R.id.recyclerViewAppliance);
+        recyclerViewAppliance.setHasFixedSize(true);
 
         adapter = new RecyclerViewAdapter(applianceList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recycler_view_appliance.setLayoutManager(mLayoutManager);
-        recycler_view_appliance.setItemAnimator(new DefaultItemAnimator());
-        recycler_view_appliance.setAdapter(adapter);
+        recyclerViewAppliance.setLayoutManager(mLayoutManager);
+        recyclerViewAppliance.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewAppliance.setAdapter(adapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.item_divider));
-        recycler_view_appliance.addItemDecoration(dividerItemDecoration);
+        recyclerViewAppliance.addItemDecoration(dividerItemDecoration);
     }
 
     private void changeAppliances() {
-        button_continue = view.findViewById(R.id.button_continue);
-        button_continue.setOnClickListener(v -> {
+        buttonContinue = view.findViewById(R.id.buttonContinue);
+        buttonContinue.setOnClickListener(v -> {
             if (cityLocation.equals("")) {
-                showSnackbar(getResources().getString(R.string.no_location));
+                showSnackbar(getResources().getString(R.string.noLocation));
             } else {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
                 reservationBuilder.setView(R.layout.dialog_appliances);
@@ -539,10 +536,10 @@ public class FragmentMain extends Fragment {
                 appliancesDialog.getWindow().setAttributes(params);
                 appliancesDialog.show();
 
-                sure_to_add_appliance = appliancesDialog.findViewById(R.id.sure_to_add_appliance);
-                appliances_list = appliancesDialog.findViewById(R.id.appliances_list);
-                cancel_appliances = appliancesDialog.findViewById(R.id.cancel_appliances);
-                confirm_appliances = appliancesDialog.findViewById(R.id.confirm_appliances);
+                sureToAddAppliance = appliancesDialog.findViewById(R.id.sureToAddAppliance);
+                appliancesList = appliancesDialog.findViewById(R.id.appliancesList);
+                cancelAppliances = appliancesDialog.findViewById(R.id.cancelAppliances);
+                confirmAppliances = appliancesDialog.findViewById(R.id.confirmAppliances);
 
                 String data = "";
                 applianceList = adapter.getData();
@@ -554,20 +551,20 @@ public class FragmentMain extends Fragment {
                         appliancesName.add(appliance.getAppliance());
                         appliancesImage.add(appliance.getImageResource());
 
-                        appliances_list.setText(data);
+                        appliancesList.setText(data);
                     }
                 }
 
                 if (data.equals("")) {
-                    sure_to_add_appliance.setText(R.string.no_appliance);
-                    cancel_appliances.setText(R.string.back);
-                    confirm_appliances.setVisibility(View.GONE);
-                    appliances_list.setVisibility(View.GONE);
+                    sureToAddAppliance.setText(R.string.noAppliance);
+                    cancelAppliances.setText(R.string.back);
+                    confirmAppliances.setVisibility(View.GONE);
+                    appliancesList.setVisibility(View.GONE);
                 }
 
-                cancel_appliances.setOnClickListener(v12 -> appliancesDialog.dismiss());
+                cancelAppliances.setOnClickListener(v12 -> appliancesDialog.dismiss());
 
-                confirm_appliances.setOnClickListener(v1 -> {
+                confirmAppliances.setOnClickListener(v1 -> {
                     appliancesDialog.dismiss();
 
                     // Display the progress during 1.1 seconds.
@@ -588,7 +585,7 @@ public class FragmentMain extends Fragment {
                             bundle.putDouble("CityIrradiance", irradianceLocation);
                             fragmentAppliances.setArguments(bundle);
                             getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.layout_main, fragmentAppliances, "FragmentAppliances")
+                                    .replace(R.id.layoutMain, fragmentAppliances, "FragmentAppliances")
                                     .commit();
                         }
                     }.start();
@@ -598,8 +595,8 @@ public class FragmentMain extends Fragment {
     }
 
     private void addNewAppliance() {
-        button_add = view.findViewById(R.id.button_add);
-        button_add.setOnClickListener(v -> {
+        buttonAdd = view.findViewById(R.id.buttonAdd);
+        buttonAdd.setOnClickListener(v -> {
             android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
             reservationBuilder.setView(R.layout.dialog_new_appliance);
             addApplianceDialog = reservationBuilder.create();
@@ -613,23 +610,23 @@ public class FragmentMain extends Fragment {
             addApplianceDialog.getWindow().setAttributes(params);
             addApplianceDialog.show();
 
-            appliance_image = addApplianceDialog.findViewById(R.id.appliance_image);
-            appliance_name = addApplianceDialog.findViewById(R.id.appliance_name);
-            cancel_back = addApplianceDialog.findViewById(R.id.cancel_back);
-            confirm_back = addApplianceDialog.findViewById(R.id.confirm_back);
+            applianceImage = addApplianceDialog.findViewById(R.id.applianceImage);
+            applianceName = addApplianceDialog.findViewById(R.id.applianceName);
+            cancelBack = addApplianceDialog.findViewById(R.id.cancelBack);
+            confirmBack = addApplianceDialog.findViewById(R.id.confirmBack);
 
-            cancel_back.setOnClickListener(v12 -> addApplianceDialog.dismiss());
+            cancelBack.setOnClickListener(v12 -> addApplianceDialog.dismiss());
 
-            confirm_back.setOnClickListener(v1 -> {
-                if (!appliance_name.getText().toString().isEmpty()) {
+            confirmBack.setOnClickListener(v1 -> {
+                if (!applianceName.getText().toString().isEmpty()) {
                     addApplianceDialog.dismiss();
 
-                    Appliance newAppliance = new Appliance(false, R.drawable.user, appliance_name.getText().toString());
+                    Appliance newAppliance = new Appliance(false, R.drawable.user, applianceName.getText().toString());
                     applianceList.add(newAppliance);
 
                     adapter.notifyDataSetChanged();
 
-                    showSnackbar(appliance_name.getText().toString() + getResources().getString(R.string.added));
+                    showSnackbar(applianceName.getText().toString() + getResources().getString(R.string.added));
                 }
             });
         });
@@ -661,7 +658,7 @@ public class FragmentMain extends Fragment {
                             if (cityList.get(i).equals(selectedCity)) {
                                 cityLocation = cityList.get(i);
                                 irradianceLocation = solarIrradianceList.get(i);
-                                showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                                showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                             }
                         }
                     } catch (Exception e) {
@@ -669,7 +666,7 @@ public class FragmentMain extends Fragment {
                     }
                 }, error -> {
                     Log.i("VOLLEY_ERROR", "" + error);
-                    showSnackbar(getResources().getString(R.string.internet_connection));
+                    showSnackbar(getResources().getString(R.string.internetConnection));
                     exitFromApplication();
                 });
                 requestQueue.add(jsonArrayRequest);
@@ -692,8 +689,8 @@ public class FragmentMain extends Fragment {
         exitDialog.setCancelable(false);
         exitDialog.show();
 
-        exit_from_app = exitDialog.findViewById(R.id.exit_from_app);
-        exit_from_app.setOnClickListener(v -> {
+        exitFromApp = exitDialog.findViewById(R.id.exitFromApp);
+        exitFromApp.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -702,8 +699,8 @@ public class FragmentMain extends Fragment {
     }
 
     public void locationClick() {
-        button_location = view.findViewById(R.id.button_location);
-        button_location.setOnClickListener(v -> {
+        buttonLocation = view.findViewById(R.id.buttonLocation);
+        buttonLocation.setOnClickListener(v -> {
 
             android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
             reservationBuilder.setView(R.layout.dialog_location);
@@ -718,10 +715,10 @@ public class FragmentMain extends Fragment {
             locationDialog.getWindow().setAttributes(params);
             locationDialog.show();
 
-            layout_detect = locationDialog.findViewById(R.id.layout_detect);
-            layout_search = locationDialog.findViewById(R.id.layout_search);
+            layoutDetect = locationDialog.findViewById(R.id.layoutDetect);
+            layoutSearch = locationDialog.findViewById(R.id.layoutSearch);
 
-            layout_detect.setOnClickListener(v15 -> {
+            layoutDetect.setOnClickListener(v15 -> {
                 locationDialog.dismiss();
 
                 if (Build.VERSION.SDK_INT >= 23) {
@@ -734,7 +731,7 @@ public class FragmentMain extends Fragment {
                     requestLocation();
             });
 
-            layout_search.setOnClickListener(v14 -> {
+            layoutSearch.setOnClickListener(v14 -> {
                 locationDialog.dismiss();
 
                 android.support.v7.app.AlertDialog.Builder reservationBuilder1 = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -750,16 +747,16 @@ public class FragmentMain extends Fragment {
                 searchLocationDialog.getWindow().setAttributes(params1);
                 searchLocationDialog.show();
 
-                layout_location = searchLocationDialog.findViewById(R.id.layout_location);
+                layoutLocation = searchLocationDialog.findViewById(R.id.layoutLocation);
                 locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
                 locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
-                cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
-                confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
+                cancelLocation = searchLocationDialog.findViewById(R.id.cancelLocation);
+                confirmLocation = searchLocationDialog.findViewById(R.id.confirmLocation);
 
                 locationPicker.setOnClickListener(v13 -> locationSpinner.performClick());
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    locationSpinner.setPopupBackgroundResource(R.color.core_white);
+                    locationSpinner.setPopupBackgroundResource(R.color.coreWhite);
                 }
                 ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, R.layout.spinner_item, cityList);
                 locationSpinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
@@ -777,9 +774,9 @@ public class FragmentMain extends Fragment {
                     }
                 });
 
-                cancel_location.setOnClickListener(v12 -> searchLocationDialog.dismiss());
+                cancelLocation.setOnClickListener(v12 -> searchLocationDialog.dismiss());
 
-                confirm_location.setOnClickListener(v1 -> {
+                confirmLocation.setOnClickListener(v1 -> {
                     searchLocationDialog.dismiss();
 
                     countDownTimer = new CountDownTimer(1000, 500) {
@@ -807,7 +804,7 @@ public class FragmentMain extends Fragment {
                                         if (cityList.get(i).equals(cityName)) {
                                             cityLocation = cityList.get(i);
                                             irradianceLocation = solarIrradianceList.get(i);
-                                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                                         }
                                     }
                                 } catch (Exception e) {
@@ -815,7 +812,7 @@ public class FragmentMain extends Fragment {
                                 }
                             }, error -> {
                                 Log.i("VOLLEY_ERROR", "" + error);
-                                showSnackbar(getResources().getString(R.string.internet_connection));
+                                showSnackbar(getResources().getString(R.string.internetConnection));
                             });
                             requestQueue.add(jsonArrayRequest);
                         }
@@ -867,7 +864,7 @@ public class FragmentMain extends Fragment {
                         if (cityList.get(i).equals(selectedCity)) {
                             cityLocation = cityList.get(i);
                             irradianceLocation = solarIrradianceList.get(i);
-                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                         }
                     }
                 } catch (Exception e) {
@@ -875,14 +872,14 @@ public class FragmentMain extends Fragment {
                 }
             }, error -> {
                 Log.i("VOLLEY_ERROR", "" + error);
-                showSnackbar(getResources().getString(R.string.internet_connection));
+                showSnackbar(getResources().getString(R.string.internetConnection));
             });
             requestQueue.add(jsonArrayRequest);
         } else {
             LocationRequest locationRequest = new LocationRequest();
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            showSnackbar(getResources().getString(R.string.trying_to_location));
+            showSnackbar(getResources().getString(R.string.tryingToLocation));
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -893,9 +890,9 @@ public class FragmentMain extends Fragment {
     }
 
     public void showSnackbar(String text) {
-        layout_main = view.findViewById(R.id.layout_main);
+        layoutMain = view.findViewById(R.id.layoutMain);
 
-        Snackbar snackbar = Snackbar.make(layout_main, text, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(layoutMain, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.backgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);

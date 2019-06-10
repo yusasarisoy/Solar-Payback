@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/appliances_list"
+            android:text="@string/appliancesList"
             android:textColor="@color/orange"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -42,25 +42,25 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_sign_out"
+        android:id="@+id/layoutSignOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/sure_to_add_appliance"
+            android:id="@+id/sureToAddAppliance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
-            android:text="@string/save_appliances"
+            android:text="@string/saveAppliances"
             android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 
         <TextView
-            android:id="@+id/appliances_list"
+            android:id="@+id/appliancesList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova"
@@ -78,7 +78,7 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/cancel_appliances"
+            android:id="@+id/cancelAppliances"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -87,12 +87,12 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/no"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 
         <Button
-            android:id="@+id/confirm_appliances"
+            android:id="@+id/confirmAppliances"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -101,7 +101,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/yes"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

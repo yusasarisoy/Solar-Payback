@@ -29,25 +29,25 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentRegister extends Fragment {
-    @BindView(R.id.layout_register)
-    LinearLayout layout_register;
+    @BindView(R.id.layoutRegister)
+    LinearLayout layoutRegister;
 
-    @BindView(R.id.img_go_back)
-    ImageView img_go_back;
+    @BindView(R.id.imgGoBack)
+    ImageView imgGoBack;
 
-    @BindView(R.id.et_name)
-    EditText et_name;
+    @BindView(R.id.etName)
+    EditText etName;
 
-    @BindView(R.id.et_mail)
-    EditText et_mail;
+    @BindView(R.id.etMail)
+    EditText etMail;
 
-    @BindView(R.id.et_password)
-    EditText et_password;
+    @BindView(R.id.etPassword)
+    EditText etPassword;
 
-    @BindView(R.id.show_password)
-    ImageView show_password;
+    @BindView(R.id.showPassword)
+    ImageView showPassword;
 
-    @BindView(R.id.button_continue)
+    @BindView(R.id.buttonContinue)
     Button next;
 
     boolean isPasswordVisible = false;
@@ -86,8 +86,8 @@ public class FragmentRegister extends Fragment {
     }
 
     private void goBack() {
-        img_go_back = view.findViewById(R.id.img_go_back);
-        img_go_back.setOnClickListener(new View.OnClickListener() {
+        imgGoBack = view.findViewById(R.id.imgGoBack);
+        imgGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().popBackStackImmediate();
@@ -96,22 +96,22 @@ public class FragmentRegister extends Fragment {
     }
 
     private void showPassword() {
-        et_password = view.findViewById(R.id.et_password);
-        show_password = view.findViewById(R.id.show_password);
+        etPassword = view.findViewById(R.id.etPassword);
+        showPassword = view.findViewById(R.id.showPassword);
 
-        show_password.setOnClickListener(new View.OnClickListener() {
+        showPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isPasswordVisible) {
                     isPasswordVisible = true;
-                    show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye));
-                    et_password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    et_password.setSelection(et_password.length());
+                    showPassword.setImageDrawable(getResources().getDrawable(R.drawable.eye));
+                    etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    etPassword.setSelection(etPassword.length());
                 } else {
                     isPasswordVisible = false;
-                    show_password.setImageDrawable(getResources().getDrawable(R.drawable.eye_active));
-                    et_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    et_password.setSelection(et_password.length());
+                    showPassword.setImageDrawable(getResources().getDrawable(R.drawable.eye_active));
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPassword.setSelection(etPassword.length());
                 }
 
             }
@@ -119,30 +119,30 @@ public class FragmentRegister extends Fragment {
     }
 
     private void register() {
-        et_name = view.findViewById(R.id.et_name);
-        et_mail = view.findViewById(R.id.et_mail);
-        et_password = view.findViewById(R.id.et_password);
-        next = view.findViewById(R.id.button_continue);
+        etName = view.findViewById(R.id.etName);
+        etMail = view.findViewById(R.id.etMail);
+        etPassword = view.findViewById(R.id.etPassword);
+        next = view.findViewById(R.id.buttonContinue);
 
         next.setOnClickListener(v -> {
-            name = et_name.getText().toString().trim();
-            mail = et_mail.getText().toString().trim();
-            password = et_password.getText().toString().trim();
+            name = etName.getText().toString().trim();
+            mail = etMail.getText().toString().trim();
+            password = etPassword.getText().toString().trim();
 
             if (TextUtils.isEmpty(name)) {
-                showSnackbar(getResources().getString(R.string.enter_full_name));
+                showSnackbar(getResources().getString(R.string.enterFullName));
                 return;
             }
             if (TextUtils.isEmpty(mail)) {
-                showSnackbar(getResources().getString(R.string.enter_your_mail));
+                showSnackbar(getResources().getString(R.string.enterYourMail));
                 return;
             }
             if (TextUtils.isEmpty(password)) {
-                showSnackbar(getResources().getString(R.string.enter_password));
+                showSnackbar(getResources().getString(R.string.enterPassword));
                 return;
             }
             if (password.length() < 6) {
-                showSnackbar(getResources().getString(R.string.six_digits));
+                showSnackbar(getResources().getString(R.string.sixDigits));
                 return;
             }
 
@@ -152,7 +152,7 @@ public class FragmentRegister extends Fragment {
                     Log.i("REGISTER", "Register action is successful.");
                     if (!task.isSuccessful()) {
                         Log.i("ERROR", "Authentication failed: " + task.getException());
-                        showSnackbar(getResources().getString(R.string.authentication_failed));
+                        showSnackbar(getResources().getString(R.string.authenticationFailed));
                     } else {
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
 
@@ -161,7 +161,7 @@ public class FragmentRegister extends Fragment {
 
                         FragmentExperience fragmentExperience= new FragmentExperience();
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.layout_main, fragmentExperience, "FragmentExperience")
+                                .replace(R.id.layoutMain, fragmentExperience, "FragmentExperience")
                                 .addToBackStack(null)
                                 .commit();
                     }
@@ -171,9 +171,9 @@ public class FragmentRegister extends Fragment {
     }
 
     public void showSnackbar(String text) {
-        layout_register = view.findViewById(R.id.layout_register);
+        layoutRegister = view.findViewById(R.id.layoutRegister);
 
-        Snackbar snackbar = Snackbar.make(layout_register, text, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(layoutRegister, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.backgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);

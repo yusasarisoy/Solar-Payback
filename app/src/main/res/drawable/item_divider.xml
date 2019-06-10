@@ -2,5 +2,5 @@
 
     <!-- spacing between each RecyclerView item -->
     <size android:height="1dp" />
-    <solid android:color="@color/dark_slate_gray" />
+    <solid android:color="@color/darkSlateGray" />
 </shape>

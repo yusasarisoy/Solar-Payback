@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/power_consumption"
+            android:text="@string/powerConsumption"
             android:textColor="@color/red"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -48,7 +48,7 @@
         android:padding="10dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_power_consumption"
+            android:id="@+id/recyclerViewPowerConsumption"
             android:layout_width="match_parent"
             android:layout_height="250dp" />
 
@@ -60,7 +60,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/ok_power_consumption"
+            android:id="@+id/okPowerConsumption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -68,7 +68,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/ok"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

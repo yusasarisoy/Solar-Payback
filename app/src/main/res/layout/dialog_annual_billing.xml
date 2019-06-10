@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/add_annual_billing"
+            android:text="@string/addAnnualBilling"
             android:textColor="@color/colorAccent"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -48,7 +48,7 @@
         android:layout_margin="10dp"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/appliance_annual_billing"
+        android:text="@string/applianceAnnualBilling"
         android:textColor="?attr/textColor"
         android:textSize="17sp"
         tools:ignore="UnusedAttribute" />
@@ -67,13 +67,13 @@
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
-            android:text="@string/annual_billing_amount"
+            android:text="@string/annualBillingAmount"
             android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 
         <EditText
-            android:id="@+id/appliance_annual_billing"
+            android:id="@+id/applianceAnnualBilling"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -83,7 +83,7 @@
             android:gravity="center"
             android:imeOptions="actionDone"
             android:inputType="number"
-            android:textColor="@color/core_black"
+            android:textColor="@color/coreBlack"
             android:textSize="23sp"
             tools:ignore="UnusedAttribute"
             tools:text="34244" />
@@ -97,7 +97,7 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/cancel_back"
+            android:id="@+id/cancelBack"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -106,12 +106,12 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/cancel"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 
         <Button
-            android:id="@+id/confirm_back"
+            android:id="@+id/confirmBack"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -120,7 +120,7 @@
             android:fontFamily="@font/proxima_nova"
             android:gravity="center"
             android:text="@string/confirm"
-            android:textColor="@color/light_white"
+            android:textColor="@color/lightWhite"
             android:textSize="20sp"
             tools:ignore="UnusedAttribute" />
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_battery_calculation"
+    android:id="@+id/layoutBatteryCalculation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
+            android:text="@string/appName"
             android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -47,7 +47,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/img_info"
+                android:id="@+id/imgInfo"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="end"
@@ -65,7 +65,7 @@
         android:background="?attr/textColor" />
 
     <LinearLayout
-        android:id="@+id/layout_prices"
+        android:id="@+id/layoutPrices"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -98,7 +98,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/panel_price"
+                android:id="@+id/panelPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -141,7 +141,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/heater_price"
+                android:id="@+id/heaterPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -184,7 +184,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/inverter_price"
+                android:id="@+id/inverterPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -203,7 +203,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
-            android:id="@+id/battery_layout"
+            android:id="@+id/batteryLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -228,7 +228,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/battery_price"
+                android:id="@+id/batteryPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -242,7 +242,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_costs"
+        android:id="@+id/layoutCosts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -252,7 +252,7 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/inspection_layout"
+            android:id="@+id/inspectionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -277,7 +277,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/inspection_cost"
+                android:id="@+id/inspectionCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -296,7 +296,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
-            android:id="@+id/cleaning_layout"
+            android:id="@+id/cleaningLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -321,7 +321,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/cleaning_cost"
+                android:id="@+id/cleaningCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -364,7 +364,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/electricity_cost"
+                android:id="@+id/electricityCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -407,7 +407,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/total_price"
+                android:id="@+id/totalPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -450,7 +450,7 @@
                 android:background="@color/transparent" />
 
             <TextView
-                android:id="@+id/payback_period"
+                android:id="@+id/paybackPeriod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova"
@@ -470,7 +470,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/layout_back"
+            android:id="@+id/layoutBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -480,7 +480,7 @@
             android:visibility="gone">
 
             <Button
-                android:id="@+id/button_back"
+                android:id="@+id/buttonBack"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="start"
@@ -497,7 +497,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_next"
+            android:id="@+id/layoutNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -506,7 +506,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_next"
+                android:id="@+id/buttonNext"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
@@ -523,7 +523,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_main_page"
+            android:id="@+id/layoutMainPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -533,7 +533,7 @@
             android:visibility="gone">
 
             <ImageView
-                android:id="@+id/image_main_page"
+                android:id="@+id/imageMainPage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"

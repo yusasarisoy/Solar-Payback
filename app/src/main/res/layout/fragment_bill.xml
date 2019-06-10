@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_bill"
+    android:id="@+id/layoutBill"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/winter"
@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/image_icon"
+            android:id="@+id/imageIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -32,13 +32,13 @@
             android:background="@color/transparent" />
 
         <TextView
-            android:id="@+id/app_name"
+            android:id="@+id/appName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
-            android:textColor="@color/core_black"
+            android:text="@string/appName"
+            android:textColor="@color/coreBlack"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
 
@@ -49,7 +49,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/image_language"
+                android:id="@+id/imageLanguage"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -57,7 +57,7 @@
                 android:src="@drawable/language" />
 
             <ImageView
-                android:id="@+id/image_theme"
+                android:id="@+id/imageTheme"
                 android:layout_width="26dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -73,17 +73,17 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="@color/darkSlateGray" />
 
     <TextView
-        android:id="@+id/bill_desc"
+        android:id="@+id/billDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/complete_bill"
-        android:textColor="@color/core_black"
+        android:text="@string/completeBill"
+        android:textColor="@color/coreBlack"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
 
@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@color/dark_slate_gray" />
+        android:background="@color/darkSlateGray" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,7 +107,7 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/bill_months"
+                android:id="@+id/billMonths"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -115,25 +115,25 @@
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
                 android:textAllCaps="true"
-                android:textColor="@color/core_black"
+                android:textColor="@color/coreBlack"
                 android:textSize="25sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="January" />
 
             <TextView
-                android:id="@+id/text_payment"
+                android:id="@+id/textPayment"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/billing_amount"
-                android:textColor="@color/core_black"
+                android:text="@string/billingAmount"
+                android:textColor="@color/coreBlack"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
-                android:id="@+id/bill_payment"
+                android:id="@+id/billPayment"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -142,7 +142,7 @@
                 android:gravity="center"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:textColor="@color/core_black"
+                android:textColor="@color/coreBlack"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="123" />
@@ -164,19 +164,19 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/text_power_consumption"
+                android:id="@+id/textPowerConsumption"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/total_power_consumption"
-                android:textColor="@color/core_black"
+                android:text="@string/totalPowerConsumption"
+                android:textColor="@color/coreBlack"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
-                android:id="@+id/bill_power_consumption"
+                android:id="@+id/billPowerConsumption"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -185,7 +185,7 @@
                 android:gravity="center"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:textColor="@color/core_black"
+                android:textColor="@color/coreBlack"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="256" />
@@ -208,12 +208,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_sign_out"
+                android:id="@+id/buttonSignOut"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:background="@color/transparent"
                 android:fontFamily="@font/proxima_nova"
-                android:text="@string/sign_out"
+                android:text="@string/signOut"
                 android:textColor="@color/red"
                 android:textSize="18sp"
                 tools:ignore="UnusedAttribute" />
@@ -228,7 +228,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_location"
+                android:id="@+id/buttonLocation"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/map"
@@ -245,7 +245,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_next"
+                android:id="@+id/buttonNext"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:background="@color/transparent"
@@ -256,7 +256,7 @@
                 tools:ignore="UnusedAttribute" />
 
             <Button
-                android:id="@+id/button_continue"
+                android:id="@+id/buttonContinue"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:background="@color/transparent"

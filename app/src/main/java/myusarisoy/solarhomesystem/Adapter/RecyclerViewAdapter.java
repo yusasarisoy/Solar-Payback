@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import myusarisoy.solarhomesystem.Data.Appliance;
+import myusarisoy.solarhomesystem.Model.Appliance;
 import myusarisoy.solarhomesystem.R;
 
 @EqualsAndHashCode(callSuper = false)
@@ -78,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout item_add_appliance;
+        private LinearLayout itemAddAppliance;
         private CheckBox checkBox;
         private ImageView imageViewAppliance;
         private TextView textView;
@@ -86,10 +86,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            item_add_appliance = itemView.findViewById(R.id.item_add_appliance);
+            itemAddAppliance = itemView.findViewById(R.id.itemAddAppliance);
             checkBox = itemView.findViewById(R.id.checkbox);
-            imageViewAppliance = itemView.findViewById(R.id.image_view_appliance);
-            textView = itemView.findViewById(R.id.item_appliance);
+            imageViewAppliance = itemView.findViewById(R.id.imageViewAppliance);
+            textView = itemView.findViewById(R.id.itemAppliance);
         }
     }
 

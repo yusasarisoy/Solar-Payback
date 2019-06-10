@@ -12,10 +12,10 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentExperience extends Fragment {
-    @BindView(R.id.beginner_layout)
+    @BindView(R.id.beginnerLayout)
     LinearLayout beginner;
 
-    @BindView(R.id.expert_layout)
+    @BindView(R.id.expertLayout)
     LinearLayout expert;
 
     View view;
@@ -43,8 +43,8 @@ public class FragmentExperience extends Fragment {
     }
 
     private void experienceChoice() {
-        beginner = view.findViewById(R.id.beginner_layout);
-        expert = view.findViewById(R.id.expert_layout);
+        beginner = view.findViewById(R.id.beginnerLayout);
+        expert = view.findViewById(R.id.expertLayout);
 
         beginner.setOnClickListener(v -> gotoConsumerPage("Beginner"));
 
@@ -60,7 +60,7 @@ public class FragmentExperience extends Fragment {
 
         FragmentConsumer fragmentConsumer = new FragmentConsumer();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_main, fragmentConsumer, "FragmentConsumer")
+                .replace(R.id.layoutMain, fragmentConsumer, "FragmentConsumer")
                 .addToBackStack(null)
                 .commit();
 

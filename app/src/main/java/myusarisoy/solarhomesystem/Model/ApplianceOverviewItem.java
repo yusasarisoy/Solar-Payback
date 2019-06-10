@@ -1,4 +1,4 @@
-package myusarisoy.solarhomesystem.Data;
+package myusarisoy.solarhomesystem.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_appliances"
+    android:id="@+id/layoutAppliances"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
+            android:text="@string/appName"
             android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -55,7 +55,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/complete_appliance"
+        android:text="@string/completeAppliance"
         android:textColor="?attr/textColor"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
@@ -76,7 +76,7 @@
         android:padding="10dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_appliance"
+            android:id="@+id/recyclerViewAppliance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -96,7 +96,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_back"
+                android:id="@+id/buttonBack"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:background="@color/transparent"
@@ -117,7 +117,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_continue"
+                android:id="@+id/buttonContinue"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:background="@color/transparent"

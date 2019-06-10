@@ -9,7 +9,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/item_month"
+        android:id="@+id/itemMonth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -30,7 +30,7 @@
         android:background="@color/transparent" />
 
     <TextView
-        android:id="@+id/item_payment"
+        android:id="@+id/itemPayment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -51,7 +51,7 @@
         android:background="@color/transparent" />
 
     <TextView
-        android:id="@+id/item_power_consumption"
+        android:id="@+id/itemPowerConsumption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

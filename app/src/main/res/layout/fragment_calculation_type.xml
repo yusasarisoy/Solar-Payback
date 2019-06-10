@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
+            android:text="@string/appName"
             android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -55,7 +55,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/calculation_type"
+        android:text="@string/calculationType"
         android:textColor="?attr/textColor"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
@@ -74,7 +74,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/bill_layout"
+            android:id="@+id/billLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -85,7 +85,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_bill"
+                android:id="@+id/imgBill"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/bill" />
@@ -114,7 +114,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
-            android:id="@+id/appliances_layout"
+            android:id="@+id/appliancesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -125,7 +125,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_appliances"
+                android:id="@+id/imgAppliances"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/appliances" />

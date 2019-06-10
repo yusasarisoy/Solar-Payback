@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/proxima_nova"
-            android:text="@string/app_name"
+            android:text="@string/appName"
             android:textColor="?attr/textColor"
             android:textSize="25sp"
             tools:ignore="UnusedAttribute" />
@@ -55,7 +55,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/proxima_nova"
         android:gravity="center"
-        android:text="@string/generator_choice"
+        android:text="@string/generatorChoice"
         android:textColor="?attr/textColor"
         android:textSize="18sp"
         tools:ignore="UnusedAttribute" />
@@ -74,7 +74,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/generator_1_layout"
+            android:id="@+id/generator1Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -85,7 +85,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_generator_1"
+                android:id="@+id/imgGenerator1"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
@@ -98,20 +98,20 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/generator_1"
+                android:text="@string/generator1"
                 android:textColor="?attr/textColor"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
-                android:id="@+id/pricing_generator_1"
+                android:id="@+id/pricingGenerator1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/pricing_generator_1"
+                android:text="@string/pricingGenerator1"
                 android:textColor="?attr/textColor"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />
@@ -128,7 +128,7 @@
             android:background="@color/transparent" />
 
         <LinearLayout
-            android:id="@+id/generator_2_layout"
+            android:id="@+id/generator2Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -139,7 +139,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/img_generator_2"
+                android:id="@+id/imgGenerator2"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
@@ -152,20 +152,20 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/generator_2"
+                android:text="@string/generator2"
                 android:textColor="?attr/textColor"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
-                android:id="@+id/pricing_generator_2"
+                android:id="@+id/pricingGenerator2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_nova"
                 android:gravity="center"
-                android:text="@string/pricing_generator_2"
+                android:text="@string/pricingGenerator2"
                 android:textColor="?attr/textColor"
                 android:textSize="23sp"
                 tools:ignore="UnusedAttribute" />

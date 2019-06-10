@@ -67,66 +67,66 @@ import myusarisoy.solarhomesystem.ThemeSelector.SharedPreferencesTheme;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class FragmentBill extends Fragment {
-    @BindView(R.id.layout_bill)
-    LinearLayout layout_bill;
+    @BindView(R.id.layoutBill)
+    LinearLayout layoutBill;
 
-    @BindView(R.id.image_icon)
+    @BindView(R.id.imageIcon)
     ImageView icon;
 
-    @BindView(R.id.app_name)
-    TextView app_name;
+    @BindView(R.id.appName)
+    TextView appName;
 
-    @BindView(R.id.image_language)
+    @BindView(R.id.imageLanguage)
     ImageView language;
 
-    @BindView(R.id.image_theme)
-    ImageView image_theme;
+    @BindView(R.id.imageTheme)
+    ImageView imageTheme;
 
-    @BindView(R.id.bill_desc)
-    TextView bill_desc;
+    @BindView(R.id.billDesc)
+    TextView billDesc;
 
-    @BindView(R.id.bill_months)
-    TextView bill_months;
+    @BindView(R.id.billMonths)
+    TextView billMonths;
 
-    @BindView(R.id.text_payment)
-    TextView text_payment;
+    @BindView(R.id.textPayment)
+    TextView textPayment;
 
-    @BindView(R.id.bill_payment)
-    EditText bill_payment;
+    @BindView(R.id.billPayment)
+    EditText billPayment;
 
-    @BindView(R.id.text_power_consumption)
-    TextView text_power_consumption;
+    @BindView(R.id.textPowerConsumption)
+    TextView textPowerConsumption;
 
-    @BindView(R.id.bill_power_consumption)
-    EditText bill_power_consumption;
+    @BindView(R.id.billPowerConsumption)
+    EditText billPowerConsumption;
 
-    @BindView(R.id.button_sign_out)
-    Button button_sign_out;
+    @BindView(R.id.buttonSignOut)
+    Button buttonSignOut;
 
-    @BindView(R.id.button_location)
-    Button button_location;
+    @BindView(R.id.buttonLocation)
+    Button buttonLocation;
 
-    @BindView(R.id.layout_detect)
-    LinearLayout layout_detect;
+    @BindView(R.id.layoutDetect)
+    LinearLayout layoutDetect;
 
-    @BindView(R.id.layout_search)
-    LinearLayout layout_search;
+    @BindView(R.id.layoutSearch)
+    LinearLayout layoutSearch;
 
-    @BindView(R.id.button_next)
-    Button button_next;
+    @BindView(R.id.buttonNext)
+    Button buttonNext;
 
-    @BindView(R.id.button_continue)
-    Button button_continue;
+    @BindView(R.id.buttonContinue)
+    Button buttonContinue;
 
     Context context;
     private LocationManager locationManager;
     private CountDownTimer countDownTimer;
     private LocationCallback mLocationCallback;
-    private Button cancel_sign_out, confirm_sign_out, cancel_location, confirm_location, exit_from_app;
+    private Button cancelSignOut, confirmSignOut, cancelLocation, confirmLocation, exitFromApp;
     private AppCompatDialog signOutDialog, locationDialog, searchLocationDialog, exitDialog, languageDialog, themeDialog;
     private FirebaseAuth firebaseAuth;
-    private LinearLayout layout_location;
-    private ImageView locationPicker, img_english, img_german, img_turkish, img_light, img_dark;
+    private LinearLayout layoutLocation;
+    private ImageView locationPicker, imgEnglish, imgGerman, imgTurkish, imgLight, imgDark;
     private Spinner locationSpinner;
     public ArrayList<String> monthName = new ArrayList<>();
     public ArrayList<Integer> monthPowerConsumption = new ArrayList<>();
@@ -179,17 +179,14 @@ public class FragmentBill extends Fragment {
                 if (user == null) {
                     FragmentWelcome fragmentWelcome = new FragmentWelcome();
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                            .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                             .addToBackStack(null)
                             .commit();
                 }
             }
         };
 
-        if (!Places.isInitialized())
-            Places.initialize(getContext(), "AIzaSyDNymBWXFV6aueL7rJacOpwxHXvMALidJI");
-
-        icon = view.findViewById(R.id.image_icon);
+        icon = view.findViewById(R.id.imageIcon);
         consumer = getArguments().getString("consumer");
 
         if (consumer.equals("residental"))
@@ -217,7 +214,7 @@ public class FragmentBill extends Fragment {
                         if (cityList.get(i).equals(cityName)) {
                             cityLocation = cityList.get(i);
                             irradianceLocation = solarIrradianceList.get(i);
-                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                            showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                         }
                     }
                 } catch (Exception e) {
@@ -226,7 +223,7 @@ public class FragmentBill extends Fragment {
             }
         }, error -> {
             Log.i("VOLLEY_ERROR", "" + error);
-            showSnackbar(getResources().getString(R.string.internet_connection));
+            showSnackbar(getResources().getString(R.string.internetConnection));
             exitFromApplication();
         });
         requestQueue.add(jsonArrayRequest);
@@ -269,8 +266,8 @@ public class FragmentBill extends Fragment {
     }
 
     private void changeTheme() {
-        image_theme = view.findViewById(R.id.image_theme);
-        image_theme.setOnClickListener(new View.OnClickListener() {
+        imageTheme = view.findViewById(R.id.imageTheme);
+        imageTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -286,10 +283,10 @@ public class FragmentBill extends Fragment {
                 themeDialog.getWindow().setAttributes(params);
                 themeDialog.show();
 
-                img_light = themeDialog.findViewById(R.id.img_light);
-                img_dark = themeDialog.findViewById(R.id.img_dark);
+                imgLight = themeDialog.findViewById(R.id.imgLight);
+                imgDark = themeDialog.findViewById(R.id.imgDark);
 
-                img_light.setOnClickListener(new View.OnClickListener() {
+                imgLight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         themeDialog.dismiss();
@@ -299,7 +296,7 @@ public class FragmentBill extends Fragment {
                     }
                 });
 
-                img_dark.setOnClickListener(new View.OnClickListener() {
+                imgDark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         themeDialog.dismiss();
@@ -313,7 +310,7 @@ public class FragmentBill extends Fragment {
     }
 
     private void languageClick() {
-        language = view.findViewById(R.id.image_language);
+        language = view.findViewById(R.id.imageLanguage);
 
         language.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,11 +328,11 @@ public class FragmentBill extends Fragment {
                 languageDialog.getWindow().setAttributes(params);
                 languageDialog.show();
 
-                img_english = languageDialog.findViewById(R.id.img_english);
+                imgEnglish = languageDialog.findViewById(R.id.imgEnglish);
 //                img_german = languageDialog.findViewById(R.id.img_german);
-                img_turkish = languageDialog.findViewById(R.id.img_turkish);
+                imgTurkish = languageDialog.findViewById(R.id.imgTurkish);
 
-                img_english.setOnClickListener(new View.OnClickListener() {
+                imgEnglish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         languageDialog.dismiss();
@@ -344,7 +341,7 @@ public class FragmentBill extends Fragment {
                     }
                 });
 
-//                img_german.setOnClickListener(new View.OnClickListener() {
+//                imgGerman.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
 //                        languageDialog.dismiss();
@@ -353,7 +350,7 @@ public class FragmentBill extends Fragment {
 //                    }
 //                });
 
-                img_turkish.setOnClickListener(new View.OnClickListener() {
+                imgTurkish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         languageDialog.dismiss();
@@ -399,41 +396,41 @@ public class FragmentBill extends Fragment {
     }
 
     private void checkMonths() {
-        bill_months = view.findViewById(R.id.bill_months);
-        bill_payment = view.findViewById(R.id.bill_payment);
-        bill_power_consumption = view.findViewById(R.id.bill_power_consumption);
-        button_next = view.findViewById(R.id.button_next);
-        button_continue = view.findViewById(R.id.button_continue);
+        billMonths = view.findViewById(R.id.billMonths);
+        billPayment = view.findViewById(R.id.billPayment);
+        billPowerConsumption = view.findViewById(R.id.billPowerConsumption);
+        buttonNext = view.findViewById(R.id.buttonNext);
+        buttonContinue = view.findViewById(R.id.buttonContinue);
 
-        bill_months.setText(monthName.get(monthIncrementer));
+        billMonths.setText(monthName.get(monthIncrementer));
 
-        button_next.setOnClickListener(v -> {
-            if (!bill_payment.getText().toString().isEmpty() && !bill_power_consumption.getText().toString().isEmpty()) {
-                bill_months.setText(monthName.get(monthIncrementer += 1));
-                monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
-                monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
+        buttonNext.setOnClickListener(v -> {
+            if (!billPayment.getText().toString().isEmpty() && !billPowerConsumption.getText().toString().isEmpty()) {
+                billMonths.setText(monthName.get(monthIncrementer += 1));
+                monthPayment.add(Integer.parseInt(billPayment.getText().toString()));
+                monthPowerConsumption.add(Integer.parseInt(billPowerConsumption.getText().toString()));
 
-                bill_payment.getText().clear();
-                bill_power_consumption.getText().clear();
-                bill_payment.requestFocus();
+                billPayment.getText().clear();
+                billPowerConsumption.getText().clear();
+                billPayment.requestFocus();
 
                 if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.march))) {
-                    layout_bill.setBackgroundResource(R.drawable.spring);
+                    layoutBill.setBackgroundResource(R.drawable.spring);
                     makeTextBlack();
                 } else if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.june))) {
-                    layout_bill.setBackgroundResource(R.drawable.summer);
+                    layoutBill.setBackgroundResource(R.drawable.summer);
                     makeTextWhite();
                 } else if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.september))) {
-                    layout_bill.setBackgroundResource(R.drawable.autumn);
+                    layoutBill.setBackgroundResource(R.drawable.autumn);
                     makeTextWhite();
                 } else if (monthName.get(monthIncrementer).equals(getResources().getString(R.string.december))) {
-                    layout_bill.setBackgroundResource(R.drawable.winter);
+                    layoutBill.setBackgroundResource(R.drawable.winter);
                     makeTextBlack();
-                    button_next.setVisibility(View.GONE);
-                    button_continue.setVisibility(View.VISIBLE);
+                    buttonNext.setVisibility(View.GONE);
+                    buttonContinue.setVisibility(View.VISIBLE);
                 }
             } else
-                showSnackbar(getResources().getString(R.string.make_sure_to_complete));
+                showSnackbar(getResources().getString(R.string.makeSureToComplete));
         });
     }
 
@@ -446,15 +443,15 @@ public class FragmentBill extends Fragment {
         if (user == null) {
             FragmentWelcome fragmentWelcome = new FragmentWelcome();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                    .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                     .addToBackStack(null)
                     .commit();
         }
     };
 
     public void clickToSignOut() {
-        button_sign_out = view.findViewById(R.id.button_sign_out);
-        button_sign_out.setOnClickListener(v -> {
+        buttonSignOut = view.findViewById(R.id.buttonSignOut);
+        buttonSignOut.setOnClickListener(v -> {
             android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
             reservationBuilder.setView(R.layout.dialog_sign_out);
             signOutDialog = reservationBuilder.create();
@@ -468,17 +465,17 @@ public class FragmentBill extends Fragment {
             signOutDialog.getWindow().setAttributes(params);
             signOutDialog.show();
 
-            cancel_sign_out = signOutDialog.findViewById(R.id.cancel_sign_out);
-            confirm_sign_out = signOutDialog.findViewById(R.id.confirm_sign_out);
+            cancelSignOut = signOutDialog.findViewById(R.id.cancelSignOut);
+            confirmSignOut = signOutDialog.findViewById(R.id.confirmSignOut);
 
-            cancel_sign_out.setOnClickListener(new View.OnClickListener() {
+            cancelSignOut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     signOutDialog.dismiss();
                 }
             });
 
-            confirm_sign_out.setOnClickListener(v1 -> {
+            confirmSignOut.setOnClickListener(v1 -> {
                 signOutDialog.dismiss();
 
                 final ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Logout", "Please wait...", true, true);
@@ -511,7 +508,7 @@ public class FragmentBill extends Fragment {
             if (user == null) {
                 FragmentWelcome fragmentWelcome = new FragmentWelcome();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                        .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                         .addToBackStack(null)
                         .commit();
             }
@@ -519,18 +516,18 @@ public class FragmentBill extends Fragment {
     }
 
     private void continueToGridChoice() {
-        bill_payment = view.findViewById(R.id.bill_payment);
-        bill_power_consumption = view.findViewById(R.id.bill_power_consumption);
-        button_continue = view.findViewById(R.id.button_continue);
+        billPayment = view.findViewById(R.id.billPayment);
+        billPowerConsumption = view.findViewById(R.id.billPowerConsumption);
+        buttonContinue = view.findViewById(R.id.buttonContinue);
 
-        button_continue.setOnClickListener(v -> {
+        buttonContinue.setOnClickListener(v -> {
             if (cityLocation.isEmpty())
-                showSnackbar(getResources().getString(R.string.no_location));
-            else if (bill_payment.getText().toString().isEmpty() && bill_power_consumption.getText().toString().isEmpty())
-                showSnackbar(getResources().getString(R.string.make_sure_to_complete));
+                showSnackbar(getResources().getString(R.string.noLocation));
+            else if (billPayment.getText().toString().isEmpty() && billPowerConsumption.getText().toString().isEmpty())
+                showSnackbar(getResources().getString(R.string.makeSureToComplete));
             else {
-                monthPayment.add(Integer.parseInt(bill_payment.getText().toString()));
-                monthPowerConsumption.add(Integer.parseInt(bill_power_consumption.getText().toString()));
+                monthPayment.add(Integer.parseInt(billPayment.getText().toString()));
+                monthPowerConsumption.add(Integer.parseInt(billPowerConsumption.getText().toString()));
                 Log.i("TOTAL POWER CONSUMPTION", monthPowerConsumption + " kWh");
 
                 FragmentGridChoice fragmentGridChoice = new FragmentGridChoice();
@@ -543,7 +540,7 @@ public class FragmentBill extends Fragment {
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentGridChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_main, fragmentGridChoice, "FragmentGridChoice")
+                        .replace(R.id.layoutMain, fragmentGridChoice, "FragmentGridChoice")
                         .commit();
             }
         });
@@ -596,7 +593,7 @@ public class FragmentBill extends Fragment {
                                 if (cityList.get(i).equals(selectedCity)) {
                                     cityLocation = cityList.get(i);
                                     irradianceLocation = solarIrradianceList.get(i);
-                                    showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                                    showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                                 }
                             }
                         } catch (Exception e) {
@@ -605,7 +602,7 @@ public class FragmentBill extends Fragment {
                     }
                 }, error -> {
                     Log.i("VOLLEY_ERROR", "" + error);
-                    showSnackbar(getResources().getString(R.string.internet_connection));
+                    showSnackbar(getResources().getString(R.string.internetConnection));
                     exitFromApplication();
                 });
                 requestQueue.add(jsonArrayRequest);
@@ -614,8 +611,8 @@ public class FragmentBill extends Fragment {
     }
 
     public void locationClick() {
-        button_location = view.findViewById(R.id.button_location);
-        button_location.setOnClickListener(new View.OnClickListener() {
+        buttonLocation = view.findViewById(R.id.buttonLocation);
+        buttonLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder reservationBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -631,10 +628,10 @@ public class FragmentBill extends Fragment {
                 locationDialog.getWindow().setAttributes(params);
                 locationDialog.show();
 
-                layout_detect = locationDialog.findViewById(R.id.layout_detect);
-                layout_search = locationDialog.findViewById(R.id.layout_search);
+                layoutDetect = locationDialog.findViewById(R.id.layoutDetect);
+                layoutSearch = locationDialog.findViewById(R.id.layoutSearch);
 
-                layout_detect.setOnClickListener(new View.OnClickListener() {
+                layoutDetect.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         locationDialog.dismiss();
@@ -650,7 +647,7 @@ public class FragmentBill extends Fragment {
                     }
                 });
 
-                layout_search.setOnClickListener(v1 -> {
+                layoutSearch.setOnClickListener(v1 -> {
                     locationDialog.dismiss();
 
                     android.support.v7.app.AlertDialog.Builder reservationBuilder1 = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -666,11 +663,11 @@ public class FragmentBill extends Fragment {
                     searchLocationDialog.getWindow().setAttributes(params1);
                     searchLocationDialog.show();
 
-                    layout_location = searchLocationDialog.findViewById(R.id.layout_location);
+                    layoutLocation = searchLocationDialog.findViewById(R.id.layoutLocation);
                     locationSpinner = searchLocationDialog.findViewById(R.id.locationSpinner);
                     locationPicker = searchLocationDialog.findViewById(R.id.locationPicker);
-                    cancel_location = searchLocationDialog.findViewById(R.id.cancel_location);
-                    confirm_location = searchLocationDialog.findViewById(R.id.confirm_location);
+                    cancelLocation = searchLocationDialog.findViewById(R.id.cancelLocation);
+                    confirmLocation = searchLocationDialog.findViewById(R.id.confirmLocation);
 
                     locationPicker.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -680,7 +677,7 @@ public class FragmentBill extends Fragment {
                     });
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        locationSpinner.setPopupBackgroundResource(R.color.core_white);
+                        locationSpinner.setPopupBackgroundResource(R.color.coreWhite);
                     }
                     ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, R.layout.spinner_item, cityList);
                     locationSpinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
@@ -698,9 +695,9 @@ public class FragmentBill extends Fragment {
                         }
                     });
 
-                    cancel_location.setOnClickListener(v11 -> searchLocationDialog.dismiss());
+                    cancelLocation.setOnClickListener(v11 -> searchLocationDialog.dismiss());
 
-                    confirm_location.setOnClickListener(v112 -> {
+                    confirmLocation.setOnClickListener(v112 -> {
                         searchLocationDialog.dismiss();
 
                         countDownTimer = new CountDownTimer(500, 250) {
@@ -730,7 +727,7 @@ public class FragmentBill extends Fragment {
                                                 if (cityList.get(i).equals(cityName)) {
                                                     cityLocation = cityList.get(i);
                                                     irradianceLocation = solarIrradianceList.get(i);
-                                                    showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                                                    showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                                                 }
                                             }
                                         } catch (Exception e) {
@@ -739,7 +736,7 @@ public class FragmentBill extends Fragment {
                                     }
                                 }, error -> {
                                     Log.i("VOLLEY_ERROR", "" + error);
-                                    showSnackbar(getResources().getString(R.string.internet_connection));
+                                    showSnackbar(getResources().getString(R.string.internetConnection));
                                     exitFromApplication();
                                 });
                                 requestQueue.add(jsonArrayRequest);
@@ -766,8 +763,8 @@ public class FragmentBill extends Fragment {
         exitDialog.setCancelable(false);
         exitDialog.show();
 
-        exit_from_app = exitDialog.findViewById(R.id.exit_from_app);
-        exit_from_app.setOnClickListener(v -> {
+        exitFromApp = exitDialog.findViewById(R.id.exitFromApp);
+        exitFromApp.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -819,7 +816,7 @@ public class FragmentBill extends Fragment {
                             if (cityList.get(i).equals(selectedCity)) {
                                 cityLocation = cityList.get(i);
                                 irradianceLocation = solarIrradianceList.get(i);
-                                showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solar_irradiance) + solarIrradianceList.get(i));
+                                showSnackbar(getResources().getString(R.string.city) + cityList.get(i) + getResources().getString(R.string.solarIrradiance) + solarIrradianceList.get(i));
                             }
                         }
                     } catch (Exception e) {
@@ -828,7 +825,7 @@ public class FragmentBill extends Fragment {
                 }
             }, error -> {
                 Log.i("VOLLEY_ERROR", "" + error);
-                showSnackbar(getResources().getString(R.string.internet_connection));
+                showSnackbar(getResources().getString(R.string.internetConnection));
                 exitFromApplication();
             });
             requestQueue.add(jsonArrayRequest);
@@ -836,7 +833,7 @@ public class FragmentBill extends Fragment {
             LocationRequest locationRequest = new LocationRequest();
             locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            showSnackbar(getResources().getString(R.string.trying_to_location));
+            showSnackbar(getResources().getString(R.string.tryingToLocation));
             FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -847,39 +844,39 @@ public class FragmentBill extends Fragment {
     }
 
     private void makeTextWhite() {
-        layout_bill = view.findViewById(R.id.layout_bill);
-        app_name = view.findViewById(R.id.app_name);
-        bill_desc = view.findViewById(R.id.bill_desc);
-        bill_months = view.findViewById(R.id.bill_months);
-        text_payment = view.findViewById(R.id.text_payment);
-        text_power_consumption = view.findViewById(R.id.text_power_consumption);
+        layoutBill = view.findViewById(R.id.layoutBill);
+        appName = view.findViewById(R.id.appName);
+        billDesc = view.findViewById(R.id.billDesc);
+        billMonths = view.findViewById(R.id.billMonths);
+        textPayment = view.findViewById(R.id.textPayment);
+        textPowerConsumption = view.findViewById(R.id.textPowerConsumption);
 
-        app_name.setTextColor(getResources().getColor(R.color.core_white));
-        bill_desc.setTextColor(getResources().getColor(R.color.core_white));
-        bill_months.setTextColor(getResources().getColor(R.color.core_white));
-        text_payment.setTextColor(getResources().getColor(R.color.core_white));
-        text_power_consumption.setTextColor(getResources().getColor(R.color.core_white));
+        appName.setTextColor(getResources().getColor(R.color.coreWhite));
+        billDesc.setTextColor(getResources().getColor(R.color.coreWhite));
+        billMonths.setTextColor(getResources().getColor(R.color.coreWhite));
+        textPayment.setTextColor(getResources().getColor(R.color.coreWhite));
+        textPowerConsumption.setTextColor(getResources().getColor(R.color.coreWhite));
     }
 
     private void makeTextBlack() {
-        layout_bill = view.findViewById(R.id.layout_bill);
-        app_name = view.findViewById(R.id.app_name);
-        bill_desc = view.findViewById(R.id.bill_desc);
-        bill_months = view.findViewById(R.id.bill_months);
-        text_payment = view.findViewById(R.id.text_payment);
-        text_power_consumption = view.findViewById(R.id.text_power_consumption);
+        layoutBill = view.findViewById(R.id.layoutBill);
+        appName = view.findViewById(R.id.appName);
+        billDesc = view.findViewById(R.id.billDesc);
+        billMonths = view.findViewById(R.id.billMonths);
+        textPayment = view.findViewById(R.id.textPayment);
+        textPowerConsumption = view.findViewById(R.id.textPowerConsumption);
 
-        app_name.setTextColor(getResources().getColor(R.color.core_black));
-        bill_desc.setTextColor(getResources().getColor(R.color.core_black));
-        bill_months.setTextColor(getResources().getColor(R.color.core_black));
-        text_payment.setTextColor(getResources().getColor(R.color.core_black));
-        text_power_consumption.setTextColor(getResources().getColor(R.color.core_black));
+        appName.setTextColor(getResources().getColor(R.color.coreBlack));
+        billDesc.setTextColor(getResources().getColor(R.color.coreBlack));
+        billMonths.setTextColor(getResources().getColor(R.color.coreBlack));
+        textPayment.setTextColor(getResources().getColor(R.color.coreBlack));
+        textPowerConsumption.setTextColor(getResources().getColor(R.color.coreBlack));
     }
 
     public void showSnackbar(String text) {
-        layout_bill = view.findViewById(R.id.layout_bill);
+        layoutBill = view.findViewById(R.id.layoutBill);
 
-        Snackbar snackbar = Snackbar.make(layout_bill, text, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(layoutBill, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.backgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);

@@ -21,17 +21,17 @@ import butterknife.BindView;
 import myusarisoy.solarhomesystem.R;
 
 public class FragmentForgotPassword extends Fragment {
-    @BindView(R.id.layout_forgot_password)
-    LinearLayout layout_forgot_password;
+    @BindView(R.id.layoutForgotPassword)
+    LinearLayout layoutForgotPassword;
 
-    @BindView(R.id.img_go_back)
-    ImageView go_back;
+    @BindView(R.id.imgGoBack)
+    ImageView goBack;
 
-    @BindView(R.id.et_forgot_password_mail)
+    @BindView(R.id.etForgotPasswordMail)
     EditText mail;
 
-    @BindView(R.id.button_forgot_password_reset)
-    Button reset_password;
+    @BindView(R.id.buttonForgotPasswordReset)
+    Button resetPassword;
 
     private FirebaseAuth firebaseAuth;
     View root;
@@ -64,42 +64,42 @@ public class FragmentForgotPassword extends Fragment {
     }
 
     private void goBack() {
-        go_back = root.findViewById(R.id.img_go_back);
-        go_back.setOnClickListener(v -> getFragmentManager().popBackStackImmediate());
+        goBack = root.findViewById(R.id.imgGoBack);
+        goBack.setOnClickListener(v -> getFragmentManager().popBackStackImmediate());
     }
 
     private void reset_password() {
-        mail = root.findViewById(R.id.et_forgot_password_mail);
-        reset_password = root.findViewById(R.id.button_forgot_password_reset);
+        mail = root.findViewById(R.id.etForgotPasswordMail);
+        resetPassword = root.findViewById(R.id.buttonForgotPasswordReset);
 
-        reset_password.setOnClickListener(v -> {
+        resetPassword.setOnClickListener(v -> {
             String email = mail.getText().toString().trim();
 
             if (TextUtils.isEmpty(email)) {
-                showSnackbar(getResources().getString(R.string.registered_email));
+                showSnackbar(getResources().getString(R.string.registeredEmail));
                 return;
             }
 
             firebaseAuth.sendPasswordResetEmail(email)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            showSnackbar(getResources().getString(R.string.reset_your_password));
+                            showSnackbar(getResources().getString(R.string.resetYourPassword));
 
                             FragmentWelcome fragmentWelcome = new FragmentWelcome();
                             getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.layout_main, fragmentWelcome, "FragmentWelcome")
+                                    .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                                     .addToBackStack(null)
                                     .commit();
                         } else
-                            showSnackbar(getResources().getString(R.string.failed_to_reset_passowrd));
+                            showSnackbar(getResources().getString(R.string.failedToResetPassword));
                     });
         });
     }
 
     public void showSnackbar(String text) {
-        layout_forgot_password = root.findViewById(R.id.layout_forgot_password);
+        layoutForgotPassword = root.findViewById(R.id.layoutForgotPassword);
 
-        Snackbar snackbar = Snackbar.make(layout_forgot_password, text, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(layoutForgotPassword, text, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.backgroundColor));
         TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
