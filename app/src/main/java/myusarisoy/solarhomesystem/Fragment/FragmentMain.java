@@ -177,6 +177,9 @@ public class FragmentMain extends Fragment {
             }
         };
 
+        if (!Places.isInitialized())
+            Places.initialize(getContext(), "AIzaSyDNymBWXFV6aueL7rJacOpwxHXvMALidJI");
+
         icon = view.findViewById(R.id.imageIcon);
         consumer = getArguments().getString("consumer");
 

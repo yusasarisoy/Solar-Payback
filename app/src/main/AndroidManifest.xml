@@ -16,6 +16,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDNymBWXFV6aueL7rJacOpwxHXvMALidJI" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name="myusarisoy.solarhomesystem.Activity.MainActivity"
             android:screenOrientation="portrait"
