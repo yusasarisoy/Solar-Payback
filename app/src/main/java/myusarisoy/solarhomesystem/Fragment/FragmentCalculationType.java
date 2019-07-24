@@ -141,6 +141,7 @@ public class FragmentCalculationType extends Fragment {
                 bundle.putString("api", "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions");
                 fragmentBill.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentBill, "FragmentBill")
                         .commit();
             }
@@ -155,6 +156,7 @@ public class FragmentCalculationType extends Fragment {
                 bundle.putString("api", "https://private-54ade8-apiforpaybackcalculationsystem.apiary-mock.com/questions");
                 fragmentMain.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentMain, "FragmentMain")
                         .addToBackStack(null)
                         .commit();

@@ -332,6 +332,7 @@ public class FragmentPanelCalculation extends Fragment {
                 bundle.putInt("panels", howManyPanels);
                 fragmentBatteryCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentBatteryCalculation, "FragmentBatteryCalculation")
                         .commit();
             });
@@ -348,6 +349,7 @@ public class FragmentPanelCalculation extends Fragment {
                 bundle.putInt("panels", howManyPanels);
                 fragmentGeneratorChoice.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentGeneratorChoice, "FragmentGeneratorChoice")
                         .commit();
             });

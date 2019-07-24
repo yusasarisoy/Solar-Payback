@@ -54,6 +54,7 @@ public class FragmentConsumer extends Fragment {
             bundle.putString("consumer", "residental");
             fragmentCalculationType.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentCalculationType, "FragmentCalculationType")
                     .commit();
         });
@@ -66,6 +67,7 @@ public class FragmentConsumer extends Fragment {
             bundle.putString("consumer", "commercial");
             fragmentCalculationType.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentCalculationType, "FragmentCalculationType")
                     .commit();
         });

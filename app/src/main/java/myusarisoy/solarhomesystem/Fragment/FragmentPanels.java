@@ -154,6 +154,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanelCalculation, "FragmentPanelCalculation")
                         .commit();
             });
@@ -175,6 +176,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanelCalculation, "FragmentPanelCalculation")
                         .commit();
             });
@@ -196,6 +198,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanelCalculation, "FragmentPanelCalculation")
                         .commit();
             });
@@ -217,6 +220,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanelCalculation, "FragmentPanelCalculation")
                         .commit();
             });
@@ -238,6 +242,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanelCalculation, "FragmentPanelCalculation")
                         .commit();
             });
@@ -259,6 +264,7 @@ public class FragmentPanels extends Fragment {
                 bundle.putInt("Area", area_info);
                 fragmentPanelCalculation.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanelCalculation, "FragmentPanelCalculation")
                         .commit();
             });

@@ -70,6 +70,7 @@ public class FragmentLogin extends Fragment {
         if (firebaseAuth.getCurrentUser() != null) {
             FragmentExperience fragmentExperience = new FragmentExperience();
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentExperience, "FragmentExperience")
                     .addToBackStack(null)
                     .commit();
@@ -121,6 +122,7 @@ public class FragmentLogin extends Fragment {
         forgotPassword.setOnClickListener(v -> {
             FragmentForgotPassword fragmentForgotPassword = new FragmentForgotPassword();
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentForgotPassword, "FragmentForgotPassword")
                     .addToBackStack(null)
                     .commit();
@@ -169,6 +171,7 @@ public class FragmentLogin extends Fragment {
                 } else {
                     FragmentExperience fragmentExperience = new FragmentExperience();
                     getActivity().getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                             .replace(R.id.layoutMain, fragmentExperience, "FragmentExperience")
                             .addToBackStack(null)
                             .commit();

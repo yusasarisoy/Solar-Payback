@@ -198,6 +198,7 @@ public class FragmentWelcome extends Fragment {
         buttonCreateAccount.setOnClickListener(v -> {
             FragmentRegister fragmentRegister = new FragmentRegister();
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentRegister, "FragmentRegister")
                     .addToBackStack(null)
                     .commit();
@@ -210,6 +211,7 @@ public class FragmentWelcome extends Fragment {
         tvLogin.setOnClickListener(v -> {
             FragmentLogin fragmentLogin = new FragmentLogin();
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentLogin, "FragmentLogin")
                     .addToBackStack(null)
                     .commit();

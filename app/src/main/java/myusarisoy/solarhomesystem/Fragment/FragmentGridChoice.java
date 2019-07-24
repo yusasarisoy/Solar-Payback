@@ -83,6 +83,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentOverview.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentOverview, "FragmentOverview")
                         .commit();
             } else if (getArguments().getString("choice").equals("appliance")) {
@@ -97,6 +98,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putString("choice", "appliance");
                 fragmentOverviewAppliances.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentOverviewAppliances, "FragmentOverviewAppliances")
                         .commit();
             }
@@ -114,6 +116,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putDouble("CityIrradiance", irradianceLocation);
                 fragmentOverview.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentOverview, "FragmentOverview")
                         .commit();
             } else if (getArguments().getString("choice").equals("appliance")) {
@@ -128,6 +131,7 @@ public class FragmentGridChoice extends Fragment {
                 bundle.putString("choice", "appliance");
                 fragmentOverviewAppliances.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentOverviewAppliances, "FragmentOverviewAppliances")
                         .commit();
             }

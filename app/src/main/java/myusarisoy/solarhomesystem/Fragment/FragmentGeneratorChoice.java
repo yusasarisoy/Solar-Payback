@@ -68,6 +68,7 @@ public class FragmentGeneratorChoice extends Fragment {
             bundle.putInt("panels", getArguments().getInt("panels"));
             fragmentBatteryCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentBatteryCalculation, "FragmentBatteryCalculation")
                     .commit();
         });
@@ -83,6 +84,7 @@ public class FragmentGeneratorChoice extends Fragment {
             bundle.putInt("panels", getArguments().getInt("panels"));
             fragmentBatteryCalculation.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                     .replace(R.id.layoutMain, fragmentBatteryCalculation, "FragmentBatteryCalculation")
                     .commit();
         });

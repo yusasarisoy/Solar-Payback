@@ -87,6 +87,7 @@ public class FragmentForgotPassword extends Fragment {
 
                             FragmentWelcome fragmentWelcome = new FragmentWelcome();
                             getActivity().getSupportFragmentManager().beginTransaction()
+                                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                                     .replace(R.id.layoutMain, fragmentWelcome, "FragmentWelcome")
                                     .addToBackStack(null)
                                     .commit();

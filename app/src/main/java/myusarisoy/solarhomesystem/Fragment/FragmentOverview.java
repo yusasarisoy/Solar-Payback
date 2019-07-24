@@ -314,6 +314,7 @@ public class FragmentOverview extends Fragment {
                 bundle.putString("choice", "");
                 fragmentPanels.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanels, "FragmentPanels")
                         .commit();
             } else if (getArguments().getString("Grid").equals("Off-Grid")) {
@@ -329,6 +330,7 @@ public class FragmentOverview extends Fragment {
                 bundle.putString("choice", "");
                 fragmentPanels.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right, R.anim.enter_right_to_left, R.anim.exit_left_to_right)
                         .replace(R.id.layoutMain, fragmentPanels, "FragmentPanels")
                         .commit();
             }
