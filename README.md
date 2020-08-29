@@ -1,2 +1,3 @@
 # Solar Payback
-Solar Payback aims at designing and deploying a solar energy calculation application for smartphones.
+
+### Solar Payback is an Android mobile application that helps the user(s) to solar energy payback period calculations.
